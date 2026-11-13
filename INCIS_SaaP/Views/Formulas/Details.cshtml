@@ -1,0 +1,397 @@
+@model INCIS_SaaP.Models.Formula
+@{
+    ViewData["Title"] = "Λεπτομέρειες Φόρμουλας";
+    var totalRawPct = Model.CalculateTotalRawMaterialPercentage();
+    var waterPct = Model.CalculateRequiredWaterPercentage();
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.FormulaCode</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-flask"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@(Model.FormulaName ?? Model.ProductName ?? "Φόρμουλα")</h1>
+        <div class="erp-page-header-subtitle d-flex flex-wrap gap-2 align-items-center">
+            <span class="erp-badge erp-badge-primary"><i class="fas fa-hashtag"></i>@Model.FormulaCode</span>
+            @if (!string.IsNullOrEmpty(Model.ProductType))
+            {
+                <span class="erp-badge erp-badge-info"><i class="fas fa-tag"></i>@Model.ProductType</span>
+            }
+            @if (Model.IsValidated)
+            {
+                <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Validated</span>
+            }
+            else if (Model.IsWIP)
+            {
+                <span class="erp-badge erp-badge-warning"><i class="fas fa-clock"></i>WIP</span>
+            }
+            else
+            {
+                <span class="erp-badge erp-badge-secondary"><i class="fas fa-pen"></i>Draft</span>
+            }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-info text-white"><i class="fas fa-file-alt me-2"></i>Έγγραφα</a>
+        <a asp-action="Produce" asp-route-id="@Model.Id" class="btn btn-success"><i class="fas fa-industry me-2"></i>Παραγωγή</a>
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+    </div>
+</div>
+
+<!-- Overview row -->
+<div class="row g-3 mb-3 erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Γενικές πληροφορίες</h3></div>
+            <div class="erp-card-body">
+                <div class="erp-info-grid">
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Κωδικός</span>
+                        <span class="erp-info-value">@Model.FormulaCode</span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Όνομα Προϊόντος</span>
+                        <span class="erp-info-value @(string.IsNullOrEmpty(Model.FormulaName ?? Model.ProductName) ? "empty" : "")">@(Model.FormulaName ?? Model.ProductName ?? "—")</span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Τύπος</span>
+                        <span class="erp-info-value @(string.IsNullOrEmpty(Model.ProductType) ? "empty" : "")">@(Model.ProductType ?? "—")</span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Έκδοση</span>
+                        <span class="erp-info-value"><code>@(Model.Version ?? "v1.0")</code></span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Δημιουργία</span>
+                        <span class="erp-info-value">@(Model.CreationDate?.ToString("dd/MM/yyyy HH:mm") ?? "—")</span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Τελευταία Τροποποίηση</span>
+                        <span class="erp-info-value">@(Model.LastModified?.ToString("dd/MM/yyyy HH:mm") ?? "—")</span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.Description))
+                    {
+                        <div class="erp-info-item" style="grid-column: 1/-1;">
+                            <span class="erp-info-label">Περιγραφή</span>
+                            <span class="erp-info-value">@Model.Description</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-header"><h3><i class="fas fa-flask-vial text-erp-primary"></i> Ισοζύγιο</h3></div>
+            <div class="erp-card-body">
+                <div class="text-center">
+                    <div class="display-6 fw-bold text-erp-primary">@totalRawPct.ToString("F2")%</div>
+                    <div class="text-muted small">Σύνολο α’ υλών</div>
+                </div>
+                <div class="progress my-3">
+                    <div class="progress-bar @(totalRawPct > 100 ? "bg-danger" : "")" role="progressbar" style="width: @(Math.Min((double)totalRawPct, 100))%;"></div>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span class="text-muted">Νερό απαιτούμενο</span>
+                    <strong class="@(waterPct < 0 ? "text-danger" : "")">@waterPct.ToString("F2")%</strong>
+                </div>
+                <div class="alert mt-3 mb-0 small @(totalRawPct > 100 ? "alert-danger" : (totalRawPct == 100 ? "alert-success" : "alert-info"))">
+                    <i class="fas fa-circle-info me-1"></i>@Model.GetWaterPercentageStatus()
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CosIng Search Panel - Αναζήτηση & Regulatory Check -->
+<partial name="_CosIngSearch" />
+
+<!-- Tabs -->
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-header">
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="pill" href="#tab-inci"><i class="fas fa-atom me-1"></i>INCI</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tab-rm"><i class="fas fa-cubes me-1"></i>Πρώτες Ύλες</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tab-safety"><i class="fas fa-shield-halved me-1"></i>Ασφάλεια</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tab-allergens"><i class="fas fa-triangle-exclamation me-1"></i>Αλλεργιογόνα</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="pill" href="#tab-price"><i class="fas fa-euro-sign me-1"></i>Τιμολόγηση</a></li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <!-- INCI -->
+        <div class="tab-pane fade show active" id="tab-inci">
+            <div class="erp-card-body p-0">
+                <div class="table-responsive">
+                    @if (Model.INCIIngredients?.Any() == true)
+                    {
+                        <table class="table mb-0">
+                            <thead><tr><th>INCI</th><th class="d-none d-md-table-cell">Λειτουργία</th><th>%</th><th class="d-none d-md-table-cell">CAS</th></tr></thead>
+                            <tbody>
+                                @foreach (var ing in Model.INCIIngredients)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@ing.INCIName</td>
+                                        <td class="d-none d-md-table-cell">@(ing.Function ?? "—")</td>
+                                        <td>@(ing.Percentage?.ToString("F2") ?? "—")</td>
+                                        <td class="d-none d-md-table-cell"><code class="small">@(ing.CASNumber ?? "—")</code></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="erp-empty">
+                            <div class="erp-empty-icon"><i class="fas fa-atom"></i></div>
+                            <p>Δεν έχουν προστεθεί συστατικά INCI.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Raw Materials -->
+        <div class="tab-pane fade" id="tab-rm">
+            <div class="erp-card-body p-0">
+                <div class="table-responsive">
+                    @if (Model.FormulaRawMaterials?.Any() == true)
+                    {
+                        <table class="table mb-0">
+                            <thead><tr><th>Α’ Ύλη</th><th class="d-none d-md-table-cell">Κύρια INCI</th><th>%</th><th class="d-none d-md-table-cell">Φάση</th><th class="d-none d-lg-table-cell">Προμηθευτής</th></tr></thead>
+                            <tbody>
+                                @foreach (var frm in Model.FormulaRawMaterials.Where(x => x.IsActive))
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@(frm.RawMaterial?.ProductName ?? "—") <small class="text-muted d-block">@frm.RawMaterial?.Code</small></td>
+                                        <td class="d-none d-md-table-cell">@(frm.RawMaterial?.MainINCI?.Name ?? "—")</td>
+                                        <td><strong>@(frm.Percentage?.ToString("F2") ?? "—")</strong></td>
+                                        <td class="d-none d-md-table-cell">@(frm.Phase ?? "—")</td>
+                                        <td class="d-none d-lg-table-cell">@(frm.RawMaterial?.Supplier?.Name ?? "—")</td>
+                                    </tr>
+                                }
+                                <tr class="fw-bold table-active">
+                                    <td colspan="2" class="text-end">Σύνολο</td>
+                                    <td>@totalRawPct.ToString("F2")%</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="erp-empty">
+                            <div class="erp-empty-icon"><i class="fas fa-cubes"></i></div>
+                            <p>Δεν έχουν προστεθεί α’ ύλες.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety -->
+        <div class="tab-pane fade" id="tab-safety">
+            <div class="erp-card-body">
+                @if (Model.SafetyData != null)
+                {
+                    <div class="erp-info-grid">
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Επίπεδο ερεθισμού</span>
+                            <span class="erp-info-value">@(Model.SafetyData.IrritationLevel ?? "—")</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Συμβατότητα δέρματος</span>
+                            <span class="erp-info-value">@(Model.SafetyData.SkinCompatibility ?? "—")</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Ερεθισμός ματιών</span>
+                            <span class="erp-info-value">@(Model.SafetyData.EyeIrritation ?? "—")</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Ασφαλές κατά την εγκυμοσύνη</span>
+                            <span class="erp-info-value">
+                                @if (Model.SafetyData.IsSafeForPregnancy == true) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ναι</span> }
+                                else if (Model.SafetyData.IsSafeForPregnancy == false) { <span class="erp-badge erp-badge-danger"><i class="fas fa-xmark"></i>Όχι</span> }
+                                else { <span class="text-muted">—</span> }
+                            </span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="erp-empty">
+                        <div class="erp-empty-icon"><i class="fas fa-shield-halved"></i></div>
+                        <p>Δεν υπάρχουν δεδομένα ασφαλείας.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Allergens -->
+        <div class="tab-pane fade" id="tab-allergens">
+            <div class="erp-card-body p-0">
+                <div class="table-responsive">
+                    @if (Model.Allergens?.Any() == true)
+                    {
+                        <table class="table mb-0">
+                            <thead><tr><th>Όνομα</th><th class="d-none d-md-table-cell">Τύπος</th><th>Συγκέντρωση</th><th>Δηλωμένο</th></tr></thead>
+                            <tbody>
+                                @foreach (var a in Model.Allergens)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@a.AllergenName</td>
+                                        <td class="d-none d-md-table-cell">@(a.AllergenType ?? "—")</td>
+                                        <td>@(a.Concentration?.ToString("F2") ?? "—") @a.Unit</td>
+                                        <td>
+                                            @if (a.IsDeclared == true) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ναι</span> }
+                                            else if (a.IsDeclared == false) { <span class="erp-badge erp-badge-danger"><i class="fas fa-xmark"></i>Όχι</span> }
+                                            else { <span class="text-muted">—</span> }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="erp-empty">
+                            <div class="erp-empty-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                            <p>Δεν υπάρχουν δηλωμένα αλλεργιογόνα.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Price -->
+        <div class="tab-pane fade" id="tab-price">
+            <div class="erp-card-body">
+                @if (Model.PriceInfo != null)
+                {
+                    <div class="erp-info-grid">
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Μοναδιαία Τιμή</span>
+                            <span class="erp-info-value">@(Model.PriceInfo.UnitPrice?.ToString("C2") ?? "—")</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Κόστος ανά Μονάδα</span>
+                            <span class="erp-info-value">@(Model.PriceInfo.CostPerUnit?.ToString("C2") ?? "—")</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Περιθώριο Κέρδους</span>
+                            <span class="erp-info-value">@(Model.PriceInfo.ProfitMargin?.ToString("F2") ?? "—")%</span>
+                        </div>
+                        <div class="erp-info-item">
+                            <span class="erp-info-label">Τιμή Λιανικής</span>
+                            <span class="erp-info-value">@(Model.PriceInfo.RecommendedRetailPrice?.ToString("C2") ?? "—")</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="erp-empty">
+                        <div class="erp-empty-icon"><i class="fas fa-euro-sign"></i></div>
+                        <p>Δεν υπάρχουν δεδομένα τιμολόγησης.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ML Success Prediction Panel (real ML.NET model) -->
+<div class="erp-card erp-fade-in mt-3">
+    <div class="erp-card-header">
+        <h3><i class="fas fa-robot text-erp-primary"></i> ML Πρόβλεψη Επιτυχίας</h3>
+    </div>
+    <div class="erp-card-body">
+        <div class="d-flex flex-wrap gap-2 mb-3">
+            <button type="button" id="mlPredictBtn" class="btn btn-erp-primary btn-sm">
+                <i class="fas fa-wand-magic-sparkles me-1"></i>Πρόβλεψη
+            </button>
+            <button type="button" class="btn btn-success btn-sm ml-outcome" data-passed="true">
+                <i class="fas fa-check me-1"></i>Πέρασε τα τεστ
+            </button>
+            <button type="button" class="btn btn-danger btn-sm ml-outcome" data-passed="false">
+                <i class="fas fa-xmark me-1"></i>Απέτυχε
+            </button>
+            <span class="text-muted small align-self-center">Καταγράφοντας πραγματικά αποτελέσματα, το μοντέλο εκπαιδεύεται σε πραγματικά δεδομένα.</span>
+        </div>
+        <div id="mlResult" class="small text-muted">Πατήστε «Πρόβλεψη» για ανάλυση από το ML μοντέλο.</div>
+    </div>
+</div>
+
+@section Scripts {
+    @Html.AntiForgeryToken()
+    <script>
+        (function () {
+            const fid = @Model.Id;
+            const box = document.getElementById('mlResult');
+            const tokenEl = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            if (tokenEl) headers['X-CSRF-TOKEN'] = tokenEl.value;
+
+            function riskBadge(r) {
+                const map = { 'Low': 'success', 'Medium': 'warning', 'High': 'danger' };
+                return '<span class="badge bg-' + (map[r] || 'secondary') + '">' + r + '</span>';
+            }
+
+            async function predict() {
+                box.innerHTML = 'Ανάλυση...';
+                try {
+                    const res = await fetch('/api/FormulaAnalysis/' + fid + '/predict-success', { headers: { 'Accept': 'application/json' } });
+                    if (!res.ok) { box.innerHTML = 'Σφάλμα (' + res.status + ')'; return; }
+                    const d = await res.json();
+                    let html = '<div class="mb-2"><strong>Πιθανότητα επιτυχίας:</strong> ' +
+                        (d.successProbability * 100).toFixed(1) + '% &nbsp; ' + riskBadge(d.riskLevel) + '</div>';
+                    html += '<div class="mb-2 text-muted">Μοντέλο: <strong>' + d.model.source + '</strong> · AUC ' + d.model.auc +
+                        ' · δείγματα ' + d.model.trainingSamples + '</div>';
+                    if (d.topFactors && d.topFactors.length) {
+                        html += '<div><strong>Σημαντικότεροι παράγοντες:</strong><ul class="mb-2">';
+                        d.topFactors.slice(0, 5).forEach(f => {
+                            html += '<li>' + f.factorName + ' <span class="text-' + (f.direction === 'positive' ? 'success' : 'danger') +
+                                '">(' + f.direction + ')</span></li>';
+                        });
+                        html += '</ul></div>';
+                    }
+                    if (d.recommendations && d.recommendations.length) {
+                        html += '<div class="alert alert-info py-2 mb-0"><strong>Συστάσεις:</strong><ul class="mb-0">';
+                        d.recommendations.forEach(r => html += '<li>' + r + '</li>');
+                        html += '</ul></div>';
+                    }
+                    box.innerHTML = html;
+                } catch (e) { box.innerHTML = 'Σφάλμα δικτύου.'; }
+            }
+
+            async function recordOutcome(passed) {
+                box.innerHTML = 'Καταγραφή...';
+                try {
+                    const res = await fetch('/api/FormulaAnalysis/' + fid + '/record-outcome', {
+                        method: 'POST', headers: headers,
+                        body: JSON.stringify({ passedOverall: passed })
+                    });
+                    if (!res.ok) { box.innerHTML = 'Σφάλμα (' + res.status + ')'; return; }
+                    const d = await res.json();
+                    box.innerHTML = '<div class="alert alert-success py-2">' + d.message +
+                        ' Σύνολο πραγματικών δειγμάτων: <strong>' + d.totalLabeledRecords + '</strong> · Πηγή μοντέλου: <strong>' +
+                        d.model.source + '</strong> (AUC ' + d.model.auc + ').</div>';
+                } catch (e) { box.innerHTML = 'Σφάλμα δικτύου.'; }
+            }
+
+            document.getElementById('mlPredictBtn').addEventListener('click', predict);
+            document.querySelectorAll('.ml-outcome').forEach(b =>
+                b.addEventListener('click', () => recordOutcome(b.dataset.passed === 'true')));
+        })();
+    </script>
+}

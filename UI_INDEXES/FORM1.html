@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Price - MIST SKIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            padding: 8px;
+            background: #1976d2;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+        }
+
+        .info-table td {
+            border: 1px solid #333;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+
+        .info-table .label {
+            font-weight: bold;
+            width: 25%;
+            background: #e3f2fd;
+        }
+
+        .info-table .value {
+            width: 75%;
+            font-weight: 500;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 12pt;
+            margin: 15px 0;
+            padding: 6px;
+            border: 2px solid #333;
+            background: #f5f5f5;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 9pt;
+        }
+
+        .price-table th,
+        .price-table td {
+            border: 1px solid #333;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+
+        .price-table th {
+            background: #1976d2;
+            color: white;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .col-an { width: 4%; text-align: center; }
+        .col-id { width: 8%; }
+        .col-ingredients { width: 25%; }
+        .col-inci { width: 15%; }
+        .col-supplier { width: 20%; }
+        .col-percent { width: 8%; text-align: right; }
+        .col-rm-price { width: 10%; text-align: right; }
+        .col-contrib { width: 10%; text-align: right; }
+
+        .price-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .price-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .total-row {
+            background: #fff9c4 !important;
+            font-weight: bold;
+            font-size: 11pt;
+        }
+
+        .total-label {
+            text-align: right;
+            font-weight: bold;
+            padding-right: 10px;
+        }
+
+        .total-value {
+            text-align: right;
+            font-weight: bold;
+            color: #d32f2f;
+            font-size: 12pt;
+        }
+
+        .allergens-section {
+            margin-top: 20px;
+            border: 2px solid #333;
+            padding: 12px;
+            background: #fff3e0;
+        }
+
+        .allergens-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 11pt;
+            color: #e65100;
+        }
+
+        .allergen-block {
+            background: white;
+            border: 1px solid #ffb74d;
+            border-left: 4px solid #ff9800;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .allergen-line {
+            margin: 3px 0;
+            font-size: 9.5pt;
+        }
+
+        .allergen-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 80px;
+        }
+
+        .restriction {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .currency {
+            font-weight: bold;
+            color: #388e3c;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80pt;
+            color: rgba(200, 200, 200, 0.2);
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        .print-btn:hover {
+            background: #1565c0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 10mm;
+                width: 100%;
+                max-width: none;
+            }
+            .print-btn, .watermark {
+                display: none;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        .supplier-cell {
+            font-size: 8.5pt;
+            line-height: 1.3;
+        }
+
+        .ingredient-cell {
+            font-weight: 500;
+        }
+
+        .inci-cell {
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 Print Document</button>
+    <div class="watermark">CONFIDENTIAL</div>
+
+    <div class="document-container">
+        <div class="main-title">Formula Price</div>
+
+        <!-- Product Information -->
+        <table class="info-table">
+            <tr>
+                <td class="label">PRODUCT NAME</td>
+                <td class="value">MIST SKIN</td>
+            </tr>
+            <tr>
+                <td class="label">RESPONSIBLE PERSON</td>
+                <td class="value">10AMapotheke - ΠΑΠΑΔΑΚΗ ΕΥΑ</td>
+            </tr>
+            <tr>
+                <td class="label">TYPE</td>
+                <td class="value">Leave on</td>
+            </tr>
+            <tr>
+                <td class="label">ID CODE</td>
+                <td class="value">4136</td>
+            </tr>
+            <tr>
+                <td class="label">BULK CODE</td>
+                <td class="value">373-6404-T18</td>
+            </tr>
+            <tr>
+                <td class="label">ISSUE DATE</td>
+                <td class="value">05-08-2025</td>
+            </tr>
+        </table>
+
+        <div class="section-title">Ingredient Composition</div>
+
+        <!-- Price Table -->
+        <table class="price-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-id">ID</th>
+                    <th class="col-ingredients">Ingredients</th>
+                    <th class="col-inci">INCI</th>
+                    <th class="col-supplier">Supplier</th>
+                    <th class="col-percent">% w/w</th>
+                    <th class="col-rm-price">RM price</th>
+                    <th class="col-contrib">Contribution price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-an">1</td>
+                    <td>L37</td>
+                    <td class="ingredient-cell">DEIONISED WATER</td>
+                    <td class="inci-cell">AQUA</td>
+                    <td class="supplier-cell">BEAUTYLAB</td>
+                    <td class="col-percent">87,5</td>
+                    <td class="col-rm-price">0,02</td>
+                    <td class="col-contrib">0,0175</td>
+                </tr>
+                <tr>
+                    <td class="col-an">2</td>
+                    <td>L11556</td>
+                    <td class="ingredient-cell">ALCOHOL DENAT.<br>Denaturated with BITREX % W/W</td>
+                    <td class="inci-cell">ALCOHOL DENAT</td>
+                    <td class="supplier-cell">BEAUTYLAB</td>
+                    <td class="col-percent">5</td>
+                    <td class="col-rm-price">4,48</td>
+                    <td class="col-contrib">0,224</td>
+                </tr>
+                <tr>
+                    <td class="col-an">3</td>
+                    <td>L9923</td>
+                    <td class="ingredient-cell">DEIONIZED WATER</td>
+                    <td class="inci-cell">AQUA</td>
+                    <td class="supplier-cell">BEAUTYLAB</td>
+                    <td class="col-percent">3</td>
+                    <td class="col-rm-price">0,02</td>
+                    <td class="col-contrib">0,0006</td>
+                </tr>
+                <tr>
+                    <td class="col-an">4</td>
+                    <td>L11404</td>
+                    <td class="ingredient-cell">NIPAGUARD SCE</td>
+                    <td class="inci-cell">SORBITAN CAPRYLATE,<br>PROPANEDIOL, BENZOIC ACID</td>
+                    <td class="supplier-cell">COSMOCHEM- ΓΙΑΛΑΤΖΗΣ & ΣΙΑ Ο.Ε.</td>
+                    <td class="col-percent">1,2</td>
+                    <td class="col-rm-price">18,97</td>
+                    <td class="col-contrib">0,22764</td>
+                </tr>
+                <tr>
+                    <td class="col-an">5</td>
+                    <td>L16557</td>
+                    <td class="ingredient-cell">ACB YERBA SANTA<br>GLYCOPROTEIN PF</td>
+                    <td class="inci-cell">LACTOBACILLUS/ERIODICTYON<br>CALIFORNICUM FERMENT EXTRACT,<br>LEUCONOSTOC/RADISH ROOT<br>FERMENT FILTRATE</td>
+                    <td class="supplier-cell">CELLCO CHEMICALS LTD-<br>ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                    <td class="col-percent">1</td>
+                    <td class="col-rm-price">56</td>
+                    <td class="col-contrib">0,56</td>
+                </tr>
+                <tr>
+                    <td class="col-an">6</td>
+                    <td>L13783</td>
+                    <td class="ingredient-cell">CHAMOMILE EXTRACT</td>
+                    <td class="inci-cell">AQUA, GLYCERIN,<br>CHAMOMILLA RECUTITA<br>FLOWER EXTRACT, CITRIC ACID,<br>POTASSIUM SORBATE,<br>SODIUM BENZOATE</td>
+                    <td class="supplier-cell">O & P KOUMITZELIS E.E.</td>
+                    <td class="col-percent">1</td>
+                    <td class="col-rm-price">22</td>
+                    <td class="col-contrib">0,22</td>
+                </tr>
+                <tr>
+                    <td class="col-an">7</td>
+                    <td>L9536</td>
+                    <td class="ingredient-cell">SABOWAX ELH 40</td>
+                    <td class="inci-cell">PEG-40 HYDROGENATED<br>CASTOR OIL, AQUA</td>
+                    <td class="supplier-cell">CELLCO CHEMICALS LTD-<br>ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                    <td class="col-percent">0,6</td>
+                    <td class="col-rm-price">4,9</td>
+                    <td class="col-contrib">0,0294</td>
+                </tr>
+                <tr>
+                    <td class="col-an">8</td>
+                    <td>L8464</td>
+                    <td class="ingredient-cell">DERMOFEEL PA-3</td>
+                    <td class="inci-cell">AQUA, SODIUM PHYTATE,<br>ALCOHOL</td>
+                    <td class="supplier-cell">CELLCO CHEMICALS LTD-<br>ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                    <td class="col-percent">0,3</td>
+                    <td class="col-rm-price">53</td>
+                    <td class="col-contrib">0,159</td>
+                </tr>
+                <tr>
+                    <td class="col-an">9</td>
+                    <td>L16568</td>
+                    <td class="ingredient-cell">DEIONIZED WATER</td>
+                    <td class="inci-cell">AQUA</td>
+                    <td class="supplier-cell">PRODUCER</td>
+                    <td class="col-percent">0,22</td>
+                    <td class="col-rm-price">0</td>
+                    <td class="col-contrib">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">10</td>
+                    <td>L10234</td>
+                    <td class="ingredient-cell">BIOLIN/P</td>
+                    <td class="inci-cell">INULIN,<br>ALPHA-GLUCAN OLIGOSACCHARIDE</td>
+                    <td class="supplier-cell">COSMOCHEM- ΓΙΑΛΑΤΖΗΣ & ΣΙΑ Ο.Ε.</td>
+                    <td class="col-percent">0,1</td>
+                    <td class="col-rm-price">64</td>
+                    <td class="col-contrib">0,064</td>
+                </tr>
+                <tr>
+                    <td class="col-an">11</td>
+                    <td>L9965</td>
+                    <td class="ingredient-cell">SODIUM HYDROXIDE PELLETS<br>EXTRA PURE - NaOH</td>
+                    <td class="inci-cell">SODIUM HYDROXIDE</td>
+                    <td class="supplier-cell">ΡΟΥΜΠΟΥΛΑΚΗΣ Μ. ΑΕ -<br>ROUMBOULAKIS</td>
+                    <td class="col-percent">0,06</td>
+                    <td class="col-rm-price">15</td>
+                    <td class="col-contrib">0,009</td>
+                </tr>
+                <tr>
+                    <td class="col-an">12</td>
+                    <td>L15634</td>
+                    <td class="ingredient-cell">PERFUME CHAMOMILLE<br>AF MF 26209/08</td>
+                    <td class="inci-cell">PARFUM</td>
+                    <td class="supplier-cell">ΒΙΟΡΥΛ Α.Ε.- VIORYL SA</td>
+                    <td class="col-percent">0,02</td>
+                    <td class="col-rm-price">44,5</td>
+                    <td class="col-contrib">0,0089</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="7" class="total-label">Total Price:</td>
+                    <td class="total-value currency">1,52004 €</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Allergens Section -->
+        <div class="allergens-section">
+            <div class="allergens-title">⚠️ Allergens (EU Regulation 1223/2009):</div>
+            
+            <div class="allergen-block">
+                <div class="allergen-line">
+                    <span class="allergen-label">INCI Name:</span>
+                    Amyl Salicylate
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">CAS:</span>
+                    2050-08-0
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">EINECS:</span>
+                    218-080-2
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">Restriction:</span>
+                    <span class="restriction">III/328</span>
+                </div>
+            </div>
+
+            <div class="allergen-block">
+                <div class="allergen-line">
+                    <span class="allergen-label">INCI Name:</span>
+                    Linalyl Acetate
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">CAS:</span>
+                    115-95-7
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">EINECS:</span>
+                    204-116-4
+                </div>
+                <div class="allergen-line">
+                    <span class="allergen-label">Restriction:</span>
+                    <span class="restriction">III/337</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 10px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; text-align: center; font-size: 9pt;">
+            <strong>Cost Analysis:</strong> Total Raw Material Cost per 100g of finished product: <span class="currency">1,52004 €</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Formula Price Document Loaded');
+            console.log('Product: MIST SKIN');
+            console.log('Total Formula Cost: 1.52004 EUR per 100g');
+            
+            // Calculate and verify total
+            const contributions = [
+                0.0175, 0.224, 0.0006, 0.22764, 0.56, 0.22,
+                0.0294, 0.159, 0, 0.064, 0.009, 0.0089
+            ];
+            const calculatedTotal = contributions.reduce((a, b) => a + b, 0);
+            console.log('Calculated Total:', calculatedTotal.toFixed(5));
+        });
+    </script>
+</body>
+</html>

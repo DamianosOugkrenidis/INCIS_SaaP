@@ -1,0 +1,48 @@
+@model INCIS_SaaP.Models.ToxicologicalData
+@{
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Νέα Τοξικολογική Εγγραφή · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@Model.FormulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Toxicology" asp-route-formulaId="@Model.FormulaId">Τοξικολογικά</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Νέα</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-skull-crossbones"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Νέα Τοξικολογική Εγγραφή</h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-9">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <form asp-action="ToxCreate" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="FormulaId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <partial name="_ToxFields" model="Model" />
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Δημιουργία</button>
+                        <a asp-action="Toxicology" asp-route-formulaId="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

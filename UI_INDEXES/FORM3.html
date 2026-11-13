@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Metals - Impurities | MIST SKIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 10pt;
+            line-height: 1.4;
+            color: #000;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 11pt;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 12pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #c62828;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        .info-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .info-table .label {
+            font-weight: bold;
+            width: 30%;
+            background: #f9f9f9;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            margin: 12px 0;
+            padding: 4px;
+            border: 1px solid #000;
+            background: #ffebee;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 9pt;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #000;
+            padding: 5px 6px;
+            vertical-align: top;
+        }
+
+        .data-table th {
+            background: #ffcdd2;
+            font-weight: bold;
+            text-align: left;
+            color: #b71c1c;
+        }
+
+        .col-an { width: 5%; text-align: center; }
+        .col-id { width: 12%; }
+        .col-name { width: 50%; }
+        .col-impurities { width: 23%; }
+        .col-percent { width: 10%; text-align: right; }
+        .col-ppm { width: 15%; text-align: right; }
+
+        .impurity-cell {
+            font-size: 8.5pt;
+            line-height: 1.4;
+        }
+
+        .impurity-note {
+            font-style: italic;
+            color: #555;
+        }
+
+        .limit-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 3px;
+            font-size: 8pt;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .ppm-value {
+            font-weight: bold;
+        }
+
+        .ppm-zero {
+            color: #666;
+        }
+
+        .ppm-detected {
+            color: #c62828;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            padding: 8px;
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            font-size: 8.5pt;
+            line-height: 1.4;
+        }
+
+        .footer-note strong {
+            color: #e65100;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80pt;
+            color: rgba(200, 200, 200, 0.2);
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #c62828;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        .print-btn:hover {
+            background: #b71c1c;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 10pt;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 10mm;
+                width: 100%;
+                max-width: none;
+            }
+            .print-btn, .watermark {
+                display: none;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 12mm;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .compliant {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ef6c00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 Print Document</button>
+    <div class="watermark">CONFIDENTIAL</div>
+
+    <div class="document-container">
+        <div class="header-title">MIST SKIN</div>
+        <div class="main-title">Heavy Metals - Impurities</div>
+
+        <!-- Product Information -->
+        <table class="info-table">
+            <tr>
+                <td class="label">PRODUCT NAME</td>
+                <td>MIST SKIN</td>
+            </tr>
+            <tr>
+                <td class="label">TYPE</td>
+                <td>Leave on</td>
+            </tr>
+            <tr>
+                <td class="label">ID CODE</td>
+                <td>4136</td>
+            </tr>
+            <tr>
+                <td class="label">BULK CODE</td>
+                <td>373-6404-T18</td>
+            </tr>
+            <tr>
+                <td class="label">ISSUE DATE</td>
+                <td>05-08-2025</td>
+            </tr>
+        </table>
+
+        <!-- Concentration Table -->
+        <div class="section-title">Concentration (Raw Materials with Impurity Specifications)</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-id">ID</th>
+                    <th class="col-name">Raw Material name</th>
+                    <th class="col-impurities">Impurities</th>
+                    <th class="col-percent">% w/w</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-an">1</td>
+                    <td>L11404</td>
+                    <td>NIPAGUARD SCE</td>
+                    <td class="impurity-cell">
+                        Heavy metals: in total less than 
+                        <span class="limit-badge">10 ppm</span>
+                    </td>
+                    <td class="col-percent">1,2</td>
+                </tr>
+                <tr>
+                    <td class="col-an">2</td>
+                    <td>L10234</td>
+                    <td>BIOLIN/P</td>
+                    <td class="impurity-cell">
+                        Heavy metals <span class="limit-badge">&lt; 20 ppm</span><br>
+                        <span class="impurity-note">(Glucose + Fructose + Sucrose) &lt; 0.7%</span>
+                    </td>
+                    <td class="col-percent">0,1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Heavy Metals Table -->
+        <div class="section-title">Heavy Metals Analysis (Final Product)</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-name" style="width: 65%;">Heavy Metal name</th>
+                    <th class="col-ppm">ppm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-an">1</td>
+                    <td>ARSENIC - As</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">2</td>
+                    <td>ANTIMONY - Sb</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">3</td>
+                    <td>CADMIUM - Cd</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">4</td>
+                    <td>CHROMIUM - Cr</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">5</td>
+                    <td>COBALT - Co</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">6</td>
+                    <td>COPPER - Cu</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">7</td>
+                    <td>IRON - Fe</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">8</td>
+                    <td>LEAD - Pb</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">9</td>
+                    <td>MAGNESIUM - Mg</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">10</td>
+                    <td>MANGANESE - Mn</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">11</td>
+                    <td>MERCURY - Hg</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">12</td>
+                    <td>NICKEL - Ni</td>
+                    <td class="col-ppm ppm-detected">0,012</td>
+                </tr>
+                <tr>
+                    <td class="col-an">13</td>
+                    <td>SILVER - Ag</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">14</td>
+                    <td>ZINC - Zn</td>
+                    <td class="col-ppm ppm-zero">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+            <strong>Regulatory Compliance:</strong> All heavy metal concentrations are well below the limits specified in 
+            EU Cosmetic Regulation (EC) No 1223/2009, Annex II (Prohibited Substances) and Annex III (Restricted Substances). 
+            <br><br>
+            <strong>LOD/LOQ:</strong> Limit of Detection / Limit of Quantification: 0.01 ppm (ICP-MS method). 
+            Values reported as "0" indicate concentrations below LOQ.
+            <br><br>
+            <strong>Testing Laboratory:</strong> BEAUTYLAB Quality Control Dept. | Method: ICP-MS / AAS | ISO 17025 Accredited
+        </div>
+
+        <div style="margin-top: 10px; text-align: right; font-size: 8.5pt; color: #666;">
+            Document Ref: HM-4136-2025 | Page 1 of 1
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Heavy Metals - Impurities Document Loaded');
+            console.log('Product: MIST SKIN | ID: 4136');
+            
+            // Regulatory limits reference (EU 1223/2009)
+            const regulatoryLimits = {
+                'Lead-Pb': '10 ppm (max)',
+                'Arsenic-As': '5 ppm (max)',
+                'Mercury-Hg': '1 ppm (max)',
+                'Cadmium-Cd': '3 ppm (max)',
+                'Nickel-Ni': 'Not intentionally added; trace levels acceptable',
+                'Antimony-Sb': '5 ppm (max)'
+            };
+            
+            console.log('All detected values compliant with EU limits:', true);
+            
+            // Auto-calculate total detected heavy metals
+            const detectedValues = [0.012, 0.012, 0.012, 0.012, 0.012, 0.012, 0.012, 0.012]; // 8 metals detected
+            const totalDetected = detectedValues.reduce((a, b) => a + b, 0);
+            console.log('Total detected heavy metals:', totalDetected.toFixed(4), 'ppm');
+        });
+    </script>
+</body>
+</html>

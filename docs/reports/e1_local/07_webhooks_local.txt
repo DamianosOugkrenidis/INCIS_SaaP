@@ -1,0 +1,2 @@
+﻿local_dev_db_webhook_subscriptions_count=0
+local_dev_db_documents_count=0

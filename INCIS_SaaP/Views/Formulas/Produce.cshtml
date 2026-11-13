@@ -1,0 +1,177 @@
+@model INCIS_SaaP.Models.Formula
+@{
+    ViewData["Title"] = "Παραγωγή Φόρμουλας";
+    var totalRawPct = Model.CalculateTotalRawMaterialPercentage();
+    var waterPct = Model.CalculateRequiredWaterPercentage();
+    var productionHistory = ViewBag.ProductionHistory as List<INCIS_SaaP.Models.ProductionBatch> ?? new List<INCIS_SaaP.Models.ProductionBatch>();
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Details" asp-route-id="@Model.Id">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Παραγωγή</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-industry"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Παραγωγή Φόρμουλας</h1>
+        <div class="erp-page-header-subtitle d-flex flex-wrap gap-2 align-items-center">
+            <span class="erp-badge erp-badge-primary"><i class="fas fa-hashtag"></i>@Model.FormulaCode</span>
+            <span class="erp-badge erp-badge-info"><i class="fas fa-flask"></i>@(Model.ProductName ?? Model.FormulaName ?? "—")</span>
+            @if (Model.Client != null)
+            {
+                <span class="erp-badge erp-badge-accent"><i class="fas fa-user"></i>@Model.Client.Name</span>
+            }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    <!-- Production Form -->
+    <div class="col-12 col-xl-5">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-cogs text-erp-primary"></i> Νέα Παρτίδα Παραγωγής</h3></div>
+            <div class="erp-card-body">
+                <form asp-action="Produce" asp-route-id="@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Μέγεθος Παρτίδας <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="number" name="batchSize" class="form-control" step="0.01" min="0.01" required placeholder="π.χ. 50" />
+                            <select name="unit" class="form-select" style="max-width: 100px;">
+                                <option value="kg">kg</option>
+                                <option value="g">g</option>
+                                <option value="L">L</option>
+                                <option value="ml">ml</option>
+                            </select>
+                        </div>
+                        <small class="text-muted">Συνολικό βάρος/όγκος παρτίδας</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Αριθμός LOT</label>
+                        <input type="text" name="lotNumber" class="form-control" placeholder="π.χ. LOT-2026-001" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Χειριστής</label>
+                        <input type="text" name="operator_name" class="form-control" placeholder="Ονοματεπώνυμο χειριστή" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Τοποθεσία Παραγωγής</label>
+                        <input type="text" name="manufacturingSite" class="form-control" value="@Model.ManufacturingSite" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Σημειώσεις</label>
+                        <textarea name="notes" class="form-control" rows="3" placeholder="Προαιρετικές σημειώσεις..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-play me-2"></i>Δημιουργία Παρτίδας</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formula Summary -->
+    <div class="col-12 col-xl-7">
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-list text-erp-primary"></i> Σύνθεση Φόρμουλας</h3></div>
+            <div class="erp-card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Α' Ύλη</th>
+                                <th class="text-center">Φάση</th>
+                                <th class="text-end">%</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (waterPct > 0)
+                            {
+                                <tr class="table-info">
+                                    <td><i class="fas fa-droplet me-1 text-info"></i><strong>AQUA (Water)</strong></td>
+                                    <td class="text-center"><span class="erp-badge erp-badge-info">A</span></td>
+                                    <td class="text-end fw-bold">@waterPct.ToString("F2")%</td>
+                                </tr>
+                            }
+                            @foreach (var frm in Model.FormulaRawMaterials.Where(f => f.IsActive && f.RawMaterial != null).OrderBy(f => f.Phase).ThenBy(f => f.RawMaterial!.ProductName))
+                            {
+                                <tr>
+                                    <td>@frm.RawMaterial!.ProductName</td>
+                                    <td class="text-center">
+                                        @if (!string.IsNullOrEmpty(frm.Phase))
+                                        {
+                                            <span class="erp-badge erp-badge-secondary">@frm.Phase</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">@((frm.Percentage ?? 0).ToString("F2"))%</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td colspan="2">Σύνολο</td>
+                                <td class="text-end">100.00%</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        @if (productionHistory.Any())
+        {
+            <div class="erp-card">
+                <div class="erp-card-header"><h3><i class="fas fa-history text-erp-primary"></i> Ιστορικό Παραγωγής</h3><span class="erp-badge erp-badge-primary ms-2">@productionHistory.Count</span></div>
+                <div class="erp-card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead><tr><th>Κωδικός</th><th>Μέγεθος</th><th>Ημ/νία</th><th>Κατάσταση</th><th></th></tr></thead>
+                            <tbody>
+                                @foreach (var batch in productionHistory.Take(10))
+                                {
+                                    <tr>
+                                        <td><code>@batch.BatchCode</code></td>
+                                        <td>@batch.BatchSize @batch.Unit</td>
+                                        <td>@batch.ProductionDate.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            @switch (batch.Status)
+                                            {
+                                                case "Completed":
+                                                    <span class="erp-badge erp-badge-success">Ολοκληρώθηκε</span>
+                                                    break;
+                                                case "InProgress":
+                                                    <span class="erp-badge erp-badge-warning">Σε εξέλιξη</span>
+                                                    break;
+                                                case "Cancelled":
+                                                    <span class="erp-badge erp-badge-danger">Ακυρώθηκε</span>
+                                                    break;
+                                                default:
+                                                    <span class="erp-badge erp-badge-secondary">Προγραμματισμένη</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td><a asp-action="ProduceDetails" asp-route-id="@batch.Id" class="btn btn-sm btn-erp-secondary"><i class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

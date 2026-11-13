@@ -1,0 +1,75 @@
+@model INCIS_SaaP.Dtos.ImportCommitResult
+@{
+    ViewData["Title"] = "Αποτέλεσμα Εισαγωγής";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Εισαγωγή</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Αποτέλεσμα</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-clipboard-check"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Αποτέλεσμα — @INCIS_SaaP.Services.ImportService.DisplayName(Model.Type)</h1>
+        <div class="erp-page-header-subtitle">Αρχείο: @Model.FileName</div>
+    </div>
+</div>
+
+@if (Model.FatalError != null)
+{
+    <div class="alert alert-danger erp-fade-in">
+        <i class="fas fa-triangle-exclamation me-2"></i>@Model.FatalError
+    </div>
+}
+else
+{
+    <div class="alert @(Model.Imported > 0 ? "alert-success" : "alert-warning") erp-fade-in">
+        <i class="fas fa-circle-check me-2"></i>
+        Εισήχθησαν <strong>@Model.Imported</strong> από @Model.TotalRows γραμμές.
+        @if (Model.SkippedDuplicates > 0) { <text> Παραλείφθηκαν <strong>@Model.SkippedDuplicates</strong> διπλότυπα.</text> }
+        @if (Model.SkippedErrors > 0) { <text> Παραλείφθηκαν <strong>@Model.SkippedErrors</strong> με σφάλματα.</text> }
+    </div>
+}
+
+<div class="row g-3 erp-fade-in mb-3">
+    <div class="col-6 col-md-3"><div class="erp-card"><div class="erp-card-body text-center"><div class="fs-3 fw-bold">@Model.TotalRows</div><small class="text-muted">Σύνολο</small></div></div></div>
+    <div class="col-6 col-md-3"><div class="erp-card"><div class="erp-card-body text-center"><div class="fs-3 fw-bold text-success">@Model.Imported</div><small class="text-muted">Εισήχθησαν</small></div></div></div>
+    <div class="col-6 col-md-3"><div class="erp-card"><div class="erp-card-body text-center"><div class="fs-3 fw-bold text-warning">@Model.SkippedDuplicates</div><small class="text-muted">Διπλότυπα</small></div></div></div>
+    <div class="col-6 col-md-3"><div class="erp-card"><div class="erp-card-body text-center"><div class="fs-3 fw-bold text-danger">@Model.SkippedErrors</div><small class="text-muted">Σφάλματα</small></div></div></div>
+</div>
+
+@if (Model.Issues.Any())
+{
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body">
+            <div class="fw-semibold mb-2"><i class="fas fa-list me-2"></i>Αναφορά γραμμών</div>
+            <div class="table-responsive">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th style="width:80px;">Γραμμή</th><th style="width:140px;">Πεδίο</th><th>Μήνυμα</th><th style="width:110px;">Τύπος</th></tr></thead>
+                    <tbody>
+                        @foreach (var issue in Model.Issues.OrderBy(i => i.RowNumber))
+                        {
+                            <tr>
+                                <td class="text-muted">@issue.RowNumber</td>
+                                <td>@issue.Field</td>
+                                <td class="small">@issue.Message</td>
+                                <td>
+                                    @if (issue.IsError)
+                                    { <span class="badge bg-danger">Σφάλμα</span> }
+                                    else
+                                    { <span class="badge bg-warning text-dark">Προειδοποίηση</span> }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+<a asp-action="Index" class="btn btn-erp-primary erp-fade-in"><i class="fas fa-arrow-left me-1"></i>Νέα Εισαγωγή</a>

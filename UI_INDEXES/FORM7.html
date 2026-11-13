@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavy Metals - Impurities</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page {
+            background-color: white;
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 16pt;
+            font-style: italic;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 12pt;
+            text-decoration: underline;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 10pt;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px 8px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        /* Specific Column Widths */
+        .col-small { width: 5%; text-align: center; }
+        .col-med { width: 15%; }
+        .col-large { width: 45%; }
+        .col-right { width: 10%; text-align: right; }
+        .col-center { width: 10%; text-align: center; }
+
+        /* Product Info Table Styling */
+        .info-table td {
+            padding: 4px 8px;
+            font-weight: normal;
+        }
+        .info-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 25%;
+        }
+        .info-value {
+            text-align: right;
+            width: 75%;
+        }
+
+        /* Header Styling */
+        th {
+            font-weight: bold;
+            text-align: center;
+            background-color: #fff; /* Keep white as per image */
+        }
+
+        /* Print Settings */
+        @media print {
+            body {
+                background: none;
+                margin: 0;
+            }
+            .page {
+                box-shadow: none;
+                width: 100%;
+                margin: 0;
+                padding: 10mm;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+
+        .btn-print {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .btn-print:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-print no-print" onclick="window.print()">🖨️ Print Document</button>
+
+    <div class="page">
+        <h1>Heavy Metals - Impurities</h1>
+
+        <!-- Product Information Table -->
+        <table class="info-table">
+            <tr>
+                <td class="info-label">Product Name</td>
+                <td class="info-value">MIST SKIN</td>
+            </tr>
+            <tr>
+                <td class="info-label">Type</td>
+                <td class="info-value">Leave on</td>
+            </tr>
+            <tr>
+                <td class="info-label">Id Code</td>
+                <td class="info-value">4136</td>
+            </tr>
+            <tr>
+                <td class="info-label">Bulk Code</td>
+                <td class="info-value">373-6404-T18</td>
+            </tr>
+            <tr>
+                <td class="info-label">Issue Date</td>
+                <td class="info-value">05-08-2025</td>
+            </tr>
+        </table>
+
+        <!-- Concentration Section -->
+        <h2>Concentration</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-small">a/n</th>
+                    <th class="col-med">ID</th>
+                    <th class="col-med">Raw Material name</th>
+                    <th class="col-large">Imputities</th>
+                    <th class="col-right">% w/w</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-small">1</td>
+                    <td class="col-med">L11404</td>
+                    <td class="col-med">NIPAGUARD SCE</td>
+                    <td class="col-large">Heavy metals:in total less than 10ppm</td>
+                    <td class="col-right">1,2</td>
+                </tr>
+                <tr>
+                    <td class="col-small">2</td>
+                    <td class="col-med">L10234</td>
+                    <td class="col-med">BIOLIN/P</td>
+                    <td class="col-large">
+                        Heavy metals&lt;20ppm<br>
+                        (Glucose+Fructose+Sucrose)&lt;0.7%
+                    </td>
+                    <td class="col-right">0,1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Heavy Metals Section -->
+        <h2>Heavy Metals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-small">a/n</th>
+                    <th class="col-large" style="text-align: left; padding-left: 20px;">Heavy Metal name</th>
+                    <th class="col-right">ppm</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="col-small">1</td><td>ARSENIC-AS</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">2</td><td>ANTIMONY-SB</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">3</td><td>CADMIUM-CD</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">4</td><td>CHROMIUM-CR</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">5</td><td>COBALT-CO</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">6</td><td>COPPER-CU</td><td class="col-right">0</td></tr>
+                <tr><td class="col-small">7</td><td>IRON-FE</td><td class="col-right">0</td></tr>
+                <tr><td class="col-small">8</td><td>LEAD-PB</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">9</td><td>MAGNESIUM-MG</td><td class="col-right">0</td></tr>
+                <tr><td class="col-small">10</td><td>MANGANESE-MN</td><td class="col-right">0</td></tr>
+                <tr><td class="col-small">11</td><td>MERCURY-HG</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">12</td><td>NICKEL-NI</td><td class="col-right">0,012</td></tr>
+                <tr><td class="col-small">13</td><td>SILVER-AG</td><td class="col-right">0</td></tr>
+                <tr><td class="col-small">14</td><td>ZINC-ZN</td><td class="col-right">0</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

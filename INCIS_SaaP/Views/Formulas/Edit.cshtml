@@ -1,0 +1,109 @@
+@model INCIS_SaaP.Models.Formula
+@{
+    ViewData["Title"] = "Επεξεργασία Φόρμουλας";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Details" asp-route-id="@Model.Id">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Επεξεργασία</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-pen-to-square"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Επεξεργασία φόρμουλας</h1>
+        <div class="erp-page-header-subtitle">
+            <code>@Model.FormulaCode</code> · @(Model.FormulaName ?? Model.ProductName ?? "—")
+        </div>
+    </div>
+</div>
+
+<form asp-action="Edit" class="erp-fade-in" novalidate>
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row g-3">
+        <div class="col-12 col-xl-8">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Γενικές πληροφορίες</h3></div>
+                <div class="erp-card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FormulaCode" class="form-label fw-semibold">Κωδικός <span class="text-danger">*</span></label>
+                            <input asp-for="FormulaCode" class="form-control" required />
+                            <span asp-validation-for="FormulaCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="FormulaName" class="form-label fw-semibold">Όνομα Προϊόντος</label>
+                            <input asp-for="FormulaName" class="form-control" />
+                            <span asp-validation-for="FormulaName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ProductType" class="form-label fw-semibold">Τύπος Προϊόντος</label>
+                            <select asp-for="ProductType" class="form-select">
+                                <option value="">— Επιλέξτε τύπο —</option>
+                                <option value="Leave-on">Leave-on</option>
+                                <option value="Rinse-off">Rinse-off</option>
+                                <option value="Spray">Spray</option>
+                                <option value="Stick">Stick</option>
+                                <option value="Powder">Powder</option>
+                                <option value="Other">Άλλο</option>
+                            </select>
+                            <span asp-validation-for="ProductType" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Version" class="form-label fw-semibold">Έκδοση</label>
+                            <input asp-for="Version" class="form-control" />
+                            <span asp-validation-for="Version" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold">Περιγραφή</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-info-circle text-erp-primary"></i> Πληροφορίες</h3></div>
+                <div class="erp-card-body small">
+                    <div class="erp-info-item mb-2">
+                        <span class="erp-info-label">Δημιουργία</span>
+                        <span class="erp-info-value">@(Model.CreationDate?.ToString("dd/MM/yyyy HH:mm") ?? "—")</span>
+                    </div>
+                    <div class="erp-info-item mb-2">
+                        <span class="erp-info-label">Τελευταία Τροποποίηση</span>
+                        <span class="erp-info-value">@(Model.LastModified?.ToString("dd/MM/yyyy HH:mm") ?? "—")</span>
+                    </div>
+                    <div class="erp-info-item">
+                        <span class="erp-info-label">Κατάσταση</span>
+                        <span class="erp-info-value">
+                            @if (Model.IsValidated) { <span class="erp-badge erp-badge-success">Validated</span> }
+                            else if (Model.IsWIP) { <span class="erp-badge erp-badge-warning">WIP</span> }
+                            else { <span class="erp-badge erp-badge-secondary">Draft</span> }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση Αλλαγών</button>
+        <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

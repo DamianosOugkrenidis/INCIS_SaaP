@@ -1,0 +1,41 @@
+@model INCIS_SaaP.Models.Claim
+
+<div class="row g-3">
+    <div class="col-12">
+        <label asp-for="ClaimText" class="form-label fw-semibold">Κείμενο Ισχυρισμού <span class="text-danger">*</span></label>
+        <input asp-for="ClaimText" class="form-control" placeholder="π.χ. Vegan, Dermatologically tested" required />
+        <span asp-validation-for="ClaimText" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="ClaimCategory" class="form-label fw-semibold">Κατηγορία</label>
+        <input asp-for="ClaimCategory" class="form-control" placeholder="π.χ. Ethical, Performance" />
+        <span asp-validation-for="ClaimCategory" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="ClaimType" class="form-label fw-semibold">Τύπος</label>
+        <input asp-for="ClaimType" class="form-control" placeholder="π.χ. Free-from, Ingredient" />
+        <span asp-validation-for="ClaimType" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="RegulatoryStatus" class="form-label fw-semibold">Κανονιστικό Καθεστώς</label>
+        <input asp-for="RegulatoryStatus" class="form-control" placeholder="π.χ. Reg. 655/2013 compliant" />
+        <span asp-validation-for="RegulatoryStatus" class="text-danger"></span>
+    </div>
+    <div class="col-md-6 d-flex align-items-end">
+        <div class="form-check form-switch">
+            <input type="hidden" name="IsVerified" value="false" />
+            <input class="form-check-input" type="checkbox" role="switch" id="IsVerified" name="IsVerified" value="true" checked="@(Model.IsVerified == true)" />
+            <label asp-for="IsVerified" class="form-check-label">Επαληθευμένο</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <label asp-for="SupportingEvidence" class="form-label fw-semibold">Τεκμηρίωση</label>
+        <textarea asp-for="SupportingEvidence" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="SupportingEvidence" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label fw-semibold">Σημειώσεις</label>
+        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+</div>

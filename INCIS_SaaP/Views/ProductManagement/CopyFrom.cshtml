@@ -1,0 +1,78 @@
+@{
+    var formulaId = (int)ViewData["FormulaId"]!;
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Αντιγραφή Δεδομένων · " + formulaCode;
+    var sources = ViewBag.SourceFormulas as IEnumerable<dynamic>;
+    var cats = new (string Key, string Label)[]
+    {
+        ("composition", "Σύνθεση Α' Υλών"),
+        ("inci", "Συστατικά INCI"),
+        ("allergens", "Αλλεργιογόνα"),
+        ("heavymetals", "Βαρέα Μέταλλα"),
+        ("claims", "Ισχυρισμοί"),
+        ("toxicology", "Τοξικολογικά")
+    };
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@formulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Αντιγραφή Δεδομένων</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-copy"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Αντιγραφή από άλλη φόρμουλα</h1>
+        <div class="erp-page-header-subtitle">Προς: @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <div class="alert alert-warning small"><i class="fas fa-triangle-exclamation me-2"></i>Οι επιλεγμένες κατηγορίες θα <strong>αντικαταστήσουν</strong> τα υπάρχοντα δεδομένα της τρέχουσας φόρμουλας.</div>
+                <form asp-action="CopyFrom" asp-route-formulaId="@formulaId" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Φόρμουλα-Πηγή <span class="text-danger">*</span></label>
+                        <select name="sourceFormulaId" class="form-select" required>
+                            <option value="">— Επιλέξτε φόρμουλα —</option>
+                            @if (sources != null)
+                            {
+                                foreach (var s in sources)
+                                {
+                                    <option value="@s.Id">@s.Label</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <label class="form-label fw-semibold">Κατηγορίες προς αντιγραφή</label>
+                    <div class="row g-2 mb-3">
+                        @foreach (var c in cats)
+                        {
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="categories" value="@c.Key" id="cat_@c.Key" checked />
+                                    <label class="form-check-label" for="cat_@c.Key">@c.Label</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-copy me-2"></i>Αντιγραφή</button>
+                        <a asp-action="Manage" asp-route-id="@formulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

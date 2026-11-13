@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identification of Regulated Ingredients</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #000;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 12pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            margin: 15px 0 8px 0;
+            padding: 4px;
+            border: 1px solid #000;
+            background: #f0f0f0;
+        }
+
+        .reg-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 8.5pt;
+            table-layout: fixed;
+        }
+
+        .reg-table th,
+        .reg-table td {
+            border: 1px solid #000;
+            padding: 5px 6px;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+
+        .reg-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .col-an { width: 4%; text-align: center; }
+        .col-components { width: 28%; }
+        .col-percent { width: 8%; text-align: right; }
+        .col-product { width: 20%; }
+        .col-max-conc { width: 18%; }
+        .col-other { width: 12%; }
+        .col-wording { width: 10%; }
+
+        .component-block {
+            font-size: 8pt;
+            line-height: 1.4;
+        }
+
+        .component-line {
+            margin: 2px 0;
+        }
+
+        .component-label {
+            font-weight: bold;
+            display: inline;
+        }
+
+        .restriction {
+            color: #c00;
+            font-weight: bold;
+        }
+
+        .allergen-section {
+            margin-top: 15px;
+        }
+
+        .allergen-title {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 4px;
+        }
+
+        .allergen-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .allergen-table td {
+            border: 1px solid #000;
+            padding: 5px 6px;
+            vertical-align: top;
+        }
+
+        .warning-text {
+            font-size: 8pt;
+            line-height: 1.4;
+            text-align: justify;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        .print-btn:hover {
+            background: #1565c0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 10mm;
+                width: 100%;
+                max-width: none;
+            }
+            .print-btn {
+                display: none;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .product-list {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .product-list li {
+            margin: 2px 0;
+        }
+
+        .concentration-list {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .concentration-list li {
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 Print Document</button>
+
+    <div class="document-container">
+        <div class="main-title">Identification of Regulated Ingredients</div>
+
+        <!-- Main Regulated Ingredients Table -->
+        <table class="reg-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-components">Components</th>
+                    <th class="col-percent">% w/w</th>
+                    <th class="col-product">Product type, body parts</th>
+                    <th class="col-max-conc">Maximum concentration in ready for use preparation</th>
+                    <th class="col-other">Other</th>
+                    <th class="col-wording">Wording of conditions of use and warnings</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row 1: Benzoic Acid -->
+                <tr>
+                    <td class="col-an">1</td>
+                    <td class="col-components">
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> BENZOIC ACID</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 65-85-0</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 200-618-2</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/1</div>
+                            <div class="component-line"><span class="component-label">Function:</span> BULKING, MASKING, PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,192</td>
+                    <td class="col-product">
+                        a) Rinse-off products, except oral care products<br>
+                        b) Oral care products<br>
+                        c) Leave-on products
+                    </td>
+                    <td class="col-max-conc">
+                        a) 2.5% (acid)<br>
+                        b) 1.7% (acid)<br>
+                        c) 0.5% (acid)
+                    </td>
+                    <td class="col-other"></td>
+                    <td class="col-wording"></td>
+                </tr>
+
+                <!-- Row 2: Sodium Hydroxide -->
+                <tr>
+                    <td class="col-an">2</td>
+                    <td class="col-components">
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SODIUM HYDROXIDE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 1310-73-2</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 215-185-5</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> III/15a</div>
+                            <div class="component-line"><span class="component-label">Function:</span> BUFFERING, DENATURANT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,06</td>
+                    <td class="col-product">
+                        (a) Nail cuticle solvent<br>
+                        (b) Hair straightener<br>
+                        (c) pH adjuster for depilatories<br>
+                        (d) Other uses as pH adjuster Callosity softener/remover (entry 15d)
+                    </td>
+                    <td class="col-max-conc">
+                        (a) 5%<br>
+                        (b) 2% (General use) and 4.5% (Professional use)<br>
+                        Entry 15d: 1,5%
+                    </td>
+                    <td class="col-other">
+                        (a) Contains alkali Avoid contact with eyes Can cause blindness Keep out of reach of children<br>
+                        (b) 1. Contains alkali Avoid contact with eyes Can cause blindness Keep out of reach of children<br>
+                        2. For professional use only Avoid contact with eyes Can cause blindness<br>
+                        (c) Keep out of reach of children Avoid contact with eyes
+                    </td>
+                    <td class="col-wording">
+                        (b) 1. General use 2. Professional use<br>
+                        (c) up to pH 12.7<br>
+                        (d) up to pH 11<br>
+                        15 d Contains alkali, Avoid contact with eyes Keep out of reach of children and Read directions for use carefully
+                    </td>
+                </tr>
+
+                <!-- Row 3: Sodium Benzoate -->
+                <tr>
+                    <td class="col-an">3</td>
+                    <td class="col-components">
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SODIUM BENZOATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 532-32-1</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 208-534-8</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/1</div>
+                            <div class="component-line"><span class="component-label">Function:</span> PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,0011</td>
+                    <td class="col-product">
+                        a) Rinse-off products, except oral care products<br>
+                        b) Oral care products<br>
+                        c) Leave-on products
+                    </td>
+                    <td class="col-max-conc">
+                        a) 2.5% (acid)<br>
+                        b) 1.7% (acid)<br>
+                        c) 0.5% (acid)
+                    </td>
+                    <td class="col-other"></td>
+                    <td class="col-wording"></td>
+                </tr>
+
+                <!-- Row 4: Potassium Sorbate -->
+                <tr>
+                    <td class="col-an">4</td>
+                    <td class="col-components">
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> POTASSIUM SORBATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 24634-61-5 / 590-00-1</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 246-376-1 / -</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/4</div>
+                            <div class="component-line"><span class="component-label">Function:</span> PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,0011</td>
+                    <td class="col-product"></td>
+                    <td class="col-max-conc">0.6% (acid)</td>
+                    <td class="col-other"></td>
+                    <td class="col-wording"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Allergens Section -->
+        <div class="allergen-section">
+            <div class="allergen-title">Allergens:</div>
+            <table class="allergen-table">
+                <tbody>
+                    <tr>
+                        <td style="width: 4%; text-align: center;"></td>
+                        <td style="width: 28%;">
+                            <div class="component-block">
+                                <div class="component-line"><span class="component-label">Inci name:</span> Amyl Salicylate</div>
+                                <div class="component-line"><span class="component-label">Cas:</span> 2050-08-0</div>
+                                <div class="component-line"><span class="component-label">Einecs:</span> 218-080-2</div>
+                                <div class="component-line"><span class="component-label restriction">Restriction:</span> III/328</div>
+                            </div>
+                        </td>
+                        <td style="width: 8%; text-align: right;">0,001</td>
+                        <td style="width: 20%;"></td>
+                        <td style="width: 18%;"></td>
+                        <td style="width: 12%;"></td>
+                        <td style="width: 10%;" class="warning-text">
+                            The presence of the substance shall be indicated in the list of ingredients referred to in Article 19(1), point (g), when its concentration exceeds: — 0,001 % in leave-on products — 0,01 % in rinse-off products.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 4%; text-align: center;"></td>
+                        <td style="width: 28%;">
+                            <div class="component-block">
+                                <div class="component-line"><span class="component-label">Inci name:</span> Linalyl Acetate</div>
+                                <div class="component-line"><span class="component-label">Cas:</span> 115-95-7</div>
+                                <div class="component-line"><span class="component-label">Einecs:</span> 204-116-4</div>
+                                <div class="component-line"><span class="component-label restriction">Restriction:</span> III/337</div>
+                            </div>
+                        </td>
+                        <td style="width: 8%; text-align: right;">0,0019926</td>
+                        <td style="width: 20%;"></td>
+                        <td style="width: 18%;"></td>
+                        <td style="width: 12%;"></td>
+                        <td style="width: 10%;" class="warning-text">
+                            The presence of the substance shall be indicated in the list of ingredients referred to in Article 19(1), point (g), when its concentration exceeds: — 0,001 % in leave-on products — 0,01 % in rinse-off products.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Identification of Regulated Ingredients Document Loaded');
+            console.log('EU Cosmetic Regulation (EC) No 1223/2009 Compliance Check');
+            
+            // Regulatory references
+            const annexes = {
+                'V/1': 'Annex V - Preservatives allowed (Benzoic Acid, Sodium Benzoate)',
+                'V/4': 'Annex V - Preservatives allowed (Potassium Sorbate)',
+                'III/15a': 'Annex III - Restricted substances (Sodium Hydroxide)',
+                'III/328': 'Annex III - Restricted substances (Amyl Salicylate)',
+                'III/337': 'Annex III - Restricted substances (Linalyl Acetate)'
+            };
+            
+            console.log('Regulatory Annexes:', annexes);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allergens Composition - MIST SKIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #000;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 11pt;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 12pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        .info-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .info-table .label {
+            font-weight: bold;
+            width: 30%;
+            background: #f9f9f9;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 10pt;
+            margin: 12px 0;
+            padding: 4px;
+            border: 1px solid #000;
+            background: #f0f0f0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 8.5pt;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .data-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .col-an { width: 5%; text-align: center; }
+        .col-id { width: 10%; }
+        .col-name { width: 55%; }
+        .col-percent { width: 15%; text-align: right; }
+
+        .allergen-cell {
+            font-size: 8pt;
+            line-height: 1.4;
+        }
+
+        .allergen-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .allergen-meta {
+            margin-left: 5px;
+            color: #333;
+        }
+
+        .footer-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 8px;
+            border-top: 1px solid #000;
+            font-size: 8.5pt;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80pt;
+            color: rgba(200, 200, 200, 0.2);
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        .print-btn:hover {
+            background: #1565c0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 9pt;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 10mm;
+                width: 100%;
+                max-width: none;
+            }
+            .print-btn, .watermark {
+                display: none;
+            }
+            .data-table {
+                font-size: 8pt;
+            }
+        }
+
+        @page {
+            size: A4;
+            margin: 12mm;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .zero-value {
+            color: #999;
+        }
+
+        .non-zero-value {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 Print Document</button>
+    <div class="watermark">CONFIDENTIAL</div>
+
+    <div class="document-container">
+        <div class="header-title">MIST SKIN</div>
+        <div class="main-title">Allergens Composition</div>
+
+        <!-- Product Information -->
+        <table class="info-table">
+            <tr>
+                <td class="label">PRODUCT NAME</td>
+                <td>MIST SKIN</td>
+            </tr>
+            <tr>
+                <td class="label">TYPE</td>
+                <td>Leave on</td>
+            </tr>
+            <tr>
+                <td class="label">ID CODE</td>
+                <td>4136</td>
+            </tr>
+            <tr>
+                <td class="label">BULK CODE</td>
+                <td>373-6404-T18</td>
+            </tr>
+            <tr>
+                <td class="label">ISSUE DATE</td>
+                <td>05-08-2025</td>
+            </tr>
+        </table>
+
+        <!-- Fragrance Concentration -->
+        <div class="section-title">Fragrance Concentration</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-id">ID</th>
+                    <th class="col-name">Raw Material name</th>
+                    <th class="col-percent">% w/w</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-an">1</td>
+                    <td>L15634</td>
+                    <td>PERFUME CHAMOMILLE AF MF 26209/08</td>
+                    <td class="col-percent">0,02</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Allergens -->
+        <div class="section-title">Allergens</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-name" style="width: 70%;">Allergen name</th>
+                    <th class="col-percent">% w/w</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-an">1</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BENZYL ALCOHOL</div>
+                        <div class="allergen-meta">Cas: 100-51-6</div>
+                        <div class="allergen-meta">Einecs: 202-859-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000002</td>
+                </tr>
+                <tr>
+                    <td class="col-an">2</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">AMYL CINNAMAL</div>
+                        <div class="allergen-meta">Cas: 122-40-7</div>
+                        <div class="allergen-meta">Einecs: 204-541-5</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">3</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CINNAMYL ALCOHOL</div>
+                        <div class="allergen-meta">Cas: 104-54-1</div>
+                        <div class="allergen-meta">Einecs: 203-212-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">4</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRAL</div>
+                        <div class="allergen-meta">Cas: 5392-40-5 / 141-27-5 / 106-26-3</div>
+                        <div class="allergen-meta">Einecs: 226-394-6 / 205-476-5 / 203-379-2</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0000028</td>
+                </tr>
+                <tr>
+                    <td class="col-an">5</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EUGENOL</div>
+                        <div class="allergen-meta">Cas: 97-53-0</div>
+                        <div class="allergen-meta">Einecs: 202-589-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">6</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">HYDROXYCITRONELLAL</div>
+                        <div class="allergen-meta">Cas: 107-75-5</div>
+                        <div class="allergen-meta">Einecs: 203-518-7</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">7</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ISOEUGENOL</div>
+                        <div class="allergen-meta">Cas: 97-54-1 / 5932-68-3 / 5912-86-7</div>
+                        <div class="allergen-meta">Einecs: 202-590-7 / 227-678-2 / 227-633-7</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">8</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">AMYLCINNAMYL ALCOHOL</div>
+                        <div class="allergen-meta">Cas: 101-85-9</div>
+                        <div class="allergen-meta">Einecs: 202-982-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">9</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BENZYL SALICYLATE</div>
+                        <div class="allergen-meta">Cas: 118-58-1</div>
+                        <div class="allergen-meta">Einecs: 204-262-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">10</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CINNAMAL</div>
+                        <div class="allergen-meta">Cas: 104-55-2</div>
+                        <div class="allergen-meta">Einecs: 203-213-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">11</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">COUMARIN</div>
+                        <div class="allergen-meta">Cas: 91-64-5</div>
+                        <div class="allergen-meta">Einecs: 202-086-7</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000002</td>
+                </tr>
+                <tr>
+                    <td class="col-an">12</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">GERANIOL</div>
+                        <div class="allergen-meta">Cas: 106-24-1</div>
+                        <div class="allergen-meta">Einecs: 203-377-1</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0000048</td>
+                </tr>
+                <tr>
+                    <td class="col-an">13</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">HYDROXYISOHEXYL 3-CYCLOHEXENE CARBOXALDEHYDE (LYRAL)</div>
+                        <div class="allergen-meta">Cas: 31906-04-4 / 51414-25-6</div>
+                        <div class="allergen-meta">Einecs: 250-863-4 / 257-187-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">14</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ANISE ALCOHOL</div>
+                        <div class="allergen-meta">Cas: 105-13-5</div>
+                        <div class="allergen-meta">Einecs: 203-273-6</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">15</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BENZYL CINNAMATE</div>
+                        <div class="allergen-meta">Cas: 103-41-3</div>
+                        <div class="allergen-meta">Einecs: 203-109-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">16</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">FARNESOL</div>
+                        <div class="allergen-meta">Cas: 4602-84-0</div>
+                        <div class="allergen-meta">Einecs: 225-004-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">17</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BUTYLPHENYL METHYLPROPIONAL</div>
+                        <div class="allergen-meta">Cas: 80-54-6</div>
+                        <div class="allergen-meta">Einecs: 201-289-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">18</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LINALOOL</div>
+                        <div class="allergen-meta">Cas: 78-70-6</div>
+                        <div class="allergen-meta">Einecs: 201-134-4</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0005182</td>
+                </tr>
+                <tr>
+                    <td class="col-an">19</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BENZYL BENZOATE</div>
+                        <div class="allergen-meta">Cas: 120-51-4</div>
+                        <div class="allergen-meta">Einecs: 204-402-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000002</td>
+                </tr>
+                <tr>
+                    <td class="col-an">20</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRONELLOL</div>
+                        <div class="allergen-meta">Cas: 106-22-9 / 26489-01-0 / 7540-51-4 / 1117-61-9</div>
+                        <div class="allergen-meta">Einecs: 203-375-0 / 247-737-6 / 231-415-7 / 214-250-5</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">21</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">HEXYL CINNAMAL</div>
+                        <div class="allergen-meta">Cas: 101-86-0</div>
+                        <div class="allergen-meta">Einecs: 202-983-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">22</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LIMONENE</div>
+                        <div class="allergen-meta">Cas: 138-86-3 / 7705-14-8 / 5989-27-5 / 5989-54-8</div>
+                        <div class="allergen-meta">Einecs: 205-341-0 / 231-732-0 / 227-813-5 / 227-815-6</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0000244</td>
+                </tr>
+                <tr>
+                    <td class="col-an">23</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">METHYL 2-OCTYNOATE</div>
+                        <div class="allergen-meta">Cas: 111-12-6</div>
+                        <div class="allergen-meta">Einecs: 203-836-6</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">24</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ALPHA-ISOMETHYL IONONE</div>
+                        <div class="allergen-meta">Cas: 127-51-5</div>
+                        <div class="allergen-meta">Einecs: 204-846-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">25</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EVERNIA PRUNASTRI EXTRACT</div>
+                        <div class="allergen-meta">Cas: 90028-68-5</div>
+                        <div class="allergen-meta">Einecs: 289-861-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">26</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EVERNIA FURFURACEA EXTRACT</div>
+                        <div class="allergen-meta">Cas: 90028-67-4</div>
+                        <div class="allergen-meta">Einecs: 289-860-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">27</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">3-PROPYLIDENEPHTHALIDE</div>
+                        <div class="allergen-meta">Cas: 17369-59-4</div>
+                        <div class="allergen-meta">Einecs: 241-402-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">28</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">6-METHYL COUMARIN</div>
+                        <div class="allergen-meta">Cas: 92-48-8</div>
+                        <div class="allergen-meta">Einecs: 202-158-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">29</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ACETYL CEDRENE</div>
+                        <div class="allergen-meta">Cas: 32388-55-9</div>
+                        <div class="allergen-meta">Einecs: 251-020-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">30</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ALPHA-TERPINENE</div>
+                        <div class="allergen-meta">Cas: 99-86-5</div>
+                        <div class="allergen-meta">Einecs: 202-795-1</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0000018</td>
+                </tr>
+                <tr>
+                    <td class="col-an">31</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">AMYL SALICYLATE</div>
+                        <div class="allergen-meta">Cas: 2050-08-0</div>
+                        <div class="allergen-meta">Einecs: 218-080-2</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,001</td>
+                </tr>
+                <tr>
+                    <td class="col-an">32</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ANETHOLE</div>
+                        <div class="allergen-meta">Cas: 104-46-1 / 4180-23-8</div>
+                        <div class="allergen-meta">Einecs: 203-205-5</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0008004</td>
+                </tr>
+                <tr>
+                    <td class="col-an">33</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BENZALDEHYDE</div>
+                        <div class="allergen-meta">Cas: 100-52-7</div>
+                        <div class="allergen-meta">Einecs: 202-860-4</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000016</td>
+                </tr>
+                <tr>
+                    <td class="col-an">34</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">BETA-CARYOPHYLLENE</div>
+                        <div class="allergen-meta">Cas: 87-44-5</div>
+                        <div class="allergen-meta">Einecs: 201-746-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000076</td>
+                </tr>
+                <tr>
+                    <td class="col-an">35</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CAMPHOR</div>
+                        <div class="allergen-meta">Cas: 76-22-2 / 21368-68-3 / 464-49-3 / 464-48-2</div>
+                        <div class="allergen-meta">Einecs: 200-945-0 / 244-350-4 / 207-355-2 / 207-354-7</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0003116</td>
+                </tr>
+                <tr>
+                    <td class="col-an">36</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CANANGA ODORATA OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 83863-30-3 / 8006-81-3 / 68606-83-7 / 93686-30-7</div>
+                        <div class="allergen-meta">Einecs: 281-092-1 / - / - / 297-681-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">37</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CARVONE</div>
+                        <div class="allergen-meta">Cas: 6485-40-1 / 99-49-0 / 2244-16-8</div>
+                        <div class="allergen-meta">Einecs: 229-352-5 / 218-827-2 / 202-759-5</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000064</td>
+                </tr>
+                <tr>
+                    <td class="col-an">38</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CEDRUS ATLANTICA OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 92201-55-3 / 8023-85-6</div>
+                        <div class="allergen-meta">Einecs: 295-985-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">39</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CINNAMOMUM CASSIA LEAF OIL</div>
+                        <div class="allergen-meta">Cas: 84961-46-6 / 8007-80-5</div>
+                        <div class="allergen-meta">Einecs: 284-635-0 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">40</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CINNAMOMUM ZEYLANICUM BARK OIL</div>
+                        <div class="allergen-meta">Cas: 8015-91-6 / 84649-98-9</div>
+                        <div class="allergen-meta">Einecs: 283-479-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">41</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRUS AURANTIUM BERGAMIA PEEL OIL</div>
+                        <div class="allergen-meta">Cas: 8007-75-8 / 89957-91-5 / 68648-33-9 / 8007-75-8 / 85049-52-1</div>
+                        <div class="allergen-meta">Einecs: 616-915-9 / 289-612-9 / - / 616-915-9 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">42</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRUS AURANTIUM FLOWER OIL</div>
+                        <div class="allergen-meta">Cas: 8016-38-4 / 72968-50-4 / 8028-48-6</div>
+                        <div class="allergen-meta">Einecs: - / 277-143-2 / 232-433-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">43</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRUS AURANTIUM PEEL OIL</div>
+                        <div class="allergen-meta">Cas: 68916-04-1 / 72968-50-4 / 97766-30-8 / 8028-48-6 / 8008-57-9</div>
+                        <div class="allergen-meta">Einecs: - / 277-143-2 / 307-891-8 / 232-433-8 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">44</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">CITRUS LIMON PEEL OIL</div>
+                        <div class="allergen-meta">Cas: 8008-56-8 / 84929-31-7</div>
+                        <div class="allergen-meta">Einecs: - / 284-515-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">45</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">DIMETHYL PHENETHYL ACETATE</div>
+                        <div class="allergen-meta">Cas: 151-05-3</div>
+                        <div class="allergen-meta">Einecs: 205-781-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">46</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EUCALYPTUS GLOBULUS OIL</div>
+                        <div class="allergen-meta">Cas: 97926-40-4 / 8000-48-4</div>
+                        <div class="allergen-meta">Einecs: 308-257-3 / 616-775-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">47</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EUGENIA CARYOPHYLLUS OIL</div>
+                        <div class="allergen-meta">Cas: 8000-34-8 / 8015-97-2 / 84961-50-2</div>
+                        <div class="allergen-meta">Einecs: 616-772-2 / - / 284-638-7</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,000081</td>
+                </tr>
+                <tr>
+                    <td class="col-an">48</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">EUGENYL ACETATE</div>
+                        <div class="allergen-meta">Cas: 93-28-7</div>
+                        <div class="allergen-meta">Einecs: 202-235-6</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">49</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">GERANYL ACETATE</div>
+                        <div class="allergen-meta">Cas: 105-87-3</div>
+                        <div class="allergen-meta">Einecs: 203-341-5</div>
+                    </td>
+                    <td class="col-percent zero-value">0,000016</td>
+                </tr>
+                <tr>
+                    <td class="col-an">50</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">HEXADECANOLACTONE</div>
+                        <div class="allergen-meta">Cas: 109-29-5</div>
+                        <div class="allergen-meta">Einecs: 203-662-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">51</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">HEXAMETHYLINDANOPYRAN</div>
+                        <div class="allergen-meta">Cas: 1222-05-5</div>
+                        <div class="allergen-meta">Einecs: 214-946-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">52</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ISOEUGENYL ACETATE</div>
+                        <div class="allergen-meta">Cas: 93-29-8</div>
+                        <div class="allergen-meta">Einecs: 202-236-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">53</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">JASMINE OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 84776-64-7 / 90045-94-6 / 8022-96-6 / 8024-43-9</div>
+                        <div class="allergen-meta">Einecs: 283-993-5 / 289-960-1 / - / 289-960-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">54</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">JUNIPERUS VIRGINIANA OIL</div>
+                        <div class="allergen-meta">Cas: 8000-27-9 / 85085-41-2</div>
+                        <div class="allergen-meta">Einecs: - / 285-370-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">55</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LAURUS NOBILIS LEAF OIL</div>
+                        <div class="allergen-meta">Cas: 8002-41-3 / 8007-48-5 / 84603-73-6</div>
+                        <div class="allergen-meta">Einecs: - / - / 283-272-5</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">56</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LAVANDULA OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 91722-69-9 / 8022-15-9 / 93455-96-0 / 93455-97-1 / 92623-76-2</div>
+                        <div class="allergen-meta">Einecs: 294-470-6 / - / - / - / 296-408-3</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0001752</td>
+                </tr>
+                <tr>
+                    <td class="col-an">57</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LEMONGRASS OIL</div>
+                        <div class="allergen-meta">Cas: 8007-02-1 / 89998-16-3 / 91844-92-7</div>
+                        <div class="allergen-meta">Einecs: - / 289-754-1 / 295-161-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">58</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LINALYL ACETATE</div>
+                        <div class="allergen-meta">Cas: 115-95-7</div>
+                        <div class="allergen-meta">Einecs: 204-116-4</div>
+                    </td>
+                    <td class="col-percent non-zero-value">0,0019926</td>
+                </tr>
+                <tr>
+                    <td class="col-an">59</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">LIPPIA CITRIODORA ABSOLUTE</div>
+                        <div class="allergen-meta">Cas: 8024-12-2 / 85116-63-8</div>
+                        <div class="allergen-meta">Einecs: 285-515-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">60</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">MENTHA PIPERITA OIL</div>
+                        <div class="allergen-meta">Cas: 8006-90-4 / 84082-70-2</div>
+                        <div class="allergen-meta">Einecs: - / 282-015-4</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">61</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">MENTHA VIRIDIS LEAF OIL</div>
+                        <div class="allergen-meta">Cas: 8008-79-5 / 84696-51-5</div>
+                        <div class="allergen-meta">Einecs: 616-927-4 / 283-656-2</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">62</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">MENTHOL</div>
+                        <div class="allergen-meta">Cas: 1490-04-6 / 2216-51-5 / 89-78-1 / 15356-70-4</div>
+                        <div class="allergen-meta">Einecs: 216-074-4 / 218-690-9 / 201-939-0 / 239-388-3</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">63</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">METHYL SALICYLATE</div>
+                        <div class="allergen-meta">Cas: 119-36-8</div>
+                        <div class="allergen-meta">Einecs: 204-317-7</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000002</td>
+                </tr>
+                <tr>
+                    <td class="col-an">64</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">MYROXYLON PEREIRAE OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 8007-00-9</div>
+                        <div class="allergen-meta">Einecs: 232-352-8</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">65</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">NARCISSUS EXTRACT</div>
+                        <div class="allergen-meta">Cas: 90064-26-9 / 68917-12-4</div>
+                        <div class="allergen-meta">Einecs: 290-087-3 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">66</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">PELARGONIUM GRAVEOLENS FLOWER OIL</div>
+                        <div class="allergen-meta">Cas: 90082-51-2 / 8000-46-2</div>
+                        <div class="allergen-meta">Einecs: 290-140-0 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">67</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">PINENE</div>
+                        <div class="allergen-meta">Cas: 80-56-8 / 7785-70-8 / 127-91-3 / 18172-67-3</div>
+                        <div class="allergen-meta">Einecs: 201-291-9 / 232-087-8 / 204-872-5 / 242-060-2</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000196</td>
+                </tr>
+                <tr>
+                    <td class="col-an">68</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">PINUS MUGO</div>
+                        <div class="allergen-meta">Cas: 90082-72-7</div>
+                        <div class="allergen-meta">Einecs: 290-163-6</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">69</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">PINUS PUMILA</div>
+                        <div class="allergen-meta">Cas: 97676-05-6</div>
+                        <div class="allergen-meta">Einecs: 307-681-6</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">70</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">POGOSTEMON CABLIN OIL</div>
+                        <div class="allergen-meta">Cas: 8014-09-3 / 84238-39-1</div>
+                        <div class="allergen-meta">Einecs: - / 282-493-4</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">71</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ROSE FLOWER OIL/EXTRACT</div>
+                        <div class="allergen-meta">Cas: 8007-01-0 / 90106-38-0 / 93334-48-6 / 84696-47-9</div>
+                        <div class="allergen-meta">Einecs: - / 290-260-3 / 297-122-1 / 283-652-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">72</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">ROSE KETONES</div>
+                        <div class="allergen-meta">Cas: 43052-87-5 / 23726-94-5 / 24720-09-0 / 23696-85-7</div>
+                        <div class="allergen-meta">Einecs: - / 245-845-8 / 246-430-4 / 245-833-2</div>
+                    </td>
+                    <td class="col-percent zero-value">0,00001</td>
+                </tr>
+                <tr>
+                    <td class="col-an">73</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">SALICYLALDEHYDE</div>
+                        <div class="allergen-meta">Cas: 90-02-8</div>
+                        <div class="allergen-meta">Einecs: 201-961-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">74</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">SANTALOL</div>
+                        <div class="allergen-meta">Cas: 11031-45-1 / 115-71-9 / 77-42-9</div>
+                        <div class="allergen-meta">Einecs: 234-262-4 / 204-102-8 / 201-027-2</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">75</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">SANTALUM ALBUM OIL</div>
+                        <div class="allergen-meta">Cas: 8006-87-9 / 84787-70-2</div>
+                        <div class="allergen-meta">Einecs: - / 284-211-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">76</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">SCLAREOL</div>
+                        <div class="allergen-meta">Cas: 515-03-7</div>
+                        <div class="allergen-meta">Einecs: 208-194-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">77</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TERPINEOL</div>
+                        <div class="allergen-meta">Cas: 8000-41-7 / 98-55-5 / 138-87-4 / 586-81-2</div>
+                        <div class="allergen-meta">Einecs: 232-268-1</div>
+                    </td>
+                    <td class="col-percent zero-value">0,000013</td>
+                </tr>
+                <tr>
+                    <td class="col-an">78</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TERPINOLENE</div>
+                        <div class="allergen-meta">Cas: 586-62-9</div>
+                        <div class="allergen-meta">Einecs: 209-578-0</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000028</td>
+                </tr>
+                <tr>
+                    <td class="col-an">79</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TETRAMETHYL ACETYLOCTAHYDRONAPHTHALENES</div>
+                        <div class="allergen-meta">Cas: 54464-57-2 / 54464-59-4 / 68155-66-8 / 68155-67-9</div>
+                        <div class="allergen-meta">Einecs: 259-174-3 / 259-175-9 / 268-978-3 / 268-979-9</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">80</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TRIMETHYLBENZENEPROPANOL</div>
+                        <div class="allergen-meta">Cas: 103694-68-4</div>
+                        <div class="allergen-meta">Einecs: 403-140-4</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">81</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TRIMETHYLCYCLOPENTENYL METHYLISOPENTENOL</div>
+                        <div class="allergen-meta">Cas: 67801-20-1</div>
+                        <div class="allergen-meta">Einecs: 267-140-4</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+                <tr>
+                    <td class="col-an">82</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">TURPENTINE</div>
+                        <div class="allergen-meta">Cas: 8006-64-2 / 9005-90-7 / 8052-14-0</div>
+                        <div class="allergen-meta">Einecs: 232-350-7 / 232-688-5 / -</div>
+                    </td>
+                    <td class="col-percent zero-value">0,0000052</td>
+                </tr>
+                <tr>
+                    <td class="col-an">83</td>
+                    <td class="allergen-cell">
+                        <div class="allergen-name">VANILLIN</div>
+                        <div class="allergen-meta">Cas: 121-33-5</div>
+                        <div class="allergen-meta">Einecs: 204-465-2</div>
+                    </td>
+                    <td class="col-percent zero-value">0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-info">
+            <span>13/03/2026</span>
+            <span>Database: BeautyLab</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Allergens Composition Document Loaded');
+            console.log('Product: MIST SKIN');
+            console.log('Total Allergens Listed: 83');
+            
+            // Count non-zero allergens
+            const nonZeroAllergens = document.querySelectorAll('.non-zero-value');
+            console.log('Allergens present (>0):', nonZeroAllergens.length);
+        });
+    </script>
+</body>
+</html>

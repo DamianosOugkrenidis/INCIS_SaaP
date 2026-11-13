@@ -1,0 +1,47 @@
+CHANGED / ADDED FILES — ALL_INCIS_NEW_FILE release (2026-10-20)
+================================================================
+
+ΚΩΔΙΚΑΣ (INCIS_SaaP/)
+----------------------
+MODIFIED  Models/INCI.cs
+          + Origin, Restriction, ToxicologicalProfile, FullName, DataSource, ImportedAt
+          ~ Name 200->500, CASNumber/ECNumber 100->200
+MODIFIED  Data/INCISDbContext.cs
+          ~ INCI.Name max length 500
+MODIFIED  Program.cs
+          + DI: IInciCatalogImportService -> InciCatalogImportService
+ADDED     Services/InciCatalogImportService.cs
+          Importer ALL_INCIS_NEW_FILE (.xls/.xlsx), lossless + idempotent upsert
+ADDED     Dtos/InciCatalogImportResult.cs
+MODIFIED  Controllers/ImportController.cs
+          + POST InciCatalog (Admin/SuperUser), POST SeedInciCatalog (Admin/SuperUser)
+MODIFIED  Controllers/INCIsController.cs
+          ~ Αναζήτηση Index/AdvanceSearch περιλαμβάνει και FullName
+
+MIGRATIONS (INCIS_SaaP/Migrations/)
+-----------------------------------
+ADDED  20261020132411_AddInciCatalogFields.cs (+ .Designer.cs)
+ADDED  20261020133742_EnlargeInciCatalogFields.cs (+ .Designer.cs)
+ADDED  20261020141235_AddInciFullName.cs (+ .Designer.cs)
+MODIFIED INCISDbContextModelSnapshot.cs
+DEPENDENCY  ExcelDataReader 3.7.0 (INCIS_SaaP.csproj)
+
+TESTS (INCIS_SaaP.Tests/)
+-------------------------
+ADDED  Services/InciCatalogImportServiceTests.cs          (9 tests)
+MODIFIED Controllers/INCIsControllerTests.cs              (+ FullName search test)
+ADDED  Controllers/ImportControllerAuthorizationTests.cs  (3 tests)
+
+SQL / DOCS (Database/Scripts/)
+------------------------------
+ADDED  01_verify_legacy_sources.sql
+ADDED  02_import_all_incis.sql
+ADDED  03_post_import_checks.sql
+ADDED  04_migrations_up.sql          (generated, idempotent)
+ADDED  05_migrations_down.sql        (generated rollback)
+ADDED  DEPLOYMENT_AND_ROLLBACK.md
+
+REMOVED
+-------
+Database/Scripts/02_purge_legacy_xls_data.sql
+          (περιττό: επιβεβαιώθηκε 0 γραμμές προς διαγραφή)

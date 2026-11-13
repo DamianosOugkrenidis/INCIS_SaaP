@@ -1,0 +1,10 @@
+﻿established_connections=29
+remote_port=443 count=21
+remote_port=4096 count=2
+remote_port=49677 count=1
+remote_port=49367 count=1
+remote_port=49989 count=1
+remote_port=49678 count=1
+remote_port=49679 count=1
+remote_port=49676 count=1
+listening_80_443_5000_8080=1

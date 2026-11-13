@@ -1,0 +1,84 @@
+@model INCIS_SaaP.Models.NaturalCertification
+@{
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Φυσική Πιστοποίηση · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@Model.FormulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Φυσική Πιστοποίηση</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-leaf"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Φυσική Πιστοποίηση <span class="erp-badge erp-badge-success ms-2">FORM2</span></h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <form asp-action="NaturalSave" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FormulaId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="CertificationType" class="form-label fw-semibold">Τύπος Πιστοποίησης</label>
+                            <input asp-for="CertificationType" class="form-control" placeholder="π.χ. COSMOS, Natrue" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CertifyingBody" class="form-label fw-semibold">Φορέας Πιστοποίησης</label>
+                            <input asp-for="CertifyingBody" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="CertificationLevel" class="form-label fw-semibold">Επίπεδο</label>
+                            <input asp-for="CertificationLevel" class="form-control" placeholder="π.χ. Natural, Organic" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="NaturalPercentage" class="form-label fw-semibold">% Φυσικής Προέλευσης</label>
+                            <input asp-for="NaturalPercentage" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="OrganicPercentage" class="form-label fw-semibold">% Βιολογικό</label>
+                            <input asp-for="OrganicPercentage" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CertificationDate" class="form-label fw-semibold">Ημ/νία Πιστοποίησης</label>
+                            <input asp-for="CertificationDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ExpiryDate" class="form-label fw-semibold">Ημ/νία Λήξης</label>
+                            <input asp-for="ExpiryDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="CertifiedIngredients" class="form-label fw-semibold">Πιστοποιημένα Συστατικά</label>
+                            <input asp-for="CertifiedIngredients" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Notes" class="form-label fw-semibold">Σημειώσεις</label>
+                            <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-action="Manage" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

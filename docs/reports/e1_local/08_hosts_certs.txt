@@ -1,0 +1,2 @@
+﻿hosts entries mentioning INCIS:
+local_machine_certs_incis=0

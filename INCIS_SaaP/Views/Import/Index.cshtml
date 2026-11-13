@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Εισαγωγή Δεδομένων";
+    var types = new[]
+    {
+        ("Clients", "Πελάτες", "fa-handshake", "rgba(155,89,182,.12)", "var(--erp-accent)", "Name, Code, Address, Email, Phone, AFM, DOY, ContactPerson..."),
+        ("Suppliers", "Προμηθευτές", "fa-truck", "rgba(245,158,11,.12)", "var(--erp-warning)", "Name, Address, Email, Phone, AFM, DOY, Comments"),
+        ("INCIs", "Συστατικά INCI", "fa-atom", "rgba(59,130,246,.12)", "var(--erp-info)", "Name, CASNumber, ECNumber, Function, Synonyms, Description"),
+        ("RawMaterials", "Πρώτες Ύλες", "fa-cubes", "rgba(16,185,129,.12)", "var(--erp-success)", "Code, ProductName, SupplierName, Category, Price, NaturalOriginPercentage..."),
+        ("Formulas", "Φόρμουλες", "fa-flask", "var(--erp-gradient-soft)", "var(--erp-primary)", "FormulaCode, ProductName, FormulaName, Version, ProductType, ClientName...")
+    };
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Εισαγωγή</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-file-import"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Μαζική Εισαγωγή Δεδομένων</h1>
+        <div class="erp-page-header-subtitle">Ανεβάστε αρχείο Excel (.xlsx) για μαζική εισαγωγή. Κατεβάστε πρώτα το πρότυπο.</div>
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in mb-3">
+    <div class="erp-card-body">
+        <div class="alert alert-info mb-0">
+            <i class="fas fa-circle-info me-2"></i>
+            <strong>Οδηγίες:</strong> 1) Κατεβάστε το πρότυπο, 2) συμπληρώστε τα δεδομένα (η στήλη με <strong>*</strong> είναι υποχρεωτική),
+            3) ανεβάστε το αρχείο. Πατήστε <strong>Προεπισκόπηση</strong> για έλεγχο ή <strong>Άμεση Εισαγωγή</strong> για αποθήκευση.
+            Οι διπλότυπες και μη έγκυρες γραμμές παραλείπονται αυτόματα.
+            <br /><small class="text-muted">Για Πρώτες Ύλες/Φόρμουλες, τα πεδία <strong>SupplierName</strong> / <strong>ClientName</strong> αντιστοιχίζονται με βάση το όνομα σε υπάρχουσα εγγραφή· αν δεν βρεθεί, η γραμμή εισάγεται χωρίς τη συσχέτιση.</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    @foreach (var (key, label, icon, bg, color, cols) in types)
+    {
+        <div class="col-lg-4">
+            <div class="erp-card h-100">
+                <div class="erp-card-body">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="erp-stat-icon" style="background: @bg; color: @color; margin-bottom:0;">
+                            <i class="fas @icon"></i>
+                        </div>
+                        <div>
+                            <div class="fw-semibold text-body fs-5">@label</div>
+                            <a asp-action="Template" asp-route-type="@key" class="small text-decoration-none">
+                                <i class="fas fa-download me-1"></i>Κατέβασμα προτύπου Excel
+                            </a>
+                        </div>
+                    </div>
+                    <p class="small text-muted mb-3"><strong>Στήλες:</strong> @cols</p>
+
+                    <form asp-action="Preview" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="type" value="@key" />
+                        <div class="mb-2">
+                            <input type="file" name="file" accept=".xlsx" class="form-control form-control-sm" required />
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" formaction="@Url.Action("Preview")" class="btn btn-erp-secondary btn-sm flex-grow-1">
+                                <i class="fas fa-eye me-1"></i>Προεπισκόπηση
+                            </button>
+                            <button type="submit" formaction="@Url.Action("Commit")" class="btn btn-erp-primary btn-sm flex-grow-1"
+                                    onclick="return confirm('Οριστική εισαγωγή @label; Οι έγκυρες γραμμές θα αποθηκευτούν.');">
+                                <i class="fas fa-file-import me-1"></i>Άμεση Εισαγωγή
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="erp-card erp-fade-in mt-3">
+    <div class="erp-card-body">
+        <div class="fw-semibold mb-2"><i class="fas fa-pen-to-square me-2"></i>Χειροκίνητη καταχώρηση</div>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-controller="Clients" asp-action="Create" class="btn btn-sm btn-outline-secondary">Νέος Πελάτης</a>
+            <a asp-controller="Suppliers" asp-action="Create" class="btn btn-sm btn-outline-secondary">Νέος Προμηθευτής</a>
+            <a asp-controller="INCIs" asp-action="Create" class="btn btn-sm btn-outline-secondary">Νέο Συστατικό INCI</a>
+            <a asp-controller="RawMaterials" asp-action="Create" class="btn btn-sm btn-outline-secondary">Νέα Πρώτη Ύλη</a>
+            <a asp-controller="Formulas" asp-action="Create" class="btn btn-sm btn-outline-secondary">Νέα Φόρμουλα</a>
+        </div>
+    </div>
+</div>

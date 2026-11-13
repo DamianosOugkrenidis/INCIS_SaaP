@@ -1,0 +1,522 @@
+@*
+    FORM11 - Summarized Toxicological Profile Document
+    Author: Damianos Pythagoras Ougkrenidis
+*@
+@model INCIS_SaaP.Dtos.ToxicologicalProfileDocumentViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FORM11 - Toxicological Profile - @Model.FormulaCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --doc-primary: #4a148c;
+            --doc-primary-light: #7b1fa2;
+            --doc-accent: #e040fb;
+            --doc-success: #2e7d32;
+            --doc-warning: #e65100;
+            --doc-danger: #b71c1c;
+            --doc-bg: #f8f9fa;
+            --doc-card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        * {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--doc-bg);
+            color: #212121;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .document-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Header ── */
+        .doc-header {
+            background: linear-gradient(135deg, var(--doc-primary) 0%, var(--doc-primary-light) 50%, #ce93d8 100%);
+            color: #fff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(74,20,140,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-header::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -15%;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .doc-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(224,64,251,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .doc-header .form-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .doc-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .doc-header .subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-meta-item .label {
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            font-size: 9px;
+        }
+
+        .header-meta-item .value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* ── Cards ── */
+        .doc-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--doc-card-shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .doc-card-header {
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #f3e5f5;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e5f5 100%);
+        }
+
+        .doc-card-header i {
+            color: var(--doc-primary-light);
+            font-size: 16px;
+        }
+
+        .doc-card-body {
+            padding: 20px;
+        }
+
+        /* ── Safety Conclusion Badge ── */
+        .safety-conclusion {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 24px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .safety-conclusion.safe {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border: 2px solid #66bb6a;
+        }
+
+        .safety-conclusion.unsafe {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border: 2px solid #ef5350;
+        }
+
+        .safety-conclusion .icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .safety-conclusion.safe .icon-wrap {
+            background: var(--doc-success);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(46,125,50,0.3);
+        }
+
+        .safety-conclusion.unsafe .icon-wrap {
+            background: var(--doc-danger);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(183,28,28,0.3);
+        }
+
+        .safety-conclusion .text-wrap h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .safety-conclusion.safe .text-wrap h3 { color: var(--doc-success); }
+        .safety-conclusion.unsafe .text-wrap h3 { color: var(--doc-danger); }
+
+        .safety-conclusion .text-wrap p {
+            margin: 4px 0 0 0;
+            font-size: 12px;
+            color: #616161;
+        }
+
+        /* ── Table ── */
+        .doc-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 11px;
+        }
+
+        .doc-table thead th {
+            background: linear-gradient(180deg, #311b92, #4527a0);
+            color: #fff;
+            padding: 10px 6px;
+            font-weight: 600;
+            font-size: 9.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .doc-table thead th:first-child { border-radius: 8px 0 0 0; }
+        .doc-table thead th:last-child { border-radius: 0 8px 0 0; }
+
+        .doc-table tbody td {
+            padding: 8px 6px;
+            border-bottom: 1px solid #eceff1;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .doc-table tbody tr:hover {
+            background: #faf5ff;
+        }
+
+        .doc-table tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+        .doc-table tbody tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+
+        /* ── MoS Indicators ── */
+        .mos-safe {
+            background: #e8f5e9;
+            color: var(--doc-success);
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .mos-marginal {
+            background: #fff3e0;
+            color: var(--doc-warning);
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .mos-unsafe {
+            background: #ffebee;
+            color: var(--doc-danger);
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .status-safe {
+            color: var(--doc-success);
+            font-size: 15px;
+        }
+
+        .status-unsafe {
+            color: var(--doc-danger);
+            font-size: 15px;
+        }
+
+        /* ── Footer ── */
+        .doc-footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 10px;
+            color: #9e9e9e;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 24px;
+        }
+
+        /* ── Print ── */
+        .print-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-primary-light));
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(74,20,140,0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(74,20,140,0.4);
+        }
+
+        @@media print {
+            body { background: #fff; }
+            .print-bar { display: none !important; }
+            .document-container { max-width: 100%; padding: 0; margin: 0; }
+            .doc-header { box-shadow: none; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .doc-card { box-shadow: none; border: 1px solid #e0e0e0; break-inside: avoid; }
+            .doc-table thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .mos-safe, .mos-marginal, .mos-unsafe { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .safety-conclusion { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+
+        <!-- Print Button -->
+        <div class="print-bar">
+            <button class="btn-print" onclick="window.print()">
+                <i class="fas fa-print me-2"></i>Print Document
+            </button>
+        </div>
+
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="form-badge">FORM11</div>
+            <h1><i class="fas fa-shield-virus me-2"></i>Summarized Toxicological Profile</h1>
+            <div class="subtitle">Margin of Safety (MoS) assessment for cosmetic product formulation</div>
+            <div class="header-meta">
+                <div class="header-meta-item">
+                    <div class="label">Formula Code</div>
+                    <div class="value">@Model.FormulaCode</div>
+                </div>
+                <div class="header-meta-item">
+                    <div class="label">Product Name</div>
+                    <div class="value">@Model.ProductName</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ProductType))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Product Type</div>
+                        <div class="value">@Model.ProductType</div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.ClientName))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Client</div>
+                        <div class="value">@Model.ClientName</div>
+                    </div>
+                }
+                <div class="header-meta-item">
+                    <div class="label">Generated</div>
+                    <div class="value">@Model.GeneratedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Version))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Version</div>
+                        <div class="value">@Model.Version</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Safety Conclusion -->
+        <div class="safety-conclusion @(Model.IsOverallSafe ? "safe" : "unsafe")">
+            <div class="icon-wrap">
+                <i class="fas @(Model.IsOverallSafe ? "fa-shield-halved" : "fa-triangle-exclamation")"></i>
+            </div>
+            <div class="text-wrap">
+                <h3>
+                    @if (Model.IsOverallSafe)
+                    {
+                        <span>Overall Assessment: SAFE</span>
+                    }
+                    else
+                    {
+                        <span>Overall Assessment: REQUIRES REVIEW</span>
+                    }
+                </h3>
+                <p>
+                    @if (!string.IsNullOrEmpty(Model.SafetyConclusion))
+                    {
+                        @Model.SafetyConclusion
+                    }
+                    else
+                    {
+                        <text>All ingredients have been evaluated for their toxicological safety profile based on Margin of Safety calculations.</text>
+                    }
+                </p>
+            </div>
+        </div>
+
+        <!-- Toxicological Table -->
+        <div class="doc-card">
+            <div class="doc-card-header">
+                <i class="fas fa-table"></i>
+                Ingredient Toxicological Data
+                <span class="ms-auto" style="font-size: 10px; font-weight: 400; color: #9e9e9e;">
+                    MoS &ge; 100 = Safe &nbsp;|&nbsp; MoS 50-100 = Marginal &nbsp;|&nbsp; MoS &lt; 50 = Unsafe
+                </span>
+            </div>
+            <div class="doc-card-body" style="padding: 0; overflow-x: auto;">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th style="width:35px">A/N</th>
+                            <th style="text-align:left; min-width:160px;">INCI Name</th>
+                            <th>CAS</th>
+                            <th style="text-align:left">Function</th>
+                            <th>% w/w</th>
+                            <th>NOAEL<br/><small style="font-weight:400;opacity:0.7">mg/kg/day</small></th>
+                            <th>SED<br/><small style="font-weight:400;opacity:0.7">mg/kg/day</small></th>
+                            <th>MoS</th>
+                            <th>Category</th>
+                            <th style="width:45px">Safe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Ingredients)
+                        {
+                            var mosClass = "mos-safe";
+                            if (item.MoS.HasValue)
+                            {
+                                if (item.MoS.Value < 50) mosClass = "mos-unsafe";
+                                else if (item.MoS.Value < 100) mosClass = "mos-marginal";
+                            }
+
+                            <tr>
+                                <td style="font-weight:600; color:#78909c;">@item.Order</td>
+                                <td style="text-align:left; font-weight:500; font-style:italic;">@item.InciName</td>
+                                <td style="font-size:10px; color:#78909c;">@(item.CASNumber ?? "—")</td>
+                                <td style="text-align:left; font-size:10.5px;">@(item.Function ?? "—")</td>
+                                <td style="font-weight:600;">@(item.Percentage?.ToString("F4") ?? "—")</td>
+                                <td>@(item.NOAEL?.ToString("F2") ?? "N/A")</td>
+                                <td>@(item.SED?.ToString("F4") ?? "N/A")</td>
+                                <td>
+                                    @if (item.MoS.HasValue)
+                                    {
+                                        <span class="@mosClass">@item.MoS.Value.ToString("F1")</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#bdbdbd;">N/A</span>
+                                    }
+                                </td>
+                                <td style="font-size:10px;">@(item.ToxicologicalCategory ?? "—")</td>
+                                <td>
+                                    <i class="fas @(item.IsSafe ? "fa-check-circle status-safe" : "fa-times-circle status-unsafe")"></i>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="doc-card">
+            <div class="doc-card-header">
+                <i class="fas fa-info-circle"></i>
+                Reference Information
+            </div>
+            <div class="doc-card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p style="font-size: 11px; margin: 0;"><strong>NOAEL</strong> &mdash; No Observed Adverse Effect Level</p>
+                        <p style="font-size: 10px; color: #757575; margin: 4px 0 0 0;">The highest dose at which no adverse effects are observed (mg/kg bw/day).</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p style="font-size: 11px; margin: 0;"><strong>SED</strong> &mdash; Systemic Exposure Dose</p>
+                        <p style="font-size: 10px; color: #757575; margin: 4px 0 0 0;">The estimated daily systemic exposure from the cosmetic product (mg/kg bw/day).</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p style="font-size: 11px; margin: 0;"><strong>MoS</strong> &mdash; Margin of Safety</p>
+                        <p style="font-size: 10px; color: #757575; margin: 4px 0 0 0;">MoS = NOAEL / SED. Values &ge; 100 are considered safe per SCCS guidelines.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            <strong>INCIS SaaP</strong> &mdash; Summarized Toxicological Profile (FORM11) &mdash;
+            Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+            Assessment based on SCCS Notes of Guidance (11th Revision).
+        </div>
+
+    </div>
+</body>
+</html>

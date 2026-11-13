@@ -1,0 +1,50 @@
+# Dockerignore for INCIS SaaP
+# ΣΗΜΑΝΤΙΚΟ: το .dockerignore ΔΕΝ υποστηρίζει bracket globs ([Bb]in).
+# Πρέπει να αποκλείσουμε ρητά bin/obj σε ΟΛΑ τα projects, αλλιώς το
+# obj/*.nuget.g.props διαρρέει Windows paths μέσα στο Linux build.
+**/bin/
+**/obj/
+bin/
+obj/
+*.user
+*.vspscc
+*.vssscc
+*.csproj.user
+*.pidb
+*.suo
+*.userosscache
+*.sln.docstates
+[Bb]in
+[Oo]bj
+[Ll]og
+[Ll]ogs
+*.[Ll]og
+*.[Ll]ogs
+__pycache__
+*.py[cod]
+*$py.class
+*.coverage
+.coverage*
+!.coverage*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.git
+.gitignore
+.gitmodules
+.gitattributes
+README.md
+LICENSE
+LICENSE.txt
+Dockerfile
+docker-compose.yml
+.dockerignore
+.env
+.env.*
+!appsettings.json
+!appsettings.Development.json
+!appsettings.Production.json
+!appsettings.Staging.json
+!appsettings.Testing.json

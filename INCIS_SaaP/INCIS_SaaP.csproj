@@ -1,0 +1,92 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+    <Title>INCIS SaaP</Title>
+    <Description>Cosmetic Formula Management System</Description>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="INCIS_SaaP.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Core Packages -->
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.5.3" />
+    <PackageReference Include="Azure.Extensions.AspNetCore.DataProtection.Keys" Version="1.6.3" />
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="ClosedXML" Version="0.105.1" />
+    <PackageReference Include="ExcelDataReader" Version="3.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.22" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.12" />
+    
+    <!-- Security & Identity -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="9.0.22" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="9.0.22" />
+    
+    <!-- API Documentation -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Otp.NET" Version="1.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+    
+    <!-- Logging -->
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    
+    <!-- Caching (SQL Server distributed cache - χρησιμοποιεί την υπάρχουσα βάση) -->
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="9.0.22" />
+    
+    <!-- Health Checks -->
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.22" />
+    
+    <!-- Observability -->
+    <PackageReference Include="OpenTelemetry.Api" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.10.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.10.0-beta.1" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.10.0" />
+    
+    <!-- API Versioning -->
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    
+    <!-- Serilog enrichers -->
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    
+    <!-- Validation -->
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    
+    <!-- PDF Generation -->
+    <PackageReference Include="QuestPDF" Version="2024.10.2" />
+    
+    <!-- QR Code Generation -->
+    <PackageReference Include="QRCoder" Version="1.6.0" />
+    
+    <!-- Background Jobs -->
+    <PackageReference Include="Hangfire.Core" Version="1.8.14" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+    
+    <!-- ML & AI -->
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.Recommender" Version="0.21.1" />
+    
+    <!-- Resilience (Polly-style built into .NET 8+) -->
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Resilience" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

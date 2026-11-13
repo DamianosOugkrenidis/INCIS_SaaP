@@ -1,0 +1,493 @@
+@*
+    FORM14 - Qualitative & Quantitative Composition Document
+    Author: Damianos Pythagoras Ougkrenidis
+*@
+@model INCIS_SaaP.Dtos.QualitativeQuantitativeDocumentViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FORM14 - Qualitative &amp; Quantitative Composition - @Model.FormulaCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --doc-primary: #bf360c;
+            --doc-primary-light: #d84315;
+            --doc-accent: #ff7043;
+            --doc-accent-light: #ffab91;
+            --doc-bg: #faf8f7;
+            --doc-card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        }
+
+        * {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--doc-bg);
+            color: #212121;
+            font-size: 12.5px;
+            line-height: 1.5;
+        }
+
+        .document-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Header ── */
+        .doc-header {
+            background: linear-gradient(135deg, var(--doc-primary) 0%, var(--doc-primary-light) 50%, var(--doc-accent) 100%);
+            color: #fff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(191,54,12,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-header::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -15%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .doc-header::after {
+            content: '';
+            position: absolute;
+            bottom: -35%;
+            left: 10%;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255,112,67,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .doc-header .form-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .doc-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .doc-header .subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-meta-item .label {
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            font-size: 9px;
+        }
+
+        .header-meta-item .value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* ── Raw Material Card ── */
+        .rm-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: var(--doc-card-shadow);
+            margin-bottom: 18px;
+            overflow: hidden;
+            border: 1px solid #f5e0d8;
+            break-inside: avoid;
+        }
+
+        .rm-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #fff5f0 0%, #fbe9e7 100%);
+            border-bottom: 1px solid #ffccbc;
+        }
+
+        .rm-order {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-accent));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 3px 8px rgba(191,54,12,0.25);
+        }
+
+        .rm-info {
+            flex: 1;
+        }
+
+        .rm-info .rm-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #212121;
+            margin: 0;
+        }
+
+        .rm-info .rm-code {
+            font-size: 11px;
+            color: #78909c;
+            font-weight: 500;
+        }
+
+        .rm-percentage {
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-primary-light));
+            color: #fff;
+            padding: 6px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            box-shadow: 0 3px 10px rgba(191,54,12,0.2);
+            white-space: nowrap;
+        }
+
+        .rm-percentage small {
+            font-weight: 500;
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        /* ── Sub-Ingredients Table ── */
+        .sub-table-wrap {
+            padding: 12px 16px 16px;
+        }
+
+        .sub-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 11px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eceff1;
+        }
+
+        .sub-table thead th {
+            background: linear-gradient(180deg, #455a64, #546e7a);
+            color: #fff;
+            padding: 8px 8px;
+            font-weight: 600;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .sub-table tbody td {
+            padding: 7px 8px;
+            border-bottom: 1px solid #eceff1;
+            vertical-align: middle;
+        }
+
+        .sub-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sub-table tbody tr:hover {
+            background: #fff8f5;
+        }
+
+        .restriction-badge {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 600;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .no-subs {
+            padding: 14px 20px;
+            color: #bdbdbd;
+            font-style: italic;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* ── Grand Total ── */
+        .grand-total-card {
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-primary-light), var(--doc-accent));
+            color: #fff;
+            border-radius: 14px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 24px rgba(191,54,12,0.25);
+        }
+
+        .grand-total-card h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .grand-total-card .total-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .grand-total-card .total-value small {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        /* ── Footer ── */
+        .doc-footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 10px;
+            color: #9e9e9e;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 24px;
+        }
+
+        /* ── Print ── */
+        .print-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-accent));
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(191,54,12,0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(191,54,12,0.4);
+        }
+
+        @@media print {
+            body { background: #fff; }
+            .print-bar { display: none !important; }
+            .document-container { max-width: 100%; padding: 0; margin: 0; }
+            .doc-header { box-shadow: none; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .rm-card { box-shadow: none; break-inside: avoid; }
+            .rm-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .rm-order { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .rm-percentage { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .sub-table thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .grand-total-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .restriction-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+
+        <!-- Print Button -->
+        <div class="print-bar">
+            <button class="btn-print" onclick="window.print()">
+                <i class="fas fa-print me-2"></i>Print Document
+            </button>
+        </div>
+
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="form-badge">FORM14</div>
+            <h1><i class="fas fa-flask me-2"></i>Qualitative &amp; Quantitative Composition</h1>
+            <div class="subtitle">Detailed raw material breakdown with sub-ingredient composition</div>
+            <div class="header-meta">
+                <div class="header-meta-item">
+                    <div class="label">Formula Code</div>
+                    <div class="value">@Model.FormulaCode</div>
+                </div>
+                <div class="header-meta-item">
+                    <div class="label">Product Name</div>
+                    <div class="value">@Model.ProductName</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ProductType))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Product Type</div>
+                        <div class="value">@Model.ProductType</div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.ClientName))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Client</div>
+                        <div class="value">@Model.ClientName</div>
+                    </div>
+                }
+                <div class="header-meta-item">
+                    <div class="label">Generated</div>
+                    <div class="value">@Model.GeneratedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Version))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Version</div>
+                        <div class="value">@Model.Version</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Raw Material Cards -->
+        @foreach (var rm in Model.RawMaterials)
+        {
+            <div class="rm-card">
+                <!-- RM Header -->
+                <div class="rm-card-header">
+                    <div class="rm-order">@rm.Order</div>
+                    <div class="rm-info">
+                        <p class="rm-name">@rm.RawMaterialName</p>
+                        <span class="rm-code"><i class="fas fa-barcode me-1"></i>@rm.RawMaterialCode</span>
+                        @if (!string.IsNullOrEmpty(rm.PrismaCode))
+                        {
+                            <span class="rm-code"><i class="fas fa-hashtag me-1"></i>Prisma: @rm.PrismaCode</span>
+                        }
+                    </div>
+                    <div class="rm-percentage">
+                        @rm.Percentage.ToString("F4") <small>% w/w</small>
+                    </div>
+                </div>
+
+                <!-- Sub-Ingredients Table -->
+                @if (rm.SubIngredients.Any())
+                {
+                    <div class="sub-table-wrap">
+                        <table class="sub-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:left; min-width:140px;">INCI Name</th>
+                                    <th>CAS</th>
+                                    <th>EC</th>
+                                    <th style="text-align:left">Function</th>
+                                    <th>Min %</th>
+                                    <th>Max %</th>
+                                    <th>Calc. %</th>
+                                    <th style="text-align:left">Restriction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var sub in rm.SubIngredients)
+                                {
+                                    <tr>
+                                        <td style="text-align:left; font-weight:500; font-style:italic;">@sub.InciName</td>
+                                        <td style="text-align:center; font-size:10px; color:#78909c;">@(sub.CASNumber ?? "—")</td>
+                                        <td style="text-align:center; font-size:10px; color:#78909c;">@(sub.ECNumber ?? "—")</td>
+                                        <td style="text-align:left; font-size:10.5px;">@(sub.Function ?? "—")</td>
+                                        <td style="text-align:center;">@(sub.MinPercentage?.ToString("F2") ?? "—")</td>
+                                        <td style="text-align:center;">@(sub.MaxPercentage?.ToString("F2") ?? "—")</td>
+                                        <td style="text-align:center; font-weight:600;">@(sub.CalculatedPercentage?.ToString("F4") ?? "—")</td>
+                                        <td style="text-align:left;">
+                                            @if (!string.IsNullOrEmpty(sub.Restriction))
+                                            {
+                                                <span class="restriction-badge" title="@sub.Restriction">@sub.Restriction</span>
+                                            }
+                                            else
+                                            {
+                                                <span style="color:#bdbdbd;">—</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="no-subs">
+                        <i class="fas fa-info-circle me-1"></i>No sub-ingredient data available
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Grand Total -->
+        <div class="grand-total-card">
+            <div>
+                <h3><i class="fas fa-sigma me-2"></i>Grand Total</h3>
+                <p style="margin: 4px 0 0 0; opacity: 0.8; font-size: 12px;">
+                    Sum of all @Model.RawMaterials.Count raw materials
+                </p>
+            </div>
+            <div class="total-value">
+                @Model.TotalPercentage.ToString("F4") <small>% w/w</small>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            <strong>INCIS SaaP</strong> &mdash; Qualitative &amp; Quantitative Composition (FORM14) &mdash;
+            Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+            This document is confidential and intended for regulatory compliance purposes.
+        </div>
+
+    </div>
+</body>
+</html>

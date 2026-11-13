@@ -1,0 +1,116 @@
+@model INCIS_SaaP.Models.Client
+@{
+    ViewData["Title"] = "Λεπτομέρειες Πελάτη";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Πελάτες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.Name</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-handshake"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@Model.Name</h1>
+        <div class="erp-page-header-subtitle">
+            @if (!string.IsNullOrEmpty(Model.Code)) { <span class="erp-badge erp-badge-primary"><i class="fas fa-hashtag"></i>@Model.Code</span> }
+            @if (Model.IsActive) { <span class="erp-badge erp-badge-success ms-1"><i class="fas fa-check"></i>Ενεργός</span> }
+            else { <span class="erp-badge erp-badge-secondary ms-1">Ανενεργός</span> }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+    </div>
+</div>
+
+<div class="erp-card mb-3 erp-fade-in">
+    <div class="erp-card-header"><h3><i class="fas fa-id-card text-erp-primary"></i> Στοιχεία Επικοινωνίας</h3></div>
+    <div class="erp-card-body">
+        <div class="erp-info-grid">
+            <div class="erp-info-item">
+                <span class="erp-info-label">Όνομα</span>
+                <span class="erp-info-value">@Model.Name</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Κωδικός</span>
+                <span class="erp-info-value @(string.IsNullOrEmpty(Model.Code) ? "empty" : "")">@(Model.Code ?? "—")</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Email</span>
+                <span class="erp-info-value">
+                    @if (!string.IsNullOrEmpty(Model.Email)) { <a href="mailto:@Model.Email">@Model.Email</a> } else { <span class="empty">—</span> }
+                </span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Τηλέφωνο</span>
+                <span class="erp-info-value">
+                    @if (!string.IsNullOrEmpty(Model.Phone)) { <a href="tel:@Model.Phone">@Model.Phone</a> } else { <span class="empty">—</span> }
+                </span>
+            </div>
+            <div class="erp-info-item" style="grid-column: 1/-1;">
+                <span class="erp-info-label">Διεύθυνση</span>
+                <span class="erp-info-value @(string.IsNullOrEmpty(Model.Address) ? "empty" : "")">@(Model.Address ?? "—")</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Υπεύθυνος Επικοινωνίας</span>
+                <span class="erp-info-value @(string.IsNullOrEmpty(Model.ContactPerson) ? "empty" : "")">@(Model.ContactPerson ?? "—")</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Email Επικοινωνίας</span>
+                <span class="erp-info-value @(string.IsNullOrEmpty(Model.ContactEmail) ? "empty" : "")">@(Model.ContactEmail ?? "—")</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Τηλέφωνο Επικοινωνίας</span>
+                <span class="erp-info-value @(string.IsNullOrEmpty(Model.ContactPhone) ? "empty" : "")">@(Model.ContactPhone ?? "—")</span>
+            </div>
+            <div class="erp-info-item">
+                <span class="erp-info-label">Δημιουργήθηκε</span>
+                <span class="erp-info-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Formulas != null && Model.Formulas.Any())
+{
+    <div class="erp-card erp-fade-in">
+        <div class="erp-card-header">
+            <h3><i class="fas fa-flask text-erp-primary"></i> Σχετικές Φόρμουλες</h3>
+            <span class="erp-badge erp-badge-primary ms-2">@Model.Formulas.Count</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Κωδικός</th>
+                        <th>Όνομα</th>
+                        <th class="d-none d-md-table-cell">Τύπος</th>
+                        <th class="d-none d-md-table-cell">Δημιουργία</th>
+                        <th class="text-end">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var formula in Model.Formulas.OrderByDescending(f => f.CreationDate))
+                    {
+                        <tr>
+                            <td><span class="erp-badge erp-badge-primary">@formula.FormulaCode</span></td>
+                            <td class="fw-semibold">@(formula.FormulaName ?? formula.ProductName ?? "—")</td>
+                            <td class="d-none d-md-table-cell">@(formula.ProductType ?? "—")</td>
+                            <td class="d-none d-md-table-cell"><small class="text-muted">@(formula.CreationDate?.ToString("dd/MM/yyyy") ?? "—")</small></td>
+                            <td class="text-end">
+                                <a asp-controller="Formulas" asp-action="Details" asp-route-id="@formula.Id" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

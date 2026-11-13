@@ -1,0 +1,2 @@
+﻿dir=C:\inetpub\logs\LogFiles files=0
+dir=C:\inetpub\logs files=0

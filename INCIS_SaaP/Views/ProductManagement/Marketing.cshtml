@@ -1,0 +1,88 @@
+@model INCIS_SaaP.Models.MarketingInfo
+@{
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Πληροφορίες Marketing · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@Model.FormulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Πληροφορίες Marketing</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-bullhorn"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Πληροφορίες Marketing <span class="erp-badge erp-badge-primary ms-2">FORM6</span></h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-9">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <form asp-action="MarketingSave" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FormulaId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="ProductName" class="form-label fw-semibold">Εμπορική Ονομασία</label>
+                            <input asp-for="ProductName" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="TargetAudience" class="form-label fw-semibold">Κοινό-Στόχος</label>
+                            <input asp-for="TargetAudience" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="AgeRange" class="form-label fw-semibold">Ηλικιακό Εύρος</label>
+                            <input asp-for="AgeRange" class="form-control" placeholder="π.χ. 25-45" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="GenderTarget" class="form-label fw-semibold">Φύλο</label>
+                            <input asp-for="GenderTarget" class="form-control" placeholder="π.χ. Unisex" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="LaunchDate" class="form-label fw-semibold">Ημ/νία Κυκλοφορίας</label>
+                            <input asp-for="LaunchDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PackagingType" class="form-label fw-semibold">Τύπος Συσκευασίας</label>
+                            <input asp-for="PackagingType" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DistributionChannel" class="form-label fw-semibold">Κανάλι Διανομής</label>
+                            <input asp-for="DistributionChannel" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="KeyBenefits" class="form-label fw-semibold">Βασικά Οφέλη</label>
+                            <input asp-for="KeyBenefits" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="ProductDescription" class="form-label fw-semibold">Περιγραφή Προϊόντος</label>
+                            <textarea asp-for="ProductDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="UsageInstructions" class="form-label fw-semibold">Οδηγίες Χρήσης</label>
+                            <textarea asp-for="UsageInstructions" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-action="Manage" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,592 @@
+@model INCIS_SaaP.Dtos.MarketingInfoDocumentViewModel
+@{
+    ViewData["Title"] = "FORM6 - Marketing Information";
+    Layout = "~/Views/Shared/_ERPLayout.cshtml";
+}
+
+<style>
+    /* ===== FORM6 - Marketing Information Document Styles ===== */
+    .doc-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .doc-header-band {
+        background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 50%, #8e24aa 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: #fff;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(74, 20, 140, 0.25);
+    }
+
+    .doc-header-band::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band .doc-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 0.25rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-header-band .doc-subtitle {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        font-weight: 400;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-form-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(10px);
+        padding: 0.35rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-item {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(8px);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .doc-meta-item .meta-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        opacity: 0.7;
+        margin-bottom: 0.2rem;
+    }
+
+    .doc-meta-item .meta-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    /* Marketing Info Cards */
+    .mkt-info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .mkt-info-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        border: 1px solid #f3e5f5;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mkt-info-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        border-radius: 14px 14px 0 0;
+    }
+
+    .mkt-info-card.card-description::before { background: linear-gradient(90deg, #7b1fa2, #ab47bc); }
+    .mkt-info-card.card-audience::before { background: linear-gradient(90deg, #1565c0, #42a5f5); }
+    .mkt-info-card.card-benefits::before { background: linear-gradient(90deg, #2e7d32, #66bb6a); }
+    .mkt-info-card.card-usage::before { background: linear-gradient(90deg, #e65100, #ff9800); }
+
+    .mkt-info-card .mkt-card-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .card-description .mkt-card-icon { background: linear-gradient(135deg, #f3e5f5, #e1bee7); color: #7b1fa2; }
+    .card-audience .mkt-card-icon { background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #1565c0; }
+    .card-benefits .mkt-card-icon { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); color: #2e7d32; }
+    .card-usage .mkt-card-icon { background: linear-gradient(135deg, #fff3e0, #ffe0b2); color: #e65100; }
+
+    .mkt-info-card .mkt-card-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        color: #78909c;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+    }
+
+    .mkt-info-card .mkt-card-text {
+        font-size: 0.9rem;
+        color: #37474f;
+        line-height: 1.6;
+    }
+
+    .mkt-info-card.card-full {
+        grid-column: 1 / -1;
+    }
+
+    /* Table Card */
+    .doc-table-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 1px solid #f3e5f5;
+    }
+
+    .doc-table-card-header {
+        background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 2px solid #f3e5f5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .doc-table-card-header h5 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #4a148c;
+        margin: 0;
+    }
+
+    .doc-table-responsive {
+        overflow-x: auto;
+    }
+
+    .doc-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.85rem;
+    }
+
+    .doc-table thead th {
+        background: linear-gradient(180deg, #f3e5f5 0%, #ede7f6 100%);
+        color: #4a148c;
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 0.85rem 0.75rem;
+        border-bottom: 2px solid #ce93d8;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .doc-table tbody td {
+        padding: 0.7rem 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+        color: #37474f;
+    }
+
+    .doc-table tbody tr:hover {
+        background: rgba(243, 229, 245, 0.3);
+    }
+
+    .doc-table tbody tr:nth-child(even) {
+        background: rgba(243, 229, 245, 0.08);
+    }
+
+    /* Marketing Info Badge */
+    .mkt-badge-yes {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    .mkt-badge-no {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        background: #fafafa;
+        color: #9e9e9e;
+        border: 1px solid #e0e0e0;
+    }
+
+    /* Footer */
+    .doc-footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: #90a4ae;
+        font-size: 0.78rem;
+        border-top: 1px solid #eceff1;
+        margin-top: 1rem;
+    }
+
+    .btn-print {
+        background: linear-gradient(135deg, #4a148c, #8e24aa);
+        color: #fff;
+        border: none;
+        padding: 0.65rem 1.75rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(74, 20, 140, 0.25);
+    }
+
+    .btn-print:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(74, 20, 140, 0.35);
+        color: #fff;
+    }
+
+    /* ===== Print Styles ===== */
+    @@media print {
+        body, html {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 15mm 12mm;
+        }
+
+        .no-print, .erp-page-header, nav, .sidebar, footer, .btn-print {
+            display: none !important;
+        }
+
+        .doc-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .doc-header-band {
+            background: #4a148c !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0 !important;
+            margin-bottom: 1rem !important;
+            padding: 1.5rem !important;
+            box-shadow: none !important;
+        }
+
+        .doc-meta-item {
+            background: rgba(255,255,255,0.15) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .mkt-info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .mkt-info-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            break-inside: avoid;
+        }
+
+        .mkt-info-card::before {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-table-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            border-radius: 0 !important;
+            page-break-inside: auto;
+        }
+
+        .doc-table thead th {
+            background: #f3e5f5 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-table tbody tr {
+            page-break-inside: avoid;
+        }
+
+        .mkt-badge-yes, .mkt-badge-no {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+</style>
+
+<div class="doc-container erp-fade-in">
+    <!-- Action Bar (no-print) -->
+    <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+        <a asp-action="Index" asp-route-formulaId="@Model.FormulaId" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Documents
+        </a>
+        <button class="btn-print" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Document
+        </button>
+    </div>
+
+    <!-- Document Header -->
+    <div class="doc-header-band">
+        <div class="doc-form-badge">
+            <i class="fa-solid fa-bullhorn"></i> FORM 6
+        </div>
+        <div class="doc-title">Marketing Information</div>
+        <div class="doc-subtitle">Product marketing data and raw material information sheet</div>
+
+        <div class="doc-meta-grid">
+            <div class="doc-meta-item">
+                <div class="meta-label">Formula Code</div>
+                <div class="meta-value">@Model.FormulaCode</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Product Name</div>
+                <div class="meta-value">@Model.ProductName</div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ProductType))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Product Type</div>
+                    <div class="meta-value">@Model.ProductType</div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ClientName))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Client</div>
+                    <div class="meta-value">@Model.ClientName</div>
+                </div>
+            }
+            <div class="doc-meta-item">
+                <div class="meta-label">Version</div>
+                <div class="meta-value">@(Model.Version ?? "1.0")</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Issue Date</div>
+                <div class="meta-value">@(Model.IssueDate?.ToString("dd MMM yyyy") ?? Model.GeneratedAt.ToString("dd MMM yyyy"))</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marketing Info Cards -->
+    <div class="mkt-info-grid">
+        <div class="mkt-info-card card-description @(string.IsNullOrEmpty(Model.ProductDescription) && string.IsNullOrEmpty(Model.TargetAudience) && string.IsNullOrEmpty(Model.KeyBenefits) && string.IsNullOrEmpty(Model.UsageInstructions) ? "card-full" : "")">
+            <div class="mkt-card-icon">
+                <i class="fa-solid fa-file-lines"></i>
+            </div>
+            <div class="mkt-card-label">Product Description</div>
+            <div class="mkt-card-text">
+                @if (!string.IsNullOrEmpty(Model.ProductDescription))
+                {
+                    @Model.ProductDescription
+                }
+                else
+                {
+                    <span class="text-muted fst-italic">No product description available.</span>
+                }
+            </div>
+        </div>
+
+        <div class="mkt-info-card card-audience">
+            <div class="mkt-card-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="mkt-card-label">Target Audience</div>
+            <div class="mkt-card-text">
+                @if (!string.IsNullOrEmpty(Model.TargetAudience))
+                {
+                    @Model.TargetAudience
+                }
+                else
+                {
+                    <span class="text-muted fst-italic">No target audience defined.</span>
+                }
+            </div>
+        </div>
+
+        <div class="mkt-info-card card-benefits">
+            <div class="mkt-card-icon">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <div class="mkt-card-label">Key Benefits</div>
+            <div class="mkt-card-text">
+                @if (!string.IsNullOrEmpty(Model.KeyBenefits))
+                {
+                    @Model.KeyBenefits
+                }
+                else
+                {
+                    <span class="text-muted fst-italic">No key benefits listed.</span>
+                }
+            </div>
+        </div>
+
+        <div class="mkt-info-card card-usage">
+            <div class="mkt-card-icon">
+                <i class="fa-solid fa-hand-holding-droplet"></i>
+            </div>
+            <div class="mkt-card-label">Usage Instructions</div>
+            <div class="mkt-card-text">
+                @if (!string.IsNullOrEmpty(Model.UsageInstructions))
+                {
+                    @Model.UsageInstructions
+                }
+                else
+                {
+                    <span class="text-muted fst-italic">No usage instructions provided.</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Raw Materials Table -->
+    <div class="doc-table-card">
+        <div class="doc-table-card-header">
+            <h5><i class="fa-solid fa-boxes-stacked me-2"></i>Raw Materials Overview</h5>
+            <span class="erp-badge" style="background:#f3e5f5;color:#4a148c;">@Model.Ingredients.Count items</span>
+        </div>
+        <div class="doc-table-responsive">
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">A/N</th>
+                        <th>RM ID</th>
+                        <th>Raw Material Name</th>
+                        <th>INCI Name</th>
+                        <th>Manufacturer</th>
+                        <th>Supplier</th>
+                        <th style="text-align:center;">Marketing Info</th>
+                        <th style="text-align:right;">%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Ingredients.Any())
+                    {
+                        @foreach (var item in Model.Ingredients)
+                        {
+                            <tr>
+                                <td><strong>@item.Order</strong></td>
+                                <td>
+                                    <code style="font-size:0.8rem;background:#f5f5f5;padding:0.15rem 0.4rem;border-radius:4px;">
+                                        @item.RawMaterialCode
+                                    </code>
+                                </td>
+                                <td><strong>@item.RawMaterialName</strong></td>
+                                <td>@(item.InciName ?? "—")</td>
+                                <td>@(item.ManufacturerName ?? "—")</td>
+                                <td>@(item.SupplierName ?? "—")</td>
+                                <td style="text-align:center;">
+                                    @if (item.HasMarketingInfo)
+                                    {
+                                        <span class="mkt-badge-yes">
+                                            <i class="fa-solid fa-check"></i> Yes
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="mkt-badge-no">
+                                            <i class="fa-solid fa-minus"></i> No
+                                        </span>
+                                    }
+                                </td>
+                                <td style="text-align:right;">
+                                    <strong>@item.Percentage.ToString("F4")</strong>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="fa-solid fa-inbox fa-2x mb-2 d-block"></i>
+                                No raw material data available for this formula.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+        <strong>INCIS SaaP</strong> &mdash; Marketing Information Report (FORM6) &mdash;
+        Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+        @(Model.PPIdCode ?? Model.FormulaCode)
+    </div>
+</div>

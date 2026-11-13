@@ -1,0 +1,165 @@
+/*!
+ * INCIS SaaP — Responsive Layer
+ * Mobile-first responsive overrides for the ERP design system.
+ * Breakpoints align with Bootstrap 5: sm 576, md 768, lg 992, xl 1200, xxl 1400.
+ */
+
+/* ============================================================
+   Mobile Menu Toggle (visible < 992)
+============================================================ */
+#mobileMenuToggle {
+    background: rgba(255,255,255,.10);
+    border: 0;
+    color: #fff;
+    width: 38px; height: 38px;
+    border-radius: var(--erp-radius-sm);
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .15s ease;
+}
+#mobileMenuToggle:hover { background: rgba(255,255,255,.22); }
+
+/* ============================================================
+   < 992 (lg): collapsed sidebar by default — slide-in overlay
+============================================================ */
+@media (max-width: 991.98px) {
+    .erp-sidebar {
+        transform: translateX(-100%);
+        box-shadow: var(--erp-shadow-xl);
+        width: var(--erp-sidebar-w);
+    }
+    .erp-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+    .erp-sidebar.collapsed {
+        /* override desktop collapse on mobile */
+        width: var(--erp-sidebar-w) !important;
+    }
+    .erp-sidebar.collapsed .erp-sidebar-title,
+    .erp-sidebar.collapsed .erp-sidebar-link span {
+        display: block !important;
+    }
+    .erp-sidebar.collapsed .erp-sidebar-link {
+        justify-content: flex-start;
+        padding: 10px 12px;
+    }
+
+    .erp-sidebar-toggle { display: none !important; }
+
+    .erp-main,
+    .erp-sidebar.collapsed ~ .erp-main {
+        margin-left: 0 !important;
+    }
+
+    .erp-main-inner { padding: 16px; }
+
+    .erp-page-header { padding: 14px 16px; gap: 12px; }
+    .erp-page-header-icon { width: 44px; height: 44px; font-size: 1.1rem; }
+    .erp-page-header-actions {
+        margin-left: 0;
+        width: 100%;
+    }
+    .erp-page-header-actions .btn { flex: 1 1 auto; }
+}
+
+/* ============================================================
+   < 768 (md): tablet refinements
+============================================================ */
+@media (max-width: 767.98px) {
+    :root { --erp-topbar-h: 52px; }
+
+    .erp-topbar { padding: 0 8px; gap: 4px; }
+    .erp-topbar-nav { display: none !important; }
+    .erp-brand-text { display: none !important; }
+    .erp-icon-btn { width: 36px; height: 36px; }
+    .erp-user-btn { padding: 4px; padding-right: 4px; }
+    .erp-user-btn .erp-user-avatar { margin: 0; }
+
+    .erp-stat { padding: 14px; }
+    .erp-stat-icon { width: 40px; height: 40px; font-size: 1rem; margin-bottom: 8px; }
+    .erp-stat-value { font-size: 1.4rem; }
+
+    .erp-card-header { padding: 12px 14px; }
+    .erp-card-body { padding: 14px; }
+
+    /* Tables: switch to card-like rows */
+    .erp-table-toolbar { padding: 10px; }
+    .dataTables_wrapper { padding: 10px; }
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        text-align: left !important;
+        margin-bottom: 8px;
+    }
+    .dataTables_wrapper .dataTables_filter input { width: 100%; margin-left: 0 !important; }
+    .dataTables_wrapper .dataTables_length select { display: inline-block; }
+
+    .erp-info-grid { grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* ============================================================
+   < 576 (sm): small phones
+============================================================ */
+@media (max-width: 575.98px) {
+    .erp-main-inner { padding: 12px; }
+    .erp-page-header { padding: 12px; }
+    .erp-page-header h1 { font-size: 1rem; }
+    .erp-stat { padding: 12px; }
+    .erp-stat-value { font-size: 1.2rem; }
+
+    .modal-dialog { margin: .5rem; }
+
+    .erp-actions .btn { width: 30px; height: 30px; font-size: .8rem; }
+    .table > :not(caption) > * > * { padding: .65rem .75rem; }
+
+    /* Hide non-essential table columns marked with .d-none-xs */
+    .d-none-xs { display: none !important; }
+}
+
+/* ============================================================
+   ≥ 1400 (xxl): large screens — wider sidebar
+============================================================ */
+@media (min-width: 1400px) {
+    :root {
+        --erp-sidebar-w: 260px;
+    }
+    .erp-main-inner { padding: 24px clamp(20px, 2.5vw, 36px); }
+}
+
+/* ============================================================
+   ≥ 1920: ultra-wide — keep content readable
+============================================================ */
+@media (min-width: 1920px) {
+    .erp-main-inner { max-width: 1700px; margin: 0 auto; }
+}
+
+/* ============================================================
+   PRINT
+============================================================ */
+@media print {
+    .erp-topbar, .erp-sidebar, .erp-mobile-overlay,
+    .erp-page-header-actions, .erp-card-actions,
+    #erpToastContainer, .modal, .erp-actions { display: none !important; }
+    .erp-main, .erp-sidebar.collapsed ~ .erp-main { margin: 0 !important; }
+    .erp-card, .erp-table-wrapper, .erp-page-header {
+        box-shadow: none !important;
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+    body.erp-body { background: #fff; }
+}
+
+/* ============================================================
+   Reduced motion
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ============================================================
+   High-contrast / focus visibility
+============================================================ */
+:focus-visible {
+    outline: 2px solid var(--erp-primary-600);
+    outline-offset: 2px;
+    border-radius: var(--erp-radius-sm);
+}

@@ -1,0 +1,158 @@
+@model INCIS_SaaP.Models.RawMaterial
+@{
+    ViewData["Title"] = "Λεπτομέρειες Α’ Ύλης";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Πρώτες Ύλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.Code</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-cubes"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@Model.ProductName</h1>
+        <div class="erp-page-header-subtitle d-flex flex-wrap gap-2 align-items-center">
+            <span class="erp-badge erp-badge-primary"><i class="fas fa-hashtag"></i>@Model.Code</span>
+            @if (!string.IsNullOrEmpty(Model.Category)) { <span class="erp-badge erp-badge-info"><i class="fas fa-tag"></i>@Model.Category</span> }
+            @if (Model.IsActive) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ενεργή</span> } else { <span class="erp-badge erp-badge-secondary">Ανενεργή</span> }
+            @if (Model.IsFullyRegistered) { <span class="erp-badge erp-badge-success"><i class="fas fa-clipboard-check"></i>Καταχωρημένη</span> }
+            @if (Model.IsEvaluated) { <span class="erp-badge erp-badge-info"><i class="fas fa-microscope"></i>Αξιολογημένη</span> }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        <a asp-action="AddSample" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="fas fa-vial me-2"></i>Δείγμα</a>
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Γενικές Πληροφορίες</h3></div>
+            <div class="erp-card-body">
+                <div class="erp-info-grid">
+                    <div class="erp-info-item"><span class="erp-info-label">Κωδικός</span><span class="erp-info-value">@Model.Code</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Κωδικός Prisma</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.PrismaCode) ? "empty" : "")">@(Model.PrismaCode ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Όνομα Προϊόντος</span><span class="erp-info-value">@Model.ProductName</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Προμηθευτής</span><span class="erp-info-value @(Model.Supplier == null ? "empty" : "")">@(Model.Supplier?.Name ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Κύρια INCI</span><span class="erp-info-value @(Model.MainINCI == null ? "empty" : "")">@(Model.MainINCI?.Name ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Κατηγορία</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Category) ? "empty" : "")">@(Model.Category ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Τιμή</span><span class="erp-info-value">@(Model.Price?.ToString("C2") ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Φυσικό %</span><span class="erp-info-value">@(Model.NaturalOriginPercentage?.ToString("F2") ?? "—")%</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Δημιουργία</span><span class="erp-info-value">@Model.CreatedAt.ToString("dd/MM/yyyy")</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-vial text-erp-primary"></i> Φυσικοχημικά</h3></div>
+            <div class="erp-card-body">
+                <div class="erp-info-grid">
+                    <div class="erp-info-item"><span class="erp-info-label">Μορφή</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Form) ? "empty" : "")">@(Model.Form ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Χρώμα</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Color) ? "empty" : "")">@(Model.Color ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Οσμή</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Odor) ? "empty" : "")">@(Model.Odor ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Πυκνότητα</span><span class="erp-info-value">@(Model.Density?.ToString("F3") ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Διαλυτότητα</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Solubility) ? "empty" : "")">@(Model.Solubility ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Χρόνος Ζωής</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ShelfLife) ? "empty" : "")">@(Model.ShelfLife ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Συνθήκες Αποθήκευσης</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.StorageConditions) ? "empty" : "")">@(Model.StorageConditions ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Συμβατότητες</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Compatibilities) ? "empty" : "")">@(Model.Compatibilities ?? "—")</span></div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Samples?.Any() == true)
+        {
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-vial text-erp-primary"></i> Δείγματα</h3><span class="erp-badge erp-badge-primary ms-2">@Model.Samples.Count</span></div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead><tr><th>Παρτίδα</th><th>Παραλαβή</th><th>Λήξη</th><th>Κατάσταση</th></tr></thead>
+                        <tbody>
+                            @foreach (var s in Model.Samples.OrderByDescending(x => x.ReceivedDate))
+                            {
+                                <tr>
+                                    <td class="fw-semibold"><code>@s.LotNumber</code></td>
+                                    <td>@s.ReceivedDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@s.ExpiryDate.ToString("dd/MM/yyyy")</td>
+                                    <td>
+                                        @if (s.ExpiryDate < DateTime.Today)
+                                        {
+                                            <span class="erp-badge erp-badge-danger"><i class="fas fa-xmark"></i>Έληξε</span>
+                                        }
+                                        else if (s.ExpiryDate < DateTime.Today.AddMonths(3))
+                                        {
+                                            <span class="erp-badge erp-badge-warning"><i class="fas fa-hourglass"></i>Λήγει σύντομα</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Έγκυρο</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-12 col-xl-4">
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-industry text-erp-primary"></i> Παραγωγός</h3></div>
+            <div class="erp-card-body">
+                <div class="erp-info-item mb-2"><span class="erp-info-label">Επωνυμία</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ManufacturerName) ? "empty" : "")">@(Model.ManufacturerName ?? "—")</span></div>
+                <div class="erp-info-item mb-2"><span class="erp-info-label">Email</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ManufacturerEmail) ? "empty" : "")">@(Model.ManufacturerEmail ?? "—")</span></div>
+                <div class="erp-info-item mb-2"><span class="erp-info-label">Τηλέφωνο</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ManufacturerPhone) ? "empty" : "")">@(Model.ManufacturerPhone ?? "—")</span></div>
+                <div class="erp-info-item"><span class="erp-info-label">Διεύθυνση</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ManufacturerAddress) ? "empty" : "")">@(Model.ManufacturerAddress ?? "—")</span></div>
+            </div>
+        </div>
+
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-file-shield text-erp-primary"></i> Πιστοποιητικά</h3></div>
+            <div class="erp-card-body small">
+                @{
+                    var certs = new (string Label, bool Has)[] {
+                        ("TDS", Model.HasTDS), ("MSDS", Model.HasMSDS), ("ISO 16128", Model.HasISO16128),
+                        ("BSE/TSE", Model.HasBSE_TSE), ("Vegan", Model.HasVegan), ("RMI", Model.HasRMI),
+                        ("Allergen", Model.HasAllergenCertificate), ("Phthalates/BHT", Model.HasPhthalates_BHT_Statement),
+                        ("Solvent", Model.HasSolventVehicleStatement), ("Marketing", Model.HasMarketingInfo)
+                    };
+                }
+                <div class="d-flex flex-wrap gap-1">
+                    @foreach (var c in certs)
+                    {
+                        @if (c.Has)
+                        {
+                            <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>@c.Label</span>
+                        }
+                        else
+                        {
+                            <span class="erp-badge erp-badge-secondary">@c.Label</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.HealthAndSafety) || !string.IsNullOrEmpty(Model.Comments) || !string.IsNullOrEmpty(Model.Allergens))
+        {
+            <div class="erp-card">
+                <div class="erp-card-header"><h3><i class="fas fa-shield-halved text-erp-primary"></i> Σημειώσεις</h3></div>
+                <div class="erp-card-body small">
+                    @if (!string.IsNullOrEmpty(Model.Allergens)) { <div class="mb-2"><strong>Αλλεργιογόνα:</strong> <div class="text-muted">@Model.Allergens</div></div> }
+                    @if (!string.IsNullOrEmpty(Model.HealthAndSafety)) { <div class="mb-2"><strong>Υγιεινή &amp; Ασφάλεια:</strong> <div class="text-muted">@Model.HealthAndSafety</div></div> }
+                    @if (!string.IsNullOrEmpty(Model.Comments)) { <div><strong>Σχόλια:</strong> <div class="text-muted">@Model.Comments</div></div> }
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,87 @@
+@model INCIS_SaaP.Models.SafetyData
+@{
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Δεδομένα Ασφαλείας · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@Model.FormulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Δεδομένα Ασφαλείας</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-kit-medical"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Δεδομένα Ασφαλείας <span class="erp-badge erp-badge-danger ms-2">SAFETY</span></h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <form asp-action="SafetySave" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FormulaId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label asp-for="IrritationLevel" class="form-label fw-semibold">Επίπεδο Ερεθισμού</label>
+                            <input asp-for="IrritationLevel" class="form-control" placeholder="π.χ. None, Mild" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="SkinCompatibility" class="form-label fw-semibold">Συμβατότητα Δέρματος</label>
+                            <input asp-for="SkinCompatibility" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="EyeIrritation" class="form-label fw-semibold">Οφθαλμικός Ερεθισμός</label>
+                            <input asp-for="EyeIrritation" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Phototoxicity" class="form-label fw-semibold">Φωτοτοξικότητα</label>
+                            <input asp-for="Phototoxicity" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Sensitization" class="form-label fw-semibold">Ευαισθητοποίηση</label>
+                            <input asp-for="Sensitization" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="SafetyAssessmentDate" class="form-label fw-semibold">Ημ/νία Αξιολόγησης</label>
+                            <input asp-for="SafetyAssessmentDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-12 d-flex align-items-center">
+                            <div class="form-check form-switch">
+                                <input type="hidden" name="IsSafeForPregnancy" value="false" />
+                                <input class="form-check-input" type="checkbox" role="switch" id="IsSafeForPregnancy" name="IsSafeForPregnancy" value="true" checked="@(Model.IsSafeForPregnancy == true)" />
+                                <label asp-for="IsSafeForPregnancy" class="form-check-label">Ασφαλές κατά την εγκυμοσύνη</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Warnings" class="form-label fw-semibold">Προειδοποιήσεις</label>
+                            <textarea asp-for="Warnings" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Precautions" class="form-label fw-semibold">Προφυλάξεις</label>
+                            <textarea asp-for="Precautions" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-action="Manage" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

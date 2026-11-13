@@ -1,0 +1,19 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "Microsoft.AspNetCore": "Information",
+      "Microsoft.EntityFrameworkCore": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=INCIS_SaaP;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Jwt": {
+    "Secret": "REPLACE_WITH_DEV_SECRET"
+  },
+  "AdminSeed": {
+    "Email": "admin.demo@incis.local",
+    "Password": ""
+  }
+}

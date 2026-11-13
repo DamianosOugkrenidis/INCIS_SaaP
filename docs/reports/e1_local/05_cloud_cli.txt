@@ -1,0 +1,6 @@
+﻿az=False
+aws=False
+gcloud=False
+dir C:\Users\daoug\.azure exists=False
+dir C:\Users\daoug\.aws exists=False
+dir C:\Users\daoug\.config\gcloud exists=False

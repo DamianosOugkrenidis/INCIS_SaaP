@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantitative INCI Composition - MIST SKIN</title>
+    <!-- Google Fonts & Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --md-primary: #1976d2;
+            --md-primary-dark: #1565c0;
+            --md-accent: #ff4081;
+            --md-warning: #ff9800;
+            --md-background: #fafafa;
+            --md-surface: #ffffff;
+            --md-on-surface: #212121;
+            --md-on-surface-secondary: #757575;
+            --md-border: #e0e0e0;
+            --md-shadow-1: 0 2px 4px rgba(0,0,0,0.1);
+            --md-shadow-2: 0 4px 8px rgba(0,0,0,0.15);
+            --md-shadow-4: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--md-background);
+            color: var(--md-on-surface);
+            line-height: 1.6;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        /* Header Card */
+        .header-card {
+            background: var(--md-surface);
+            border-radius: 8px;
+            box-shadow: var(--md-shadow-2);
+            padding: 24px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--md-primary);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--md-border);
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--md-primary-dark);
+        }
+
+        .header-title .material-icons {
+            color: var(--md-primary);
+            font-size: 28px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px 24px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--md-border);
+        }
+
+        .info-row:last-child { border-bottom: none; }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--md-on-surface-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: var(--md-on-surface);
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: var(--md-surface);
+            border-radius: 8px;
+            box-shadow: var(--md-shadow-2);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--md-primary), var(--md-primary-dark));
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .section-header .material-icons { font-size: 22px; }
+
+        .section-body { padding: 20px 24px; }
+
+        /* Material Table with Grid Separators */
+        .material-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: var(--md-surface);
+            table-layout: fixed;
+        }
+
+        .material-table thead {
+            background: #f5f5f5;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .material-table th {
+            padding: 14px 10px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--md-primary-dark);
+            border: 1px solid var(--md-border);
+            border-bottom: 2px solid var(--md-primary);
+            background: #fafafa;
+            white-space: nowrap;
+        }
+
+        .material-table td {
+            padding: 10px 12px;
+            border: 1px solid var(--md-border);
+            vertical-align: top;
+            line-height: 1.4;
+        }
+
+        .material-table tbody tr:hover {
+            background: #f3f9ff;
+            transition: background 0.15s ease;
+        }
+
+        .material-table tbody tr:nth-child(even) { background: #fcfcfc; }
+
+        /* Column widths */
+        .col-an { width: 45px; text-align: center; }
+        .col-func { width: 220px; }
+        .col-restr { width: 70px; text-align: center; }
+        .col-name { width: auto; }
+        .col-percent { width: 80px; text-align: right; }
+
+        /* Function Tags */
+        .func-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .func-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #e3f2fd;
+            color: #1565c0;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #bbdefb;
+        }
+
+        .func-tag:hover {
+            background: #bbdefb;
+            cursor: default;
+        }
+
+        /* Restriction Badges */
+        .restriction-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .restriction-v { 
+            background: #fff3e0; 
+            color: #e65100; 
+            border: 1px solid #ffb74d;
+        }
+
+        .restriction-iii { 
+            background: #fce4ec; 
+            color: #c2185b; 
+            border: 1px solid #f48fb1;
+        }
+
+        .restriction-empty {
+            color: var(--md-on-surface-secondary);
+            font-style: italic;
+        }
+
+        /* INCI Name Block */
+        .inci-block {
+            background: #f9f9f9;
+            border-left: 3px solid var(--md-primary);
+            padding: 8px 12px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.8rem;
+        }
+
+        .inci-name {
+            font-weight: 600;
+            color: var(--md-on-surface);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .inci-meta {
+            color: var(--md-on-surface-secondary);
+            font-size: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .inci-meta strong {
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Percent Cell */
+        .percent-cell {
+            font-weight: 700;
+            color: var(--md-primary-dark);
+            font-size: 0.9rem;
+            background: #f5f9ff;
+        }
+
+        .percent-cell::after {
+            content: '%';
+            font-weight: 400;
+            color: var(--md-on-surface-secondary);
+            margin-left: 2px;
+        }
+
+        /* Allergens Section */
+        .allergens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .allergen-card {
+            background: #fff8f0;
+            border: 1px solid #ffe0b2;
+            border-left: 4px solid var(--md-warning);
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        .allergen-card h4 {
+            color: #e65100;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #ffe0b2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .allergen-card h4 .material-icons {
+            font-size: 18px;
+            color: var(--md-warning);
+        }
+
+        .allergen-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            padding: 4px 0;
+            font-size: 0.85rem;
+        }
+
+        .allergen-label {
+            font-weight: 500;
+            color: var(--md-on-surface-secondary);
+        }
+
+        .allergen-value {
+            font-weight: 500;
+            color: var(--md-on-surface);
+            word-break: break-word;
+        }
+
+        .allergen-restriction {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: #fce4ec;
+            color: #c2185b;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            color: var(--md-on-surface-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--md-border);
+            margin-top: 20px;
+            background: var(--md-surface);
+            border-radius: 8px;
+        }
+
+        .footer-note .material-icons {
+            vertical-align: middle;
+            font-size: 16px;
+            margin-right: 4px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { 
+                background: white; 
+                padding: 0;
+                font-size: 10pt;
+            }
+            .section-card, .header-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+            .material-table {
+                font-size: 8pt;
+            }
+            .material-table th, 
+            .material-table td {
+                padding: 6px 8px;
+            }
+            .func-tag {
+                border: 1px solid #999;
+                background: none;
+            }
+            .inci-block {
+                border-left: 2px solid #000;
+                background: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .material-table {
+                display: block;
+                overflow-x: auto;
+                font-size: 0.8rem;
+            }
+            .col-func { min-width: 200px; }
+            .col-name { min-width: 280px; }
+        }
+
+        @media (max-width: 768px) {
+            .info-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .info-label {
+                font-weight: 600;
+                color: var(--md-primary-dark);
+            }
+            .section-body { padding: 16px; }
+            .header-card, .section-card { margin-bottom: 16px; }
+        }
+
+        /* Tooltip hint for functions */
+        .func-tag[title]:hover {
+            position: relative;
+            cursor: help;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Header Card -->
+        <div class="header-card">
+            <div class="header-title">
+                <span class="material-icons">list_alt</span>
+                <h1>Quantitative INCI Composition</h1>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">Product Name</span>
+                    <span class="info-value">MIST SKIN</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Brand Name</span>
+                    <span class="info-value">10AM APOTHEKE HYDRATING FACE MIST</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Type</span>
+                    <span class="info-value">Leave on</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ID Code</span>
+                    <span class="info-value">4136</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Bulk Code</span>
+                    <span class="info-value">373-6404-T18</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Issue Date</span>
+                    <span class="info-value">05-08-2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredient Composition Table -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">format_list_bulleted</span>
+                <h2>Ingredient Composition (INCI)</h2>
+            </div>
+            <div class="section-body">
+                <table class="material-table">
+                    <thead>
+                        <tr>
+                            <th class="col-an">a/n</th>
+                            <th class="col-func">Functions</th>
+                            <th class="col-restr">Restriction</th>
+                            <th class="col-name">Name (INCI / CAS / EINECS)</th>
+                            <th class="col-percent">% w/w</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-an">1</td>
+                            <td class="col-func"><span class="func-tag" title="Primary solvent base">SOLVENT</span></td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">AQUA</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 7732-18-5<br>
+                                        <strong>EINECS:</strong> 231-791-2
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">91,379</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">2</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Reduces foam formation">ANTIFOAMING</span>
+                                    <span class="func-tag" title="Prevents microbial growth">ANTIMICROBIAL</span>
+                                    <span class="func-tag" title="Tightens skin/tissues">ASTRINGENT</span>
+                                    <span class="func-tag" title="Masks unpleasant odors">MASKING</span>
+                                    <span class="func-tag">SOLVENT</span>
+                                    <span class="func-tag" title="Controls product thickness">VISCOSITY CTRL</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">ALCOHOL DENAT</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 64-17-5<br>
+                                        <strong>EINECS:</strong> 200-578-6
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">5</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">3</td>
+                            <td class="col-func"><span class="func-tag" title="Improves skin feel & appearance">SKIN CONDITIONING</span></td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">LACTOBACILLUS/ERIODICTYON CALIFORNICUM FERMENT EXTRACT</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> —<br>
+                                        <strong>EINECS:</strong> —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,98</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">4</td>
+                            <td class="col-func"><span class="func-tag" title="Helps mix oil & water phases">EMULSIFYING</span></td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">SORBITAN CAPRYLATE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 60177-36-8<br>
+                                        <strong>EINECS:</strong> 262-098-3
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,816</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">5</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">EMULSIFYING</span>
+                                    <span class="func-tag" title="Surface-active agent">SURFACTANT</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">PEG-40 HYDROGENATED CASTOR OIL</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 61788-85-0<br>
+                                        <strong>EINECS:</strong> —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,588</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">6</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Alters alcohol properties">DENATURANT</span>
+                                    <span class="func-tag" title="Attracts & retains moisture">HUMECTANT</span>
+                                    <span class="func-tag">SOLVENT</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">GLYCERIN</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 56-81-5<br>
+                                        <strong>EINECS:</strong> 200-289-5
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,5</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">7</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">SOLVENT</span>
+                                    <span class="func-tag">VISCOSITY CTRL</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">PROPANEDIOL</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 504-63-2 / 26264-14-2<br>
+                                        <strong>EINECS:</strong> 207-997-3
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,264</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">8</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Adds volume to formula">BULKING</span>
+                                    <span class="func-tag">MASKING</span>
+                                    <span class="func-tag" title="Prevents product spoilage">PRESERVATIVE</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-badge restriction-v" title="Annex V - Preservatives List">V/1</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">BENZOIC ACID</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 65-85-0<br>
+                                        <strong>EINECS:</strong> 200-618-2
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,192</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">9</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Binds metal ions">CHELATING</span>
+                                    <span class="func-tag" title="Oral care applications">ORAL CARE</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">SODIUM PHYTATE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 14306-25-3 / 34367-89-0<br>
+                                        <strong>EINECS:</strong> 238-242-6
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,159</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">10</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">MASKING</span>
+                                    <span class="func-tag">SKIN CONDITIONING</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">CHAMOMILLA RECUTITA FLOWER EXTRACT</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 84082-60-0<br>
+                                        <strong>EINECS:</strong> 282-006-5
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,11</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">11</td>
+                            <td class="col-func"><span class="func-tag">SKIN CONDITIONING</span></td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">INULIN</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 9005-80-5<br>
+                                        <strong>EINECS:</strong> 232-684-3
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,1</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">12</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Stabilizes pH">BUFFERING</span>
+                                    <span class="func-tag">DENATURANT</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-badge restriction-iii" title="Annex III - Restricted Substances">III/15a</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">SODIUM HYDROXIDE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 1310-73-2<br>
+                                        <strong>EINECS:</strong> 215-185-5
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,06</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">13</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag" title="Masks body odor">DEODORANT</span>
+                                    <span class="func-tag">MASKING</span>
+                                    <span class="func-tag" title="Adds fragrance">PERFUMING</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">PARFUM</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> —<br>
+                                        <strong>EINECS:</strong> —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,02</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">14</td>
+                            <td class="col-func"><span class="func-tag">SKIN CONDITIONING</span></td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">ALPHA-GLUCAN OLIGOSACCHARIDE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> —<br>
+                                        <strong>EINECS:</strong> —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,02</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">15</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">ANTIMICROBIAL</span>
+                                    <span class="func-tag" title="Controls sebum production">ANTISEBORRHOEIC</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">LEUCONOSTOC/RADISH ROOT FERMENT FILTRATE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> —<br>
+                                        <strong>EINECS:</strong> —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,02</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">16</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">ANTIFOAMING</span>
+                                    <span class="func-tag">ANTIMICROBIAL</span>
+                                    <span class="func-tag">ASTRINGENT</span>
+                                    <span class="func-tag">MASKING</span>
+                                    <span class="func-tag">SOLVENT</span>
+                                    <span class="func-tag">VISCOSITY CTRL</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">ALCOHOL</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 64-17-5<br>
+                                        <strong>EINECS:</strong> 200-578-6
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,003</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">17</td>
+                            <td class="col-func">
+                                <div class="func-tags">
+                                    <span class="func-tag">BUFFERING</span>
+                                    <span class="func-tag">CHELATING</span>
+                                    <span class="func-tag">MASKING</span>
+                                </div>
+                            </td>
+                            <td class="col-restr"><span class="restriction-empty">—</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">CITRIC ACID</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 77-92-9 / 5949-29-1<br>
+                                        <strong>EINECS:</strong> 201-069-1
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,0021</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">18</td>
+                            <td class="col-func"><span class="func-tag">PRESERVATIVE</span></td>
+                            <td class="col-restr"><span class="restriction-badge restriction-v">V/1</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">SODIUM BENZOATE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 532-32-1<br>
+                                        <strong>EINECS:</strong> 208-534-8
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,0011</td>
+                        </tr>
+                        <tr>
+                            <td class="col-an">19</td>
+                            <td class="col-func"><span class="func-tag">PRESERVATIVE</span></td>
+                            <td class="col-restr"><span class="restriction-badge restriction-v">V/4</span></td>
+                            <td class="col-name">
+                                <div class="inci-block">
+                                    <span class="inci-name">POTASSIUM SORBATE</span>
+                                    <span class="inci-meta">
+                                        <strong>CAS:</strong> 24634-61-5 / 590-00-1<br>
+                                        <strong>EINECS:</strong> 246-376-1 / —
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="col-percent percent-cell">0,0011</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Allergens Section -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">warning_amber</span>
+                <h2>Allergens (26 Fragrance Allergens - EU Regulation)</h2>
+            </div>
+            <div class="section-body">
+                <div class="allergens-grid">
+                    <!-- Allergen 1 -->
+                    <div class="allergen-card">
+                        <h4><span class="material-icons">error_outline</span> Amyl Salicylate</h4>
+                        <div class="allergen-row">
+                            <span class="allergen-label">INCI Name</span>
+                            <span class="allergen-value">Amyl Salicylate</span>
+                        </div>
+                        <div class="allergen-row">
+                            <span class="allergen-label">CAS</span>
+                            <span class="allergen-value">2050-08-0</span>
+                        </div>
+                        <div class="allergen-row">
+                            <span class="allergen-label">EINECS</span>
+                            <span class="allergen-value">218-080-2</span>
+                        </div>
+                        <span class="allergen-restriction">
+                            <span class="material-icons" style="font-size:14px;vertical-align:middle;margin-right:4px;">gavel</span>
+                            Restriction: III/328
+                        </span>
+                    </div>
+                    
+                    <!-- Allergen 2 -->
+                    <div class="allergen-card">
+                        <h4><span class="material-icons">error_outline</span> Linalyl Acetate</h4>
+                        <div class="allergen-row">
+                            <span class="allergen-label">INCI Name</span>
+                            <span class="allergen-value">Linalyl Acetate</span>
+                        </div>
+                        <div class="allergen-row">
+                            <span class="allergen-label">CAS</span>
+                            <span class="allergen-value">115-95-7</span>
+                        </div>
+                        <div class="allergen-row">
+                            <span class="allergen-label">EINECS</span>
+                            <span class="allergen-value">204-116-4</span>
+                        </div>
+                        <span class="allergen-restriction">
+                            <span class="material-icons" style="font-size:14px;vertical-align:middle;margin-right:4px;">gavel</span>
+                            Restriction: III/337
+                        </span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 16px; padding: 12px; background: #fff3e0; border-left: 4px solid var(--md-warning); border-radius: 0 4px 4px 0; font-size: 0.85rem;">
+                    <strong style="color: #e65100;">⚠️ Σημείωση:</strong> 
+                    Τα παραπάνω αλλεργιογόνα πρέπει να αναγράφονται στην ετικέτα όταν η συγκέντρωσή τους ξεπερνά τα όρια της Κοινοτικής Νομοθεσίας (Καν. 1223/2009).
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            <span class="material-icons">info</span>
+            Document ID: 4136 | Bulk Code: 373-6404-T18 | Issue Date: 05-08-2025 | 
+            <strong>Confidential - Regulatory Use Only</strong>
+        </div>
+
+    </div>
+
+    <script>
+        // Floating Print Button
+        document.addEventListener('DOMContentLoaded', function() {
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '<span class="material-icons">print</span> Print / Export';
+            printBtn.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--md-primary);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 12px 24px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: var(--md-shadow-4);
+                cursor: pointer;
+                z-index: 1000;
+                transition: all 0.2s ease;
+            `;
+            printBtn.onmouseover = () => {
+                printBtn.style.background = 'var(--md-primary-dark)';
+                printBtn.style.transform = 'translateY(-2px)';
+            };
+            printBtn.onmouseout = () => {
+                printBtn.style.background = 'var(--md-primary)';
+                printBtn.style.transform = 'translateY(0)';
+            };
+            printBtn.onclick = () => {
+                // Optional: Add export logic here (e.g., to PDF via jsPDF)
+                window.print();
+            };
+            document.body.appendChild(printBtn);
+
+            // Add tooltip enhancement for function tags on desktop
+            if (window.innerWidth > 768) {
+                document.querySelectorAll('.func-tag[title]').forEach(tag => {
+                    tag.style.position = 'relative';
+                    tag.style.cursor = 'help';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

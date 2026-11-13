@@ -1,0 +1,136 @@
+@model List<INCIS_SaaP.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Διαχείριση Χρηστών";
+    var tenants = ViewData["Tenants"] as Dictionary<int, string> ?? new();
+    var filter = ViewData["CurrentFilter"] as string;
+    var search = ViewData["SearchString"] as string;
+    var pending = (int)(ViewData["PendingCount"] ?? 0);
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Διαχείριση Χρηστών</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-users-gear"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Διαχείριση Χρηστών</h1>
+        <div class="erp-page-header-subtitle">
+            @Model.Count χρήστες
+            @if (pending > 0) { <span class="erp-badge erp-badge-warning ms-2">@pending εκκρεμούν έγκριση</span> }
+        </div>
+    </div>
+</div>
+
+@{
+    var isGlobalAdmin = (bool)(ViewData["IsGlobalAdmin"] ?? false);
+    var legacyFormulas = (int)(ViewData["LegacyFormulas"] ?? 0);
+    var legacyRaw = (int)(ViewData["LegacyRawMaterials"] ?? 0);
+    var allTenants = ViewData["AllTenants"] as IEnumerable<dynamic>;
+}
+@if (isGlobalAdmin && (legacyFormulas > 0 || legacyRaw > 0) && allTenants != null && allTenants.Any())
+{
+    <div class="erp-card erp-fade-in mb-3 border-warning">
+        <div class="erp-card-body">
+            <h3 class="h6"><i class="fas fa-triangle-exclamation text-warning me-2"></i>Κοινόχρηστα/Legacy δεδομένα χωρίς οργανισμό</h3>
+            <p class="text-muted small mb-2">Υπάρχουν <strong>@legacyFormulas</strong> φόρμουλες και <strong>@legacyRaw</strong> α' ύλες χωρίς tenant (ορατές σε όλους). Ανάθεσέ τα σε έναν οργανισμό για πλήρη απομόνωση.</p>
+            <form asp-action="AssignLegacyData" method="post" class="d-flex flex-wrap gap-2 align-items-center" onsubmit="return confirm('Ανάθεση όλων των κοινόχρηστων δεδομένων στον επιλεγμένο οργανισμό;');">
+                @Html.AntiForgeryToken()
+                <select name="tenantId" class="form-select" style="max-width:320px;" required>
+                    <option value="">— Επιλέξτε οργανισμό —</option>
+                    @foreach (var t in allTenants)
+                    {
+                        <option value="@t.Id">@t.Name</option>
+                    }
+                </select>
+                <button type="submit" class="btn btn-warning"><i class="fas fa-people-arrows me-1"></i>Ανάθεση</button>
+            </form>
+        </div>
+    </div>
+}
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-table-toolbar">
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center w-100">
+            <div class="btn-group" role="group">
+                <a asp-action="Index" class="btn @(string.IsNullOrEmpty(filter) ? "btn-primary" : "btn-erp-secondary")">Όλοι</a>
+                <a asp-action="Index" asp-route-filter="pending" class="btn @(filter == "pending" ? "btn-primary" : "btn-erp-secondary")">Εκκρεμείς</a>
+                <a asp-action="Index" asp-route-filter="inactive" class="btn @(filter == "inactive" ? "btn-primary" : "btn-erp-secondary")">Ανενεργοί</a>
+            </div>
+            <div class="input-group flex-grow-1" style="max-width: 360px;">
+                <span class="input-group-text"><i class="fas fa-magnifying-glass"></i></span>
+                <input type="search" name="searchString" value="@search" class="form-control" placeholder="Email ή όνομα..." />
+            </div>
+            <button type="submit" class="btn btn-primary">Αναζήτηση</button>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        @if (Model.Any())
+        {
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Όνομα</th>
+                        <th class="d-none d-lg-table-cell">Εταιρεία</th>
+                        <th>Κατάσταση</th>
+                        <th class="d-none d-md-table-cell">Εγγραφή</th>
+                        <th class="text-end">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@u.Email</td>
+                            <td>@(u.FullName ?? "—")</td>
+                            <td class="d-none d-lg-table-cell">@(u.TenantId != null && tenants.ContainsKey(u.TenantId.Value) ? tenants[u.TenantId.Value] : "—")</td>
+                            <td>
+                                @if (!u.IsApproved)
+                                {
+                                    <span class="erp-badge erp-badge-warning">Εκκρεμεί έγκριση</span>
+                                }
+                                else if (!u.IsActive)
+                                {
+                                    <span class="erp-badge erp-badge-secondary">Ανενεργός</span>
+                                }
+                                else
+                                {
+                                    <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ενεργός</span>
+                                }
+                            </td>
+                            <td class="d-none d-md-table-cell"><small class="text-muted">@u.CreatedAt.ToString("dd/MM/yyyy")</small></td>
+                            <td class="text-end">
+                                <div class="erp-actions">
+                                    @if (!u.IsApproved)
+                                    {
+                                        <form asp-action="Approve" asp-route-id="@u.Id" method="post" class="d-inline" data-testid="approve-form">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-success btn-sm erp-action-text" data-testid="approve-user" formaction="@Url.Action("Approve", new { id = u.Id })" formmethod="post"><i class="fas fa-check me-1"></i>Έγκριση</button>
+                                        </form>
+                                    }
+                                    <form asp-action="ToggleActive" asp-route-id="@u.Id" method="post" class="d-inline" data-testid="toggle-form">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm erp-action-text" data-testid="toggle-user" formaction="@Url.Action("ToggleActive", new { id = u.Id })" formmethod="post">
+                                            @(u.IsActive ? "Απενεργοποίηση" : "Ενεργοποίηση")
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="erp-empty">
+                <div class="erp-empty-icon"><i class="fas fa-users-gear"></i></div>
+                <h5 class="text-body">Δεν βρέθηκαν χρήστες</h5>
+            </div>
+        }
+    </div>
+</div>

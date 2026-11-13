@@ -1,0 +1,75 @@
+# Build outputs
+**/bin/
+**/obj/
+**/publish/
+**/out/
+
+# IDE / user
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs & diagnostics
+**/logs/
+*.log
+TestResults/
+**/TestResults/
+coverage/
+**/coverage/
+*.trx
+*.coverage
+*.cobertura.xml
+
+# Data / backups / archives (NEVER publish)
+Database/*.bak
+Database/*.mdf
+Database/*.ldf
+**/*.bak
+**/*.mdf
+**/*.ldf
+**/*.zip
+**/*.rar
+FILES/
+FILES.zip
+ALL_INCIS_NEW_FILE.xls
+
+# Local/test database artifacts
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets / environment
+.env
+.env.*
+*.local.json
+appsettings.*.local.json
+secrets.json
+*.pfx
+*.p12
+*.key
+*.pem
+id_rsa*
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Temporary
+*.tmp
+*.temp
+
+# Local dev config (contains credentials) - use appsettings.Development.local.json / user-secrets
+INCIS_SaaP/appsettings.Development.json
+INCIS_SaaP/.env
+INCIS_SaaP/.env.*
+
+# Binary documents / data dumps (review and force-add only with owner approval)
+*.xls
+*.xlsx
+*.pdf
+*.docx
+*.doc

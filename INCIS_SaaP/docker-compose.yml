@@ -1,0 +1,76 @@
+﻿# INCIS SaaP - Docker Compose Configuration
+# Secrets are supplied via environment variables (see .env.example). Never commit real values.
+
+services:
+  # Application
+  incis-web:
+    build:
+      # Build context is the solution root (parent of INCIS_SaaP/).
+      context: ..
+      dockerfile: INCIS_SaaP/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      # Container serves HTTP; TLS is expected at the reverse proxy.
+      - Hosting__RequireHttps=false
+      # The app reads INCIS_DB_CONNECTION_STRING first.
+      - INCIS_DB_CONNECTION_STRING=Server=sqlserver;Database=INCIS_SaaP;User Id=sa;Password=${MSSQL_SA_PASSWORD:?set MSSQL_SA_PASSWORD};TrustServerCertificate=True;Max Pool Size=100;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=INCIS_SaaP;User Id=sa;Password=${MSSQL_SA_PASSWORD:?set MSSQL_SA_PASSWORD};TrustServerCertificate=True;Max Pool Size=100;
+      - Jwt__Secret=${JWT_SECRET:?set JWT_SECRET}
+      - Jwt__Issuer=INCIS_SaaP
+      - Jwt__Audience=INCIS_SaaP_Users
+      - AdminSeed__Email=admin.demo@incis.local
+      - AdminSeed__Password=${ADMIN_SEED_PASSWORD:-}
+      - TZ=Europe/Athens
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - incis-network
+    restart: unless-stopped
+
+  # SQL Server 2022 (database created automatically by EF migrations at startup)
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      # MSSQL_SA_PASSWORD is the current name; SA_PASSWORD kept for compatibility.
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:?set MSSQL_SA_PASSWORD}
+      - SA_PASSWORD=${MSSQL_SA_PASSWORD:?set MSSQL_SA_PASSWORD}
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -Q "SELECT 1" -C -N || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    networks:
+      - incis-network
+    restart: unless-stopped
+
+  # Redis Cache (optional - for production)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - incis-network
+    restart: unless-stopped
+
+# Networks
+networks:
+  incis-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  sqlserver-data:
+  redis-data:

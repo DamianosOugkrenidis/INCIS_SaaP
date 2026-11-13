@@ -1,0 +1,67 @@
+@model INCIS_SaaP.Models.ToxicologicalData
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <label asp-for="InciName" class="form-label fw-semibold">INCI Name <span class="text-danger">*</span></label>
+        <input asp-for="InciName" class="form-control cosing-autocomplete" autocomplete="off"
+               data-cas-target="#CASNumber" data-function-target="#Function" required />
+        <small class="text-muted">Αναζήτηση & αυτόματη συμπλήρωση από CosIng.</small>
+        <span asp-validation-for="InciName" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="CASNumber" class="form-label fw-semibold">CAS Number</label>
+        <input asp-for="CASNumber" class="form-control" />
+        <span asp-validation-for="CASNumber" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Function" class="form-label fw-semibold">Λειτουργία</label>
+        <input asp-for="Function" class="form-control" />
+        <span asp-validation-for="Function" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Percentage" class="form-label fw-semibold">Ποσοστό (% w/w)</label>
+        <input asp-for="Percentage" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Percentage" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="NOAEL" class="form-label fw-semibold">NOAEL (mg/kg bw/day)</label>
+        <input asp-for="NOAEL" type="number" step="any" class="form-control" />
+        <span asp-validation-for="NOAEL" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="SED" class="form-label fw-semibold">SED (mg/kg bw/day)</label>
+        <input asp-for="SED" type="number" step="any" class="form-control" />
+        <span asp-validation-for="SED" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="MoS" class="form-label fw-semibold">MoS (Margin of Safety)</label>
+        <input asp-for="MoS" type="number" step="any" class="form-control" />
+        <span asp-validation-for="MoS" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="ToxicologicalCategory" class="form-label fw-semibold">Κατηγορία</label>
+        <input asp-for="ToxicologicalCategory" class="form-control" placeholder="A / B / C" />
+        <span asp-validation-for="ToxicologicalCategory" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="DataSource" class="form-label fw-semibold">Πηγή Δεδομένων</label>
+        <input asp-for="DataSource" class="form-control" placeholder="π.χ. SCCS, CIR" />
+        <span asp-validation-for="DataSource" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="AssessmentDate" class="form-label fw-semibold">Ημ/νία Αξιολόγησης</label>
+        <input asp-for="AssessmentDate" type="date" class="form-control" />
+        <span asp-validation-for="AssessmentDate" class="text-danger"></span>
+    </div>
+    <div class="col-12 d-flex align-items-center">
+        <div class="form-check form-switch">
+            <input asp-for="IsSafe" class="form-check-input" type="checkbox" role="switch" />
+            <label asp-for="IsSafe" class="form-check-label">Ασφαλές (MoS ≥ 100)</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label fw-semibold">Σημειώσεις</label>
+        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+</div>

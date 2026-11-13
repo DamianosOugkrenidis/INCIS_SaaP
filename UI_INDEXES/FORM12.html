@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Formula - MIST SKIN</title>
+    <!-- Google Fonts & Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --md-primary: #1976d2;
+            --md-primary-dark: #1565c0;
+            --md-accent: #ff4081;
+            --md-background: #fafafa;
+            --md-surface: #ffffff;
+            --md-on-surface: #212121;
+            --md-on-surface-secondary: #757575;
+            --md-border: #e0e0e0;
+            --md-shadow-1: 0 2px 4px rgba(0,0,0,0.1);
+            --md-shadow-2: 0 4px 8px rgba(0,0,0,0.15);
+            --md-shadow-4: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--md-background);
+            color: var(--md-on-surface);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Card */
+        .header-card {
+            background: var(--md-surface);
+            border-radius: 8px;
+            box-shadow: var(--md-shadow-2);
+            padding: 24px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--md-primary);
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--md-border);
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--md-primary-dark);
+        }
+
+        .header-title .material-icons {
+            color: var(--md-primary);
+            font-size: 28px;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .info-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--md-border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: var(--md-on-surface-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            font-weight: 400;
+            color: var(--md-on-surface);
+        }
+
+        .info-value.multiline {
+            white-space: pre-line;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: var(--md-surface);
+            border-radius: 8px;
+            box-shadow: var(--md-shadow-2);
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: var(--md-primary);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .section-header .material-icons {
+            font-size: 22px;
+        }
+
+        .section-body {
+            padding: 20px 24px;
+        }
+
+        /* Tables - Material Grid Style */
+        .material-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: var(--md-surface);
+        }
+
+        .material-table thead {
+            background: #f5f5f5;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .material-table th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 500;
+            color: var(--md-primary-dark);
+            border-bottom: 2px solid var(--md-primary);
+            border-right: 1px solid var(--md-border);
+            white-space: nowrap;
+        }
+
+        .material-table th:last-child {
+            border-right: none;
+        }
+
+        .material-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--md-border);
+            border-right: 1px solid var(--md-border);
+            vertical-align: top;
+        }
+
+        .material-table td:last-child {
+            border-right: none;
+        }
+
+        .material-table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .material-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: var(--md-primary);
+            color: white;
+        }
+
+        .phase-A { background: #2196f3; }
+        .phase-B { background: #4caf50; }
+        .phase-C { background: #ff9800; }
+        .phase-D { background: #9c27b0; }
+        .phase-E { background: #f44336; }
+
+        .supplier-cell {
+            font-size: 0.8rem;
+            color: var(--md-on-surface-secondary);
+            line-height: 1.4;
+        }
+
+        .percent-cell {
+            font-weight: 500;
+            color: var(--md-primary-dark);
+            text-align: right;
+            min-width: 70px;
+        }
+
+        /* Method List */
+        .method-list {
+            counter-reset: step;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .method-list li {
+            counter-increment: step;
+            padding: 12px 0 12px 45px;
+            position: relative;
+            border-bottom: 1px dashed var(--md-border);
+        }
+
+        .method-list li:last-child {
+            border-bottom: none;
+        }
+
+        .method-list li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--md-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Properties Grid */
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .property-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border-left: 3px solid var(--md-accent);
+        }
+
+        .property-label {
+            font-weight: 500;
+            color: var(--md-on-surface-secondary);
+            font-size: 0.85rem;
+        }
+
+        .property-value {
+            font-weight: 400;
+            color: var(--md-on-surface);
+        }
+
+        /* Allergens Table */
+        .allergens-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .allergens-table th {
+            background: #fff3e0;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid var(--md-border);
+            font-weight: 500;
+            color: #e65100;
+        }
+
+        .allergens-table td {
+            padding: 10px 12px;
+            border: 1px solid var(--md-border);
+        }
+
+        .allergens-table tr:nth-child(even) {
+            background: #fffaf0;
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            padding: 20px;
+            color: var(--md-on-surface-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--md-border);
+            margin-top: 20px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body { 
+                background: white; 
+                padding: 0;
+                font-size: 11pt;
+            }
+            .section-card, .header-card {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                break-inside: avoid;
+            }
+            .material-table {
+                font-size: 8pt;
+            }
+            .material-table th, 
+            .material-table td {
+                padding: 6px 8px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .info-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .info-label {
+                font-weight: 600;
+            }
+            .material-table {
+                font-size: 0.8rem;
+                display: block;
+                overflow-x: auto;
+            }
+            .section-body {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <!-- Header Card -->
+        <div class="header-card">
+            <div class="header-title">
+                <span class="material-icons">receipt_long</span>
+                <h1>Master Formula</h1>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-row">
+                    <span class="info-label">PRODUCT NAME</span>
+                    <span class="info-value">MIST SKIN</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">BRAND NAME</span>
+                    <span class="info-value">10AM APOTHEKE HYDRATING FACE MIST</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">RESPONSIBLE PERSON</span>
+                    <span class="info-value">10AMapotheke - ΠΑΠΑΔΑΚΗ ΕΥΑ</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">MANUFACTURING SITE</span>
+                    <span class="info-value multiline">ELISAVET DARAVELI SA - BEAUTYLAB
+SYNTAGMATARHOU DAVAKI 22, 15121 PEFKI
+TEL.: +302102513930 / ΦΑΞ: +302102513250
+email: info@beautylab.gr</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">TYPE</span>
+                    <span class="info-value">Leave on</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">PACKAGING INFO</span>
+                    <span class="info-value">ΓΥΑΛΙΝΟ ΚΑΡΑΜΕΛΕ ΜΠΟΥΚΑΛΙ ΜΕ ΑΝΤΛΙΑ ΣΠΡΕΙ</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ID CODE</span>
+                    <span class="info-value">4136</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">BULK CODE</span>
+                    <span class="info-value">373-6404-T18</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">ISSUE DATE</span>
+                    <span class="info-value">05-08-2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredient Composition -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">science</span>
+                <h2>Ingredient Composition</h2>
+            </div>
+            <div class="section-body">
+                <table class="material-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">a/n</th>
+                            <th style="width: 50px;">Phase</th>
+                            <th style="width: 70px;">ID</th>
+                            <th style="width: 90px;">Prisma</th>
+                            <th>Ingredients</th>
+                            <th>INCI</th>
+                            <th>Supplier</th>
+                            <th>Manufacturer</th>
+                            <th style="width: 70px; text-align: right;">% w/w</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><span class="phase-badge phase-A">A</span></td>
+                            <td>L37</td>
+                            <td>031900001</td>
+                            <td>DEIONISED WATER</td>
+                            <td>AQUA</td>
+                            <td class="supplier-cell">BEAUTYLAB</td>
+                            <td class="supplier-cell">PRODUCER</td>
+                            <td class="percent-cell">87,5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><span class="phase-badge phase-C">C</span></td>
+                            <td>L11556</td>
+                            <td>030400017</td>
+                            <td>ALCOHOL DENAT. Denaturated with BITREX % W/W</td>
+                            <td>ALCOHOL DENAT</td>
+                            <td class="supplier-cell">BEAUTYLAB</td>
+                            <td class="supplier-cell">ALCODIS S.A<br>BOULEVARD DU SOUVERAIN 100<br>1170 BRUXELLES<br>TEL. +3226633840<br>FRANCE</td>
+                            <td class="percent-cell">5</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><span class="phase-badge phase-D">D</span></td>
+                            <td>L9923</td>
+                            <td></td>
+                            <td>DEIONIZED WATER</td>
+                            <td>AQUA</td>
+                            <td class="supplier-cell">BEAUTYLAB</td>
+                            <td class="supplier-cell">—</td>
+                            <td class="percent-cell">3</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><span class="phase-badge phase-B">B</span></td>
+                            <td>L11404</td>
+                            <td>030100079</td>
+                            <td>NIPAGUARD SCE</td>
+                            <td>SORBITAN CAPRYLATE, PROPANEDIOL, BENZOIC ACID</td>
+                            <td class="supplier-cell">COSMOCHEM- ΓΙΑΛΑΤΖΗΣ & ΣΙΑ Ο.Ε.</td>
+                            <td class="supplier-cell">Clariant Produkte (Deutschland) GmbH,<br>65926 Frankfurt BU Care Chemicals<br>Application Development Personal Care<br>Global Product Stewardship<br>PS-CustomerSupport-ICS@clariant.com</td>
+                            <td class="percent-cell">1,2</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><span class="phase-badge phase-A">A</span></td>
+                            <td>L16557</td>
+                            <td>030200296</td>
+                            <td>ACB YERBA SANTA GLYCOPROTEIN PF</td>
+                            <td>LACTOBACILLUS/ERIODICTYON CALIFORNICUM FERMENT EXTRACT, LEUCONOSTOC/RADISH ROOT FERMENT FILTRATE</td>
+                            <td class="supplier-cell">CELLCO CHEMICALS LTD- ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                            <td class="supplier-cell">Active Concepts Srl<br>Via Petrolo Litta, 9<br>20010 Bareggio Milano ITALY<br>Tel +39 02 90360719<br>Fax +39 02 90360984<br>www.activeconcepts.it<br>Email: info@activeconcepts.it</td>
+                            <td class="percent-cell">1</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><span class="phase-badge phase-A">A</span></td>
+                            <td>L13783</td>
+                            <td>031400003</td>
+                            <td>CHAMOMILE EXTRACT</td>
+                            <td>AQUA, GLYCERIN, CHAMOMILLA RECUTITA FLOWER EXTRACT, CITRIC ACID, POTASSIUM SORBATE, SODIUM BENZOATE</td>
+                            <td class="supplier-cell">O & P KOUMITZELIS E.E.</td>
+                            <td class="supplier-cell">ACCESS NATURALS<br>Petra Yialou, 190 04 SPATA, ATHENS, GREECE<br>Tel.: (+30) 210.8104206<br>Web: www.access-naturals.gr, e-mail: info@access-naturals.gr</td>
+                            <td class="percent-cell">1</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><span class="phase-badge phase-B">B</span></td>
+                            <td>L9536</td>
+                            <td>030200091</td>
+                            <td>SABOWAX ELH 40</td>
+                            <td>PEG-40 HYDROGENATED CASTOR OIL, AQUA</td>
+                            <td class="supplier-cell">CELLCO CHEMICALS LTD- ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                            <td class="supplier-cell">SABO Spa<br>Via Caravaggi<br>24040 Levate BG<br>ITALY<br>phone +39 035 596000</td>
+                            <td class="percent-cell">0,6</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><span class="phase-badge phase-A">A</span></td>
+                            <td>L8464</td>
+                            <td>030200217</td>
+                            <td>DERMOFEEL PA-3</td>
+                            <td>AQUA, SODIUM PHYTATE, ALCOHOL</td>
+                            <td class="supplier-cell">CELLCO CHEMICALS LTD- ΣΕΛΚΟ ΧΗΜΙΚΑ Ε.Π.Ε</td>
+                            <td class="supplier-cell">Evonik Nutrition & Care GmbH<br>Personal Care Business Line<br>Goldschmidtstrasse 100<br>D-45127 Essen / Germany<br>Phone: +49 (201) 173-2524<br>Fax: +49 (201) 173-1828<br>personal-care@evonik.com<br>http://www.evonik.com/personal-care</td>
+                            <td class="percent-cell">0,3</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td><span class="phase-badge phase-E">E</span></td>
+                            <td>L16568</td>
+                            <td></td>
+                            <td>DEIONIZED WATER</td>
+                            <td>AQUA</td>
+                            <td class="supplier-cell">PRODUCER</td>
+                            <td class="supplier-cell">PRODUCER</td>
+                            <td class="percent-cell">0,22</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td><span class="phase-badge phase-D">D</span></td>
+                            <td>L10234</td>
+                            <td>030700046</td>
+                            <td>BIOLIN/P</td>
+                            <td>INULIN, ALPHA-GLUCAN OLIGOSACCHARIDE</td>
+                            <td class="supplier-cell">COSMOCHEM- ΓΙΑΛΑΤΖΗΣ & ΣΙΑ Ο.Ε.</td>
+                            <td class="supplier-cell">GOBIOTICS BV<br>Jac Jansenweg 7<br>4631 SL Hoogerheide<br>The Netherlands<br>Tel: +31/(0)164 72 80 01</td>
+                            <td class="percent-cell">0,1</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td><span class="phase-badge phase-E">E</span></td>
+                            <td>L9965</td>
+                            <td>030300051</td>
+                            <td>SODIUM HYDROXIDE PELLETS EXTRA PURE- NaOH</td>
+                            <td>SODIUM HYDROXIDE</td>
+                            <td class="supplier-cell">ΡΟΥΜΠΟΥΛΑΚΗΣ Μ. ΑΕ -ROUMBOULAKIS</td>
+                            <td class="supplier-cell">MERK KGaA<br>64271 DARMSTADT, GERMANY<br>T: +49615172-0</td>
+                            <td class="percent-cell">0,06</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td><span class="phase-badge phase-B">B</span></td>
+                            <td>L15634</td>
+                            <td>020400045</td>
+                            <td>PERFUME CHAMOMILLE AF MF 26209/08</td>
+                            <td>PARFUM</td>
+                            <td class="supplier-cell">ΒΙΟΡΥΛ Α.Ε.- VIORYL SA</td>
+                            <td class="supplier-cell">VIORYL<br>CHEMICAL & AGRICULTURAL INDUSTRY, RESEARCH S.A.<br>28th km ATHENS-LAMIA NATIONAL RD., 190 14 AFIDNES GREECE<br>TEL.: +30 2295 045100<br>FAX: +30 2295 045250<br>e-mail: vioryl@vioryl.gr<br>www.vioryl.gr</td>
+                            <td class="percent-cell">0,02</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Method of Manufacture -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">manufacturing</span>
+                <h2>Method of Manufacture</h2>
+            </div>
+            <div class="section-body">
+                <ol class="method-list">
+                    <li>Διαδοχική προσθήκη των συστατικών της φάσης Α στο δοχείο παραγωγής.</li>
+                    <li>Προδιάλυση των συστατικών της φάσης Β σε βοηθητικό δοχείο.</li>
+                    <li>Προσθήκη της φάσης C σε βοηθητικό δοχείο.</li>
+                    <li>Προσθήκη της φάσης Β στην C, υπό ανάδευση, μέχρι πλήρους διάλυσης.</li>
+                    <li>Προσθήκη της φάσης B+C στην Α υπό ανάδευση, μέχρι πλήρους διαύγειας.</li>
+                    <li>Προδιάλυση των συστατικών της φάσης D σε βοηθητικό δοχείο.</li>
+                    <li>Προσθήκη της φάσης D στην ABC, υπό ανάδευση μέχρι πλήρους ομοιογένειας.</li>
+                    <li>Έλεγχος pH και διόρθωση, αν χρειστεί με citric acid ή NaOH.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Microbiological & Physicochemical Data -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">analytics</span>
+                <h2>Microbiological Properties & Physicochemical Data</h2>
+            </div>
+            <div class="section-body">
+                <div class="properties-grid">
+                    <div class="property-item">
+                        <span class="property-label">APPEARANCE / ΕΜΦΑΝΙΣΗ</span>
+                        <span class="property-value">LIQUID / ΥΓΡΟ</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">CLARITY / ΔΙΑΥΓΕΙΑ</span>
+                        <span class="property-value">CLEAR / ΔΙΑΥΓΕΣ</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">COLOUR / ΧΡΩΜΑ</span>
+                        <span class="property-value">YELLOWISH / ΥΠΟΚΙΤΡΙΝΟ</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">ODOR / ΟΣΜΗ</span>
+                        <span class="property-value">CHARACTERISTIC / ΧΑΡΑΚΤΗΡΙΣΤΙΚΗ</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">pH</span>
+                        <span class="property-value">5.25 ± 0.25</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">SPECIFIC GRAVITY</span>
+                        <span class="property-value">0.994 ± 0.02 g/ml</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">TOTAL MICROBIAL COUNT (T.M.C)</span>
+                        <span class="property-value">&lt;100 COL/GR</span>
+                    </div>
+                    <div class="property-item">
+                        <span class="property-label">PATHOGENS</span>
+                        <span class="property-value">S. AUREUS, P. AERUGINOSA, C. ALBICANS: ABSENCE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Allergens -->
+        <div class="section-card">
+            <div class="section-header">
+                <span class="material-icons">warning_amber</span>
+                <h2>Allergens</h2>
+            </div>
+            <div class="section-body">
+                <table class="allergens-table">
+                    <thead>
+                        <tr>
+                            <th>INCI Name</th>
+                            <th>CAS</th>
+                            <th>EINECS</th>
+                            <th>Restriction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Amyl Salicylate</td>
+                            <td>2050-08-0</td>
+                            <td>218-080-2</td>
+                            <td>III/328</td>
+                        </tr>
+                        <tr>
+                            <td>Linalyl Acetate</td>
+                            <td>115-95-7</td>
+                            <td>204-116-4</td>
+                            <td>III/337</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            <span class="material-icons" style="vertical-align: middle; font-size: 16px;">info</span>
+            Document ID: 4136 | Bulk Code: 373-6404-T18 | Issue Date: 05-08-2025 | Confidential - Internal Use Only
+        </div>
+
+    </div>
+
+    <script>
+        // Simple enhancement: Add print button
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating print button
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '<span class="material-icons">print</span> Print';
+            printBtn.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--md-primary);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 12px 24px;
+                font-family: 'Roboto', sans-serif;
+                font-weight: 500;
+                font-size: 0.9rem;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow: var(--md-shadow-4);
+                cursor: pointer;
+                z-index: 1000;
+                transition: background 0.2s;
+            `;
+            printBtn.onmouseover = () => printBtn.style.background = 'var(--md-primary-dark)';
+            printBtn.onmouseout = () => printBtn.style.background = 'var(--md-primary)';
+            printBtn.onclick = () => window.print();
+            document.body.appendChild(printBtn);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Όροι Χρήσης";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Όροι Χρήσης</span>
+</nav>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-body">
+        <h1 class="h3 mb-1">Όροι Χρήσης</h1>
+        <p class="text-muted small">Τελευταία ενημέρωση: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+        <hr />
+
+        <div class="alert alert-warning small"><i class="fas fa-triangle-exclamation me-2"></i>Πρότυπο κείμενο — αντικαταστήστε το με τους τελικούς όρους που θα ελεγχθούν νομικά πριν την εμπορική διάθεση.</div>
+
+        <h2 class="h6 mt-3">1. Αποδοχή Όρων</h2>
+        <p class="text-muted">Με τη χρήση της πλατφόρμας INCIS SaaP αποδέχεστε τους παρόντες όρους. Εάν δεν συμφωνείτε, μην χρησιμοποιείτε την υπηρεσία.</p>
+
+        <h2 class="h6 mt-3">2. Η Υπηρεσία</h2>
+        <p class="text-muted">Η INCIS SaaP παρέχει λογισμικό διαχείρισης συνθέσεων καλλυντικών (SaaS) με βάση συνδρομή. Διατηρούμε το δικαίωμα τροποποίησης ή διακοπής χαρακτηριστικών με προειδοποίηση.</p>
+
+        <h2 class="h6 mt-3">3. Λογαριασμοί & Ασφάλεια</h2>
+        <p class="text-muted">Είστε υπεύθυνοι για την εμπιστευτικότητα των διαπιστευτηρίων σας και για κάθε δραστηριότητα στον λογαριασμό σας. Συνιστάται η ενεργοποίηση ελέγχου δύο παραγόντων (2FA).</p>
+
+        <h2 class="h6 mt-3">4. Δεδομένα & Απομόνωση</h2>
+        <p class="text-muted">Τα δεδομένα κάθε οργανισμού (tenant) είναι λογικά απομονωμένα. Διατηρείτε την κυριότητα των δεδομένων σας· εμείς τα επεξεργαζόμαστε για την παροχή της υπηρεσίας.</p>
+
+        <h2 class="h6 mt-3">5. Συνδρομές & Πληρωμές</h2>
+        <p class="text-muted">Η πρόσβαση ενδέχεται να υπόκειται σε συνδρομή/δοκιμαστική περίοδο. Οι λεπτομέρειες χρέωσης καθορίζονται στην εκάστοτε σύμβαση.</p>
+
+        <h2 class="h6 mt-3">6. Περιορισμός Ευθύνης</h2>
+        <p class="text-muted">Η υπηρεσία παρέχεται «ως έχει». Στον μέγιστο βαθμό που επιτρέπει ο νόμος, δεν φέρουμε ευθύνη για έμμεσες ή αποθετικές ζημίες.</p>
+
+        <h2 class="h6 mt-3">7. Επικοινωνία</h2>
+        <p class="text-muted">Για ερωτήματα σχετικά με τους όρους: support@incis.local</p>
+
+        <a asp-controller="Legal" asp-action="Privacy" class="btn btn-erp-secondary mt-2"><i class="fas fa-shield-halved me-2"></i>Πολιτική Απορρήτου</a>
+    </div>
+</div>

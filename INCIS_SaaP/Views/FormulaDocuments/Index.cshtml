@@ -1,0 +1,209 @@
+@model INCIS_SaaP.Dtos.FormulaDocumentsIndexViewModel
+@{
+    ViewData["Title"] = "Document Hub — " + Model.FormulaCode;
+}
+
+<style>
+    /* ── Document Hub styles ── */
+    .doc-hub-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    .doc-hub-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(113,75,103,.25) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-hub-header::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(59,130,246,.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-hub-header .header-content { position: relative; z-index: 1; }
+    .doc-hub-header h1 { font-weight: 800; font-size: 1.75rem; margin-bottom: .25rem; letter-spacing: -.5px; }
+    .doc-hub-header .subtitle { opacity: .8; font-size: .9rem; }
+    .doc-hub-meta { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+    .doc-hub-meta .meta-chip {
+        background: rgba(255,255,255,.12);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.15);
+        border-radius: 8px;
+        padding: .4rem .85rem;
+        font-size: .82rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+    }
+    .doc-hub-meta .meta-chip i { opacity: .7; }
+
+    .doc-card {
+        border: none;
+        border-radius: 14px;
+        background: var(--bs-body-bg, #fff);
+        box-shadow: 0 2px 12px rgba(0,0,0,.06), 0 0 0 1px rgba(0,0,0,.04);
+        transition: all .25s cubic-bezier(.4,0,.2,1);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .doc-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,.12), 0 0 0 1px rgba(113,75,103,.15);
+    }
+    .doc-card .card-icon-bar {
+        padding: 1.25rem 1.25rem .75rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .doc-card .card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        background: linear-gradient(135deg, #714B67, #9B6A8F);
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(113,75,103,.3);
+    }
+    .doc-card .card-body { padding: .5rem 1.25rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .doc-card .form-number { font-family: 'JetBrains Mono', monospace; font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #714B67; margin-bottom: .25rem; }
+    .doc-card .card-title { font-weight: 700; font-size: 1rem; margin-bottom: .35rem; color: var(--bs-body-color); line-height: 1.3; }
+    .doc-card .card-desc { font-size: .82rem; color: var(--bs-secondary-color, #6c757d); line-height: 1.5; flex: 1; }
+    .doc-card .card-footer-custom { padding: .75rem 1.25rem; border-top: 1px solid rgba(0,0,0,.06); display: flex; justify-content: space-between; align-items: center; }
+
+    .status-badge {
+        font-size: .72rem;
+        font-weight: 600;
+        padding: .3rem .6rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+    }
+    .status-badge.available { background: rgba(16,185,129,.12); color: #059669; }
+    .status-badge.empty { background: rgba(156,163,175,.12); color: #6b7280; }
+
+    .doc-card .card-link {
+        font-size: .82rem;
+        font-weight: 600;
+        color: #714B67;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: .35rem;
+        transition: gap .2s;
+    }
+    .doc-card .card-link:hover { gap: .6rem; color: #5a3a52; }
+
+    .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+
+    @@media (max-width: 768px) {
+        .doc-hub-header { padding: 1.5rem; border-radius: 12px; }
+        .doc-hub-header h1 { font-size: 1.35rem; }
+        .doc-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="Formulas" asp-action="Index">Formulas</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="Formulas" asp-action="Details" asp-route-id="@Model.FormulaId">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Documents</span>
+</nav>
+
+<!-- Header -->
+<div class="doc-hub-header erp-fade-in">
+    <div class="header-content">
+        <div class="d-flex align-items-center gap-3 mb-2">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;backdrop-filter:blur(8px);">
+                <i class="fas fa-folder-open"></i>
+            </div>
+            <div>
+                <h1 class="mb-0">Document Hub</h1>
+                <div class="subtitle">Technical documents for formula <strong>@Model.FormulaCode</strong></div>
+            </div>
+        </div>
+        <div class="doc-hub-meta">
+            <span class="meta-chip"><i class="fas fa-hashtag"></i> @Model.FormulaCode</span>
+            <span class="meta-chip"><i class="fas fa-flask"></i> @(Model.ProductName ?? "—")</span>
+            @if (!string.IsNullOrEmpty(Model.ProductType))
+            {
+                <span class="meta-chip"><i class="fas fa-tag"></i> @Model.ProductType</span>
+            }
+            @if (!string.IsNullOrEmpty(Model.ClientName))
+            {
+                <span class="meta-chip"><i class="fas fa-handshake"></i> @Model.ClientName</span>
+            }
+            <span class="meta-chip"><i class="fas fa-file-lines"></i> @Model.AvailableDocuments.Count Documents</span>
+        </div>
+    </div>
+</div>
+
+<!-- Document Cards Grid -->
+<div class="doc-grid erp-fade-in">
+    @foreach (var doc in Model.AvailableDocuments)
+    {
+        <div class="doc-card">
+            <div class="card-icon-bar">
+                <div class="card-icon">
+                    <i class="fas @doc.Icon"></i>
+                </div>
+                @if (doc.HasData)
+                {
+                    <span class="status-badge available"><i class="fas fa-circle-check"></i> Data Available</span>
+                }
+                else
+                {
+                    <span class="status-badge empty"><i class="fas fa-circle-minus"></i> No Data</span>
+                }
+            </div>
+            <div class="card-body">
+                <div class="form-number">@doc.FormNumber</div>
+                <div class="card-title">@doc.Title</div>
+                <div class="card-desc">@doc.Description</div>
+            </div>
+            <div class="card-footer-custom">
+                <span class="erp-badge erp-badge-@doc.BadgeColor" style="font-size:.72rem;">@doc.FormNumber</span>
+                <a asp-controller="FormulaDocuments" asp-action="@doc.ActionName" asp-route-id="@Model.FormulaId" class="card-link">
+                    View Document <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Back Button -->
+<div class="mt-4 erp-fade-in d-flex gap-2 flex-wrap">
+    <a asp-controller="Formulas" asp-action="Details" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Formula Details
+    </a>
+    <a asp-controller="ProductManagement" asp-action="Manage" asp-route-id="@Model.FormulaId" class="btn btn-primary">
+        <i class="fas fa-sliders me-2"></i>Διαχείριση Δεδομένων Προϊόντος
+    </a>
+    <a asp-controller="FormulaDocuments" asp-action="Pdf" asp-route-id="@Model.FormulaId" class="btn btn-danger">
+        <i class="fas fa-file-pdf me-2"></i>Λήψη PDF
+    </a>
+</div>

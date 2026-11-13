@@ -1,0 +1,87 @@
+@{
+    ViewData["Title"] = "Βοήθεια";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Βοήθεια</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-circle-question"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Κέντρο Βοήθειας</h1>
+        <div class="erp-page-header-subtitle">Οδηγίες χρήσης &amp; συχνές ερωτήσεις</div>
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: var(--erp-gradient-soft); color: var(--erp-primary);"><i class="fas fa-user-shield"></i></div>
+                <h5 class="fw-bold">Λογαριασμός</h5>
+                <p class="text-muted small">Σύνδεση, εγγραφή, αλλαγή κωδικού. Όλα τα διαπιστευτήρια είναι κρυπτογραφημένα PBKDF2-SHA512.</p>
+                <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-sm btn-outline-primary"><i class="fas fa-key me-1"></i>Αλλαγή Κωδικού</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: rgba(16,185,129,.12); color: var(--erp-success);"><i class="fas fa-flask"></i></div>
+                <h5 class="fw-bold">Φόρμουλες</h5>
+                <p class="text-muted small">Δημιουργία &amp; διαχείριση φόρμουλων. Κάθε φόρμουλα μπορεί να περιέχει πολλά INCI, α' ύλες, αλλεργιογόνα, βαρέα μέταλλα.</p>
+                <a asp-controller="Formulas" asp-action="Index" class="btn btn-sm btn-outline-primary"><i class="fas fa-arrow-right me-1"></i>Πήγαινε</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: rgba(59,130,246,.12); color: var(--erp-info);"><i class="fas fa-file-export"></i></div>
+                <h5 class="fw-bold">Εξαγωγές</h5>
+                <p class="text-muted small">Εξαγωγή σε Excel για πελάτες, προμηθευτές, INCI και α' ύλες. Διαθέσιμο PDF/QR generation.</p>
+                <a asp-controller="Reports" asp-action="Index" class="btn btn-sm btn-outline-primary"><i class="fas fa-arrow-right me-1"></i>Αναφορές</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: rgba(245,158,11,.12); color: var(--erp-warning);"><i class="fas fa-keyboard"></i></div>
+                <h5 class="fw-bold">Συντομεύσεις</h5>
+                <ul class="small text-muted mb-0">
+                    <li><kbd>Ctrl</kbd> + <kbd>K</kbd> Γρήγορη αναζήτηση</li>
+                    <li><kbd>Esc</kbd> Κλείσιμο modal</li>
+                    <li>Click στο εικονίδιο φεγγαριού: εναλλαγή light/dark</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: rgba(155,89,182,.12); color: var(--erp-accent);"><i class="fas fa-mobile-screen-button"></i></div>
+                <h5 class="fw-bold">Mobile / Tablet</h5>
+                <p class="text-muted small">Πλήρως responsive — λειτουργεί άριστα σε κινητό &amp; tablet. Το menu γίνεται hamburger στις μικρές οθόνες.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <div class="erp-stat-icon mb-3" style="background: rgba(239,68,68,.12); color: var(--erp-danger);"><i class="fas fa-life-ring"></i></div>
+                <h5 class="fw-bold">Υποστήριξη</h5>
+                <p class="text-muted small">Για οποιοδήποτε πρόβλημα ή ερώτηση επικοινωνήστε:</p>
+                <a href="mailto:support@incis.local" class="btn btn-sm btn-outline-primary"><i class="fas fa-envelope me-1"></i>support@incis.local</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-info erp-fade-in mt-3">
+    <i class="fas fa-circle-info me-2"></i>
+    <strong>Έκδοση:</strong> INCIS SaaP v1.0.0 · Build @DateTime.Now.Year — Cosmetic Formula Management Platform
+</div>

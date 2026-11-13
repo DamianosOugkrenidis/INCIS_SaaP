@@ -1,0 +1,42 @@
+@model INCIS_SaaP.Models.Restriction
+@{
+    ViewData["Title"] = "Λεπτομέρειες Περιορισμού";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Περιορισμοί</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@(Model.INCI != null ? Model.INCI.Name : "Λεπτομέρειες")</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-triangle-exclamation"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@(Model.INCI != null ? Model.INCI.Name : "Περιορισμός")</h1>
+        <div class="erp-page-header-subtitle">@(Model.Regulation ?? "—")</div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Πληροφορίες Περιορισμού</h3></div>
+    <div class="erp-card-body">
+        <div class="erp-info-grid">
+            <div class="erp-info-item"><span class="erp-info-label">Συστατικό INCI</span><span class="erp-info-value">@(Model.INCI?.Name ?? "—")</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Κανονισμός</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Regulation) ? "empty" : "")">@(Model.Regulation ?? "—")</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Max %</span><span class="erp-info-value">@(Model.MaxPercentage?.ToString("F2") ?? "—")%</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Τύπος</span><span class="erp-info-value">@(Model.IsRinseOffOnly ? "Μόνο Rinse-off" : "Όλα τα προϊόντα")</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Κατάσταση</span><span class="erp-info-value">@(Model.IsActive ? "Ενεργός" : "Ανενεργός")</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Δημιουργία</span><span class="erp-info-value">@Model.CreatedAt.ToString("dd/MM/yyyy")</span></div>
+            <div class="erp-info-item" style="grid-column: 1/-1;"><span class="erp-info-label">Περιγραφή</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Description) ? "empty" : "")">@(Model.Description ?? "—")</span></div>
+        </div>
+    </div>
+</div>

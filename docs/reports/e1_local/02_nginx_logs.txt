@@ -1,0 +1,2 @@
+﻿nginx_command=False
+No nginx logs locally.

@@ -1,0 +1,171 @@
+@model INCIS_SaaP.Models.ProductionBatch
+@{
+    ViewData["Title"] = "Λεπτομέρειες Παρτίδας";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    @if (Model.Formula != null)
+    {
+        <a asp-action="Details" asp-route-id="@Model.FormulaId">@Model.Formula.FormulaCode</a>
+        <i class="fas fa-chevron-right divider"></i>
+    }
+    <span class="current">@Model.BatchCode</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-industry"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Παρτίδα: @Model.BatchCode</h1>
+        <div class="erp-page-header-subtitle d-flex flex-wrap gap-2 align-items-center">
+            @switch (Model.Status)
+            {
+                case "Completed":
+                    <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ολοκληρώθηκε</span>
+                    break;
+                case "InProgress":
+                    <span class="erp-badge erp-badge-warning"><i class="fas fa-spinner"></i>Σε εξέλιξη</span>
+                    break;
+                case "Cancelled":
+                    <span class="erp-badge erp-badge-danger"><i class="fas fa-xmark"></i>Ακυρώθηκε</span>
+                    break;
+                default:
+                    <span class="erp-badge erp-badge-secondary"><i class="fas fa-clock"></i>Προγραμματισμένη</span>
+                    break;
+            }
+            <span class="erp-badge erp-badge-info"><i class="fas fa-weight-scale"></i>@Model.BatchSize @Model.Unit</span>
+            @if (Model.Formula != null)
+            {
+                <span class="erp-badge erp-badge-primary"><i class="fas fa-flask"></i>@Model.Formula.FormulaCode</span>
+            }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        @if (Model.Formula != null)
+        {
+            <a asp-action="Produce" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        }
+        <a asp-action="ProductionHistory" class="btn btn-erp-secondary"><i class="fas fa-history me-2"></i>Ιστορικό</a>
+    </div>
+</div>
+
+<!-- Status Actions -->
+<div class="row g-3 mb-3 erp-fade-in">
+    <div class="col-12">
+        <div class="erp-card">
+            <div class="erp-card-header">
+                <h3><i class="fas fa-circle-info text-erp-primary"></i> Πληροφορίες Παρτίδας</h3>
+                <div class="ms-auto d-flex gap-2">
+                    @if (Model.Status == "Planned")
+                    {
+                        <form asp-action="UpdateBatchStatus" asp-route-id="@Model.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="status" value="InProgress" />
+                            <button type="submit" class="btn btn-warning btn-sm"><i class="fas fa-play me-1"></i>Έναρξη</button>
+                        </form>
+                    }
+                    @if (Model.Status == "InProgress")
+                    {
+                        <form asp-action="UpdateBatchStatus" asp-route-id="@Model.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="status" value="Completed" />
+                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check me-1"></i>Ολοκλήρωση</button>
+                        </form>
+                    }
+                    @if (Model.Status != "Completed" && Model.Status != "Cancelled")
+                    {
+                        <form asp-action="UpdateBatchStatus" asp-route-id="@Model.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="status" value="Cancelled" />
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-xmark me-1"></i>Ακύρωση</button>
+                        </form>
+                    }
+                </div>
+            </div>
+            <div class="erp-card-body">
+                <div class="erp-info-grid">
+                    <div class="erp-info-item"><span class="erp-info-label">Κωδικός Παρτίδας</span><span class="erp-info-value">@Model.BatchCode</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">LOT</span><span class="erp-info-value">@(Model.LotNumber ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Μέγεθος</span><span class="erp-info-value">@Model.BatchSize @Model.Unit</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Ημ/νία Παραγωγής</span><span class="erp-info-value">@Model.ProductionDate.ToString("dd/MM/yyyy HH:mm")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Χειριστής</span><span class="erp-info-value">@(Model.Operator ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Τοποθεσία</span><span class="erp-info-value">@(Model.ManufacturingSite ?? "—")</span></div>
+                    @if (Model.CompletedAt.HasValue)
+                    {
+                        <div class="erp-info-item"><span class="erp-info-label">Ολοκλήρωση</span><span class="erp-info-value">@Model.CompletedAt.Value.ToString("dd/MM/yyyy HH:mm")</span></div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <div class="erp-info-item"><span class="erp-info-label">Σημειώσεις</span><span class="erp-info-value">@Model.Notes</span></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Production Lines - Quantities -->
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-header">
+        <h3><i class="fas fa-scale-balanced text-erp-primary"></i> Ποσότητες Α' Υλών</h3>
+        <span class="erp-badge erp-badge-primary ms-2">@Model.Lines.Count υλικά</span>
+    </div>
+    <div class="erp-card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Α' Ύλη</th>
+                        <th class="text-center">Φάση</th>
+                        <th class="text-end">%</th>
+                        <th class="text-end">Ποσότητα (@Model.Unit)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var sortedLines = Model.Lines.OrderBy(l => l.Phase).ThenBy(l => l.OrderIndex).ToList();
+                        string? currentPhase = null;
+                    }
+                    @foreach (var line in sortedLines)
+                    {
+                        if (line.Phase != currentPhase)
+                        {
+                            currentPhase = line.Phase;
+                            <tr class="table-light">
+                                <td colspan="5" class="fw-bold text-muted"><i class="fas fa-layer-group me-1"></i>Φάση @(currentPhase ?? "—")</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="text-muted">@line.OrderIndex</td>
+                            <td>
+                                @if (line.RawMaterialId == null || line.RawMaterial == null)
+                                {
+                                    <i class="fas fa-droplet me-1 text-info"></i><strong>@(line.Notes ?? "AQUA (Water)")</strong>
+                                }
+                                else
+                                {
+                                    <span>@line.RawMaterial.ProductName</span>
+                                    <small class="text-muted d-block">@line.RawMaterial.Code</small>
+                                }
+                            </td>
+                            <td class="text-center"><span class="erp-badge erp-badge-secondary">@(line.Phase ?? "—")</span></td>
+                            <td class="text-end">@line.Percentage.ToString("F2")%</td>
+                            <td class="text-end fw-bold">@line.CalculatedQuantity.ToString("F4") @Model.Unit</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="fw-bold table-dark">
+                        <td colspan="3">Σύνολο</td>
+                        <td class="text-end">100.00%</td>
+                        <td class="text-end">@Model.BatchSize.ToString("F4") @Model.Unit</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,494 @@
+@model INCIS_SaaP.Dtos.HeavyMetalsDocumentViewModel
+@{
+    ViewData["Title"] = "FORM3 — Heavy Metals · " + Model.FormulaCode;
+    var compliantCount = Model.HeavyMetalAnalysis.Count(h => h.IsCompliant);
+    var totalAnalysis = Model.HeavyMetalAnalysis.Count;
+}
+
+<style>
+    /* ── FORM3 Heavy Metals Styles ── */
+    .doc-container { max-width: 1400px; margin: 0 auto; }
+
+    .doc-header-metals {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    .doc-header-metals::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -15%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(99,102,241,.25) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-header-metals::after {
+        content: '';
+        position: absolute;
+        bottom: -40%;
+        left: 5%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(139,92,246,.15) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-header-metals .banner-content { position: relative; z-index: 1; }
+    .doc-header-metals h1 { font-weight: 800; font-size: 1.5rem; letter-spacing: -.3px; margin-bottom: 0; }
+    .doc-header-metals .form-tag {
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        padding: .25rem .65rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 1.75rem 0 1rem;
+        padding-bottom: .65rem;
+        border-bottom: 3px solid;
+        border-image: linear-gradient(90deg, #6366f1, transparent) 1;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+    .section-title i { color: #6366f1; }
+    .section-title .section-num {
+        background: linear-gradient(135deg, #6366f1, #4338ca);
+        color: #fff;
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .75rem;
+        font-weight: 800;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: .82rem;
+    }
+    .data-table thead th {
+        background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
+        font-weight: 700;
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        color: #3730a3;
+        padding: .7rem .65rem;
+        border-bottom: 2px solid #c7d2fe;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    [data-bs-theme="dark"] .data-table thead th {
+        background: linear-gradient(180deg, #1e1b4b 0%, #252363 100%);
+        color: #a5b4fc;
+        border-bottom-color: #4338ca;
+    }
+    .data-table tbody td {
+        padding: .55rem .65rem;
+        border-bottom: 1px solid rgba(0,0,0,.04);
+        vertical-align: middle;
+    }
+    .data-table tbody tr:hover { background: rgba(99,102,241,.04); }
+    .data-table .mono { font-family: 'JetBrains Mono', monospace; font-size: .78rem; }
+
+    .rmi-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+        font-size: .72rem;
+        font-weight: 600;
+        padding: .2rem .5rem;
+        border-radius: 5px;
+    }
+    .rmi-badge.yes { background: rgba(16,185,129,.12); color: #059669; }
+    .rmi-badge.no { background: rgba(239,68,68,.1); color: #dc2626; }
+
+    .compliance-cell {
+        display: inline-flex;
+        align-items: center;
+        gap: .3rem;
+        font-weight: 600;
+        font-size: .78rem;
+        padding: .25rem .6rem;
+        border-radius: 6px;
+    }
+    .compliance-cell.pass { background: rgba(16,185,129,.12); color: #059669; }
+    .compliance-cell.fail { background: rgba(239,68,68,.12); color: #dc2626; }
+
+    .summary-card {
+        border-radius: 14px;
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+    .summary-card.compliant {
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        border: 1px solid rgba(16,185,129,.25);
+    }
+    .summary-card.non-compliant {
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border: 1px solid rgba(239,68,68,.25);
+    }
+    [data-bs-theme="dark"] .summary-card.compliant {
+        background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(16,185,129,.05));
+    }
+    [data-bs-theme="dark"] .summary-card.non-compliant {
+        background: linear-gradient(135deg, rgba(239,68,68,.1), rgba(239,68,68,.05));
+    }
+    .summary-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+    }
+    .summary-icon.ok { background: rgba(16,185,129,.15); color: #059669; }
+    .summary-icon.fail { background: rgba(239,68,68,.15); color: #dc2626; }
+
+    .metal-row-compliant td:first-child { border-left: 3px solid #10b981; }
+    .metal-row-noncompliant td:first-child { border-left: 3px solid #ef4444; }
+
+    .info-grid-metals {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: .75rem;
+    }
+    .info-grid-metals .info-item {
+        padding: .65rem .85rem;
+        background: rgba(99,102,241,.04);
+        border-radius: 8px;
+        border: 1px solid rgba(99,102,241,.08);
+    }
+    .info-grid-metals .info-label { font-size: .72rem; color: var(--bs-secondary-color, #6c757d); text-transform: uppercase; letter-spacing: .5px; font-weight: 600; }
+    .info-grid-metals .info-value { font-weight: 600; font-size: .9rem; margin-top: .15rem; }
+
+    .print-fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, #6366f1, #4338ca);
+        color: #fff;
+        font-size: 1.2rem;
+        box-shadow: 0 8px 24px rgba(99,102,241,.35);
+        cursor: pointer;
+        transition: all .2s;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .print-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(99,102,241,.45); }
+
+    /* ── Print ── */
+    @@media print {
+        @@page { size: A4 landscape; margin: 12mm; }
+        body, .erp-body { background: #fff !important; }
+        .erp-topbar, .erp-sidebar, .erp-mobile-overlay, .erp-footer,
+        .erp-breadcrumb, .print-fab, .btn-erp-secondary, .no-print { display: none !important; }
+        .erp-main { margin: 0 !important; padding: 0 !important; }
+        .erp-main-inner { max-width: 100% !important; padding: 0 !important; }
+        .doc-header-metals {
+            background: #312e81 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .erp-card { box-shadow: none !important; border: 1px solid #dee2e6 !important; break-inside: avoid; }
+        .data-table thead th { background: #eef2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .data-table { font-size: .7rem; }
+        .summary-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; break-inside: avoid; }
+        .compliance-cell, .rmi-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .metal-row-compliant td:first-child, .metal-row-noncompliant td:first-child {
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
+        }
+    }
+</style>
+
+<nav class="erp-breadcrumb erp-fade-in no-print" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="Formulas" asp-action="Details" asp-route-id="@Model.FormulaId">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId">Documents</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">FORM3 — Heavy Metals</span>
+</nav>
+
+<div class="doc-container">
+    <!-- Header -->
+    <div class="doc-header-metals erp-fade-in">
+        <div class="banner-content">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="form-tag">FORM 3</span>
+                        <span class="form-tag"><i class="fas fa-calendar me-1"></i>@Model.GeneratedAt.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <h1><i class="fas fa-vial me-2"></i>Heavy Metals & Impurities Document</h1>
+                    <div class="mt-1 opacity-75">Raw material impurity analysis and regulatory compliance</div>
+                </div>
+                <div class="text-end">
+                    <div style="font-size:.72rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;">Formula</div>
+                    <div style="font-size:1.3rem;font-weight:800;font-family:'JetBrains Mono',monospace;">@Model.FormulaCode</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formula Info -->
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Formula Information</h3></div>
+        <div class="erp-card-body">
+            <div class="info-grid-metals">
+                <div class="info-item">
+                    <div class="info-label">Product Name</div>
+                    <div class="info-value">@(Model.ProductName ?? "—")</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Product Type</div>
+                    <div class="info-value">@(Model.ProductType ?? "—")</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Client</div>
+                    <div class="info-value">@(Model.ClientName ?? "—")</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">ID Code</div>
+                    <div class="info-value"><code>@(Model.PPIdCode ?? "—")</code></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Version</div>
+                    <div class="info-value">@(Model.Version ?? "v1.0")</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Issue Date</div>
+                    <div class="info-value">@(Model.IssueDate?.ToString("dd/MM/yyyy") ?? "—")</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Raw Material Impurity Specifications -->
+    <div class="section-title erp-fade-in">
+        <span class="section-num">1</span>
+        <i class="fas fa-cubes"></i> Raw Material Impurity Specifications
+    </div>
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body p-0">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">A/N</th>
+                            <th>ID</th>
+                            <th>Raw Material</th>
+                            <th>INCI Name</th>
+                            <th class="text-end">% w/w</th>
+                            <th>Impurity Specifications</th>
+                            <th class="text-center">RMI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.RawMaterialImpurities.Any())
+                        {
+                            @foreach (var imp in Model.RawMaterialImpurities.OrderBy(i => i.Order))
+                            {
+                                <tr>
+                                    <td class="mono text-center">@imp.Order</td>
+                                    <td class="mono">@imp.RawMaterialCode</td>
+                                    <td class="fw-semibold">@imp.RawMaterialName</td>
+                                    <td style="max-width:200px;">@(imp.InciName ?? "—")</td>
+                                    <td class="text-end mono">@imp.Percentage.ToString("F3")</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(imp.ImpuritySpecs))
+                                        {
+                                            <span class="small">@imp.ImpuritySpecs</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted small">Not specified</span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (imp.HasRMI)
+                                        {
+                                            <span class="rmi-badge yes"><i class="fas fa-check"></i> YES</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="rmi-badge no"><i class="fas fa-xmark"></i> NO</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="7" class="text-center py-4 text-muted"><i class="fas fa-inbox me-2"></i>No impurity data available.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Heavy Metal Analysis in Final Product -->
+    <div class="section-title erp-fade-in">
+        <span class="section-num">2</span>
+        <i class="fas fa-microscope"></i> Heavy Metal Analysis in Final Product
+    </div>
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body p-0">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Metal</th>
+                            <th class="text-end">Limit</th>
+                            <th class="text-end">Detected</th>
+                            <th>Unit</th>
+                            <th>Test Method</th>
+                            <th>Regulation</th>
+                            <th class="text-center">Compliant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.HeavyMetalAnalysis.Any())
+                        {
+                            @foreach (var metal in Model.HeavyMetalAnalysis)
+                            {
+                                var isPass = metal.IsCompliant;
+                                <tr class="@(isPass ? "metal-row-compliant" : "metal-row-noncompliant")">
+                                    <td class="fw-bold">
+                                        <i class="fas fa-atom me-1" style="color:#6366f1;font-size:.75rem;"></i>
+                                        @metal.MetalName
+                                    </td>
+                                    <td class="text-end mono">@(metal.LimitValue?.ToString("F2") ?? "—")</td>
+                                    <td class="text-end mono">
+                                        @if (metal.DetectedValue.HasValue)
+                                        {
+                                            <span class="@(!isPass ? "text-danger fw-bold" : "")">@metal.DetectedValue.Value.ToString("F2")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">N/D</span>
+                                        }
+                                    </td>
+                                    <td class="mono">@metal.Unit</td>
+                                    <td class="small">@(metal.TestMethod ?? "—")</td>
+                                    <td class="small">@(metal.Regulation ?? "—")</td>
+                                    <td class="text-center">
+                                        @if (isPass)
+                                        {
+                                            <span class="compliance-cell pass"><i class="fas fa-circle-check"></i> PASS</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="compliance-cell fail"><i class="fas fa-circle-xmark"></i> FAIL</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="7" class="text-center py-4 text-muted"><i class="fas fa-inbox me-2"></i>No heavy metal analysis data available.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compliance Summary -->
+    <div class="erp-fade-in mb-3">
+        <div class="summary-card @(Model.IsOverallCompliant ? "compliant" : "non-compliant")">
+            <div class="summary-icon @(Model.IsOverallCompliant ? "ok" : "fail")">
+                <i class="fas @(Model.IsOverallCompliant ? "fa-shield-check" : "fa-shield-exclamation")"></i>
+            </div>
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="fw-bold" style="font-size:1.05rem;">Overall Compliance Status:</span>
+                    @if (Model.IsOverallCompliant)
+                    {
+                        <span class="erp-badge erp-badge-success" style="font-size:.82rem;padding:.35rem .75rem;">
+                            <i class="fas fa-check-double me-1"></i>ALL PARAMETERS COMPLIANT
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="erp-badge erp-badge-danger" style="font-size:.82rem;padding:.35rem .75rem;">
+                            <i class="fas fa-exclamation-triangle me-1"></i>NON-COMPLIANT
+                        </span>
+                    }
+                </div>
+                <div class="text-muted small mt-1">
+                    @if (totalAnalysis > 0)
+                    {
+                        <span>@compliantCount / @totalAnalysis parameters within limits</span>
+                        <span class="mx-2">|</span>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.ComplianceSummary))
+                    {
+                        <span>@Model.ComplianceSummary</span>
+                    }
+                    else
+                    {
+                        <span>Generated on @Model.GeneratedAt.ToString("dd/MM/yyyy HH:mm")</span>
+                    }
+                </div>
+                @if (totalAnalysis > 0)
+                {
+                    <div class="progress mt-2" style="height:6px;border-radius:3px;max-width:300px;">
+                        <div class="progress-bar @(Model.IsOverallCompliant ? "bg-success" : "bg-danger")"
+                             role="progressbar"
+                             style="width:@(totalAnalysis > 0 ? (compliantCount * 100 / totalAnalysis) : 0)%;">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Back -->
+    <div class="mt-4 erp-fade-in no-print">
+        <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Document Hub
+        </a>
+    </div>
+</div>
+
+<!-- Print FAB -->
+<button class="print-fab no-print" onclick="window.print()" title="Print Document">
+    <i class="fas fa-print"></i>
+</button>

@@ -1,0 +1,157 @@
+@model INCIS_SaaP.Controllers.ProfileViewModel
+@{
+    ViewData["Title"] = "Το Προφίλ μου";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Το Προφίλ μου</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-circle-user"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@(Model.FullName ?? Model.Email)</h1>
+        <div class="erp-page-header-subtitle">
+            <span class="me-3"><i class="fas fa-envelope me-1"></i>@Model.Email</span>
+            <span class="me-3"><i class="fas fa-user-shield me-1"></i>@Model.Roles</span>
+            @if (Model.IsApproved)
+            {
+                <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Εγκεκριμένος</span>
+            }
+            else
+            {
+                <span class="erp-badge erp-badge-warning">Εκκρεμεί έγκριση</span>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Προσωπικό panel: στατιστικά δικών μου δεδομένων -->
+<div class="row g-3 erp-fade-in mb-3">
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="erp-card h-100">
+            <div class="erp-card-body d-flex align-items-center gap-3">
+                <span class="erp-badge erp-badge-primary" style="font-size:1.4rem;"><i class="fas fa-flask"></i></span>
+                <div>
+                    <div class="h3 mb-0">@Model.FormulasCount</div>
+                    <small class="text-muted">Οι φόρμουλές μου</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="erp-card h-100">
+            <div class="erp-card-body d-flex align-items-center gap-3">
+                <span class="erp-badge erp-badge-info" style="font-size:1.4rem;"><i class="fas fa-handshake"></i></span>
+                <div>
+                    <div class="h3 mb-0">@Model.ClientsCount</div>
+                    <small class="text-muted">Οι πελάτες μου</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <small class="text-muted d-block">Μέλος από</small>
+                <div class="fw-semibold">@Model.CreatedAt.ToString("dd/MM/yyyy")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="erp-card h-100">
+            <div class="erp-card-body">
+                <small class="text-muted d-block">Τελευταία σύνδεση</small>
+                <div class="fw-semibold">@(Model.LastLoginAt?.ToString("dd/MM/yyyy HH:mm") ?? "—")</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Επεξεργασία προφίλ -->
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-id-card text-erp-primary"></i> Στοιχεία Προφίλ</h3></div>
+            <div class="erp-card-body">
+                <form asp-action="Index" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input class="form-control" value="@Model.Email" disabled />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="FullName" class="form-label fw-semibold">Πλήρες Όνομα</label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Department" class="form-label fw-semibold">Τμήμα</label>
+                            <input asp-for="Department" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="JobTitle" class="form-label fw-semibold">Θέση Εργασίας</label>
+                            <input asp-for="JobTitle" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Phone" class="form-label fw-semibold">Τηλέφωνο</label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-controller="Account" asp-action="ChangePassword" class="btn btn-erp-secondary"><i class="fas fa-key me-2"></i>Αλλαγή Κωδικού</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GDPR: δικαιώματα δεδομένων -->
+<div class="row justify-content-center erp-fade-in mt-3">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-user-shield text-erp-primary"></i> Τα Δεδομένα μου (GDPR)</h3></div>
+            <div class="erp-card-body">
+                <p class="text-muted small">Σύμφωνα με τον GDPR, μπορείτε να εξάγετε τα δεδομένα σας ή να διαγράψετε τον λογαριασμό σας.</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a asp-action="ExportMyData" class="btn btn-erp-secondary"><i class="fas fa-file-export me-2"></i>Εξαγωγή δεδομένων (JSON)</a>
+                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                        <i class="fas fa-user-xmark me-2"></i>Διαγραφή λογαριασμού
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger"><i class="fas fa-triangle-exclamation me-2"></i>Διαγραφή Λογαριασμού</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Η ενέργεια είναι <strong>μη αναστρέψιμη</strong>. Ο λογαριασμός σας θα διαγραφεί οριστικά.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-erp-secondary" data-bs-dismiss="modal">Ακύρωση</button>
+                <form asp-action="DeleteMyAccount" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-2"></i>Οριστική Διαγραφή</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

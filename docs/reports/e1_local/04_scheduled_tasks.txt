@@ -1,0 +1,2 @@
+﻿total_tasks=224 matched=1
+task=NvNodeLauncher_{B2FE1952-0186-46C3-BAEC-A80AA35AC5B8} state=Ready exec=C:\Program Files (x86)\NVIDIA Corporation\NvNode\nvnodejslauncher.exe args=--launcher=TaskScheduler

@@ -1,0 +1,423 @@
+@model INCIS_SaaP.Dtos.NaturalFormulaDocumentViewModel
+@{
+    ViewData["Title"] = "FORM2 — Natural Formula · " + Model.FormulaCode;
+    var naturalPct = Model.TotalNaturalPercentage;
+    var organicPct = Model.TotalOrganicPercentage;
+    var biodegradPct = Model.TotalBiodegradability;
+    // ISO 16128 requires at least 95% natural origin for "natural" claim
+    var iso16128Compliant = naturalPct >= 95;
+}
+
+<style>
+    /* ── FORM2 Natural Formula Styles ── */
+    .doc-container { max-width: 1400px; margin: 0 auto; }
+
+    .doc-header-natural {
+        background: linear-gradient(135deg, #065f46 0%, #064e3b 40%, #1a4731 100%);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    .doc-header-natural::before {
+        content: '';
+        position: absolute;
+        top: -40%;
+        right: -10%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(52,211,153,.2) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-header-natural::after {
+        content: '';
+        position: absolute;
+        bottom: -50%;
+        left: 10%;
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(16,185,129,.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-header-natural .banner-content { position: relative; z-index: 1; }
+    .doc-header-natural h1 { font-weight: 800; font-size: 1.5rem; letter-spacing: -.3px; margin-bottom: 0; }
+    .doc-header-natural .form-tag {
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        padding: .25rem .65rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .nature-metric {
+        text-align: center;
+        padding: 1.25rem 1rem;
+    }
+    .nature-metric .metric-ring {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        margin: 0 auto .75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.15rem;
+        font-weight: 800;
+        position: relative;
+    }
+    .nature-metric .metric-ring::after {
+        content: '';
+        position: absolute;
+        inset: 4px;
+        border-radius: 50%;
+        background: var(--bs-body-bg, #fff);
+    }
+    .nature-metric .metric-ring span { position: relative; z-index: 1; }
+    .ring-natural { background: conic-gradient(#059669 calc(var(--pct) * 1%), #e5e7eb calc(var(--pct) * 1%)); }
+    .ring-organic { background: conic-gradient(#7c3aed calc(var(--pct) * 1%), #e5e7eb calc(var(--pct) * 1%)); }
+    .ring-bio { background: conic-gradient(#0891b2 calc(var(--pct) * 1%), #e5e7eb calc(var(--pct) * 1%)); }
+    .nature-metric .metric-label { font-size: .78rem; font-weight: 600; color: var(--bs-secondary-color, #6c757d); text-transform: uppercase; letter-spacing: .5px; }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 1.75rem 0 1rem;
+        padding-bottom: .65rem;
+        border-bottom: 3px solid;
+        border-image: linear-gradient(90deg, #059669, transparent) 1;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+    .section-title i { color: #059669; }
+
+    .data-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: .82rem;
+    }
+    .data-table thead th {
+        background: linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 100%);
+        font-weight: 700;
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        color: #065f46;
+        padding: .7rem .65rem;
+        border-bottom: 2px solid #a7f3d0;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    [data-bs-theme="dark"] .data-table thead th {
+        background: linear-gradient(180deg, #052e16 0%, #0a3520 100%);
+        color: #6ee7b7;
+        border-bottom-color: #065f46;
+    }
+    .data-table tbody td {
+        padding: .55rem .65rem;
+        border-bottom: 1px solid rgba(0,0,0,.04);
+        vertical-align: middle;
+    }
+    .data-table tbody tr:hover { background: rgba(16,185,129,.04); }
+    .data-table .total-row {
+        background: linear-gradient(90deg, rgba(5,150,105,.08), rgba(5,150,105,.03));
+        font-weight: 700;
+    }
+    .data-table .total-row td { border-top: 2px solid #059669; border-bottom: none; padding: .7rem .65rem; }
+    .data-table .mono { font-family: 'JetBrains Mono', monospace; font-size: .78rem; }
+
+    .bool-icon { font-size: .85rem; }
+    .bool-yes { color: #059669; }
+    .bool-no { color: #dc2626; }
+
+    .compliance-box {
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .compliance-box.compliant {
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        border: 1px solid rgba(16,185,129,.25);
+    }
+    .compliance-box.non-compliant {
+        background: linear-gradient(135deg, #fef2f2, #fee2e2);
+        border: 1px solid rgba(239,68,68,.25);
+    }
+    [data-bs-theme="dark"] .compliance-box.compliant {
+        background: linear-gradient(135deg, rgba(16,185,129,.1), rgba(16,185,129,.05));
+    }
+    [data-bs-theme="dark"] .compliance-box.non-compliant {
+        background: linear-gradient(135deg, rgba(239,68,68,.1), rgba(239,68,68,.05));
+    }
+    .compliance-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+    }
+    .compliance-icon.ok { background: rgba(16,185,129,.15); color: #059669; }
+    .compliance-icon.fail { background: rgba(239,68,68,.15); color: #dc2626; }
+
+    .print-fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, #059669, #065f46);
+        color: #fff;
+        font-size: 1.2rem;
+        box-shadow: 0 8px 24px rgba(5,150,105,.35);
+        cursor: pointer;
+        transition: all .2s;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .print-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(5,150,105,.45); }
+
+    .cert-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        padding: .35rem .75rem;
+        border-radius: 8px;
+        font-size: .82rem;
+        font-weight: 600;
+    }
+
+    /* ── Print ── */
+    @@media print {
+        @@page { size: A4 landscape; margin: 12mm; }
+        body, .erp-body { background: #fff !important; }
+        .erp-topbar, .erp-sidebar, .erp-mobile-overlay, .erp-footer,
+        .erp-breadcrumb, .print-fab, .btn-erp-secondary, .no-print { display: none !important; }
+        .erp-main { margin: 0 !important; padding: 0 !important; }
+        .erp-main-inner { max-width: 100% !important; padding: 0 !important; }
+        .doc-header-natural {
+            background: #065f46 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .erp-card { box-shadow: none !important; border: 1px solid #dee2e6 !important; break-inside: avoid; }
+        .data-table thead th { background: #f0fdf4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .data-table { font-size: .7rem; }
+        .data-table .total-row { background: #ecfdf5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .nature-metric .metric-ring { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .compliance-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; break-inside: avoid; }
+    }
+</style>
+
+<nav class="erp-breadcrumb erp-fade-in no-print" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="Formulas" asp-action="Details" asp-route-id="@Model.FormulaId">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId">Documents</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">FORM2 — Natural Formula</span>
+</nav>
+
+<div class="doc-container">
+    <!-- Header -->
+    <div class="doc-header-natural erp-fade-in">
+        <div class="banner-content">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                        <span class="form-tag">FORM 2</span>
+                        <span class="form-tag"><i class="fas fa-calendar me-1"></i>@Model.GeneratedAt.ToString("dd/MM/yyyy")</span>
+                        @if (!string.IsNullOrEmpty(Model.CertificationType))
+                        {
+                            <span class="cert-badge"><i class="fas fa-certificate"></i> @Model.CertificationType</span>
+                        }
+                    </div>
+                    <h1><i class="fas fa-leaf me-2"></i>Natural Formula Document</h1>
+                    <div class="mt-1 opacity-75">ISO 16128 natural & organic composition analysis</div>
+                </div>
+                <div class="text-end">
+                    <div style="font-size:.72rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;">Formula</div>
+                    <div style="font-size:1.3rem;font-weight:800;font-family:'JetBrains Mono',monospace;">@Model.FormulaCode</div>
+                    @if (!string.IsNullOrEmpty(Model.CertifyingBody))
+                    {
+                        <div class="mt-1"><span class="cert-badge"><i class="fas fa-building-columns"></i> @Model.CertifyingBody</span></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Rings -->
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body">
+            <div class="row">
+                <div class="col-4">
+                    <div class="nature-metric">
+                        <div class="metric-ring ring-natural" style="--pct: @((int)naturalPct);">
+                            <span>@naturalPct.ToString("F1")%</span>
+                        </div>
+                        <div class="metric-label"><i class="fas fa-leaf me-1 text-success"></i>Natural Origin</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="nature-metric">
+                        <div class="metric-ring ring-organic" style="--pct: @((int)organicPct);">
+                            <span>@organicPct.ToString("F1")%</span>
+                        </div>
+                        <div class="metric-label"><i class="fas fa-seedling me-1 text-purple"></i>Organic</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="nature-metric">
+                        <div class="metric-ring ring-bio" style="--pct: @((int)biodegradPct);">
+                            <span>@biodegradPct.ToString("F1")%</span>
+                        </div>
+                        <div class="metric-label"><i class="fas fa-recycle me-1 text-info"></i>Biodegradable</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formula Info -->
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Formula Information</h3></div>
+        <div class="erp-card-body">
+            <div class="erp-info-grid">
+                <div class="erp-info-item"><span class="erp-info-label">Product Name</span><span class="erp-info-value">@(Model.ProductName ?? "—")</span></div>
+                <div class="erp-info-item"><span class="erp-info-label">Product Type</span><span class="erp-info-value">@(Model.ProductType ?? "—")</span></div>
+                <div class="erp-info-item"><span class="erp-info-label">Client</span><span class="erp-info-value">@(Model.ClientName ?? "—")</span></div>
+                <div class="erp-info-item"><span class="erp-info-label">Version</span><span class="erp-info-value"><code>@(Model.Version ?? "v1.0")</code></span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ingredient Composition Table -->
+    <div class="section-title erp-fade-in"><i class="fas fa-table"></i> Natural Composition Analysis</div>
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body p-0">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">A/N</th>
+                            <th>ID</th>
+                            <th>Raw Material</th>
+                            <th>INCI Name</th>
+                            <th class="text-end">% w/w</th>
+                            <th class="text-end">Natural Origin %</th>
+                            <th class="text-end">Organic %</th>
+                            <th>Origin</th>
+                            <th class="text-center">Biodegradable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Ingredients.Any())
+                        {
+                            @foreach (var ing in Model.Ingredients.OrderBy(i => i.Order))
+                            {
+                                <tr>
+                                    <td class="mono text-center">@ing.Order</td>
+                                    <td class="mono">@ing.RawMaterialCode</td>
+                                    <td class="fw-semibold">@ing.RawMaterialName</td>
+                                    <td style="max-width:200px;">@(ing.InciName ?? "—")</td>
+                                    <td class="text-end mono">@ing.Percentage.ToString("F3")</td>
+                                    <td class="text-end mono">@(ing.NaturalOriginPercentage?.ToString("F1") ?? "—")</td>
+                                    <td class="text-end mono">@(ing.OrganicPercentage?.ToString("F1") ?? "—")</td>
+                                    <td>@(ing.Origin ?? "—")</td>
+                                    <td class="text-center">
+                                        @if (ing.IsBiodegradable)
+                                        {
+                                            <i class="fas fa-circle-check bool-icon bool-yes" title="Yes"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-circle-xmark bool-icon bool-no" title="No"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="total-row">
+                                <td colspan="4" class="text-end">TOTALS / WEIGHTED AVERAGES</td>
+                                <td class="text-end mono">@Model.Ingredients.Sum(i => i.Percentage).ToString("F3")</td>
+                                <td class="text-end mono" style="color:#059669;">@naturalPct.ToString("F1")</td>
+                                <td class="text-end mono" style="color:#7c3aed;">@organicPct.ToString("F1")</td>
+                                <td>—</td>
+                                <td class="text-center mono" style="color:#0891b2;">@biodegradPct.ToString("F1")%</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr><td colspan="9" class="text-center py-4 text-muted"><i class="fas fa-inbox me-2"></i>No ingredient data available.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ISO 16128 Compliance -->
+    <div class="erp-fade-in mb-3">
+        <div class="compliance-box @(iso16128Compliant ? "compliant" : "non-compliant")">
+            <div class="compliance-icon @(iso16128Compliant ? "ok" : "fail")">
+                <i class="fas @(iso16128Compliant ? "fa-shield-check" : "fa-shield-exclamation")"></i>
+            </div>
+            <div>
+                <div class="fw-bold" style="font-size:.95rem;">
+                    ISO 16128 Compliance:
+                    @if (iso16128Compliant)
+                    {
+                        <span class="erp-badge erp-badge-success ms-2"><i class="fas fa-check me-1"></i>COMPLIANT</span>
+                    }
+                    else
+                    {
+                        <span class="erp-badge erp-badge-danger ms-2"><i class="fas fa-xmark me-1"></i>NON-COMPLIANT</span>
+                    }
+                </div>
+                <div class="text-muted small mt-1">
+                    Natural origin content: <strong>@naturalPct.ToString("F1")%</strong> — Minimum required for natural claim: <strong>95.0%</strong>
+                    @if (!string.IsNullOrEmpty(Model.CertificationType))
+                    {
+                        <span class="ms-2">| Certification: <strong>@Model.CertificationType</strong></span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back -->
+    <div class="mt-4 erp-fade-in no-print">
+        <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Document Hub
+        </a>
+    </div>
+</div>
+
+<!-- Print FAB -->
+<button class="print-fab no-print" onclick="window.print()" title="Print Document">
+    <i class="fas fa-print"></i>
+</button>

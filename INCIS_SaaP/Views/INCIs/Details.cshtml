@@ -1,0 +1,102 @@
+@model INCIS_SaaP.Models.INCI
+@{
+    ViewData["Title"] = "Λεπτομέρειες INCI";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Συστατικά INCI</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.Name</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-atom"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@Model.Name</h1>
+        <div class="erp-page-header-subtitle d-flex flex-wrap gap-2">
+            @if (!string.IsNullOrEmpty(Model.CASNumber)) { <span class="erp-badge erp-badge-info">CAS: @Model.CASNumber</span> }
+            @if (!string.IsNullOrEmpty(Model.ECNumber)) { <span class="erp-badge erp-badge-info">EC: @Model.ECNumber</span> }
+            @if (Model.IsActive) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ενεργό</span> } else { <span class="erp-badge erp-badge-secondary">Ανενεργό</span> }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card mb-3">
+            <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Πληροφορίες Συστατικού</h3></div>
+            <div class="erp-card-body">
+                <div class="erp-info-grid">
+                    <div class="erp-info-item"><span class="erp-info-label">Όνομα INCI</span><span class="erp-info-value">@Model.Name</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">CAS</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.CASNumber) ? "empty" : "")">@(Model.CASNumber ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">EC</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ECNumber) ? "empty" : "")">@(Model.ECNumber ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Λειτουργία</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Function) ? "empty" : "")">@(Model.Function ?? "—")</span></div>
+                    <div class="erp-info-item" style="grid-column: 1/-1;"><span class="erp-info-label">Συνώνυμα</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Synonyms) ? "empty" : "")">@(Model.Synonyms ?? "—")</span></div>
+                    <div class="erp-info-item" style="grid-column: 1/-1;"><span class="erp-info-label">Περιγραφή</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Description) ? "empty" : "")">@(Model.Description ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">Δημιουργία</span><span class="erp-info-value">@Model.CreatedAt.ToString("dd/MM/yyyy")</span></div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.RawMaterials?.Any() == true)
+        {
+            <div class="erp-card">
+                <div class="erp-card-header"><h3><i class="fas fa-cubes text-erp-primary"></i> Σχετικές Α’ Ύλες</h3><span class="erp-badge erp-badge-primary ms-2">@Model.RawMaterials.Count</span></div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead><tr><th>Κωδικός</th><th>Όνομα</th><th class="d-none d-md-table-cell">Κατηγορία</th><th class="text-end">Ενέργειες</th></tr></thead>
+                        <tbody>
+                            @foreach (var rm in Model.RawMaterials)
+                            {
+                                <tr>
+                                    <td><span class="erp-badge erp-badge-primary">@rm.Code</span></td>
+                                    <td class="fw-semibold">@rm.ProductName</td>
+                                    <td class="d-none d-md-table-cell">@(rm.Category ?? "—")</td>
+                                    <td class="text-end"><a asp-controller="RawMaterials" asp-action="Details" asp-route-id="@rm.Id" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-12 col-xl-4">
+        @if (Model.Restrictions?.Any() == true)
+        {
+            <div class="erp-card">
+                <div class="erp-card-header"><h3><i class="fas fa-triangle-exclamation text-erp-primary"></i> Περιορισμοί</h3><span class="erp-badge erp-badge-warning ms-2">@Model.Restrictions.Count</span></div>
+                <div class="erp-card-body">
+                    @foreach (var r in Model.Restrictions)
+                    {
+                        <div class="alert alert-warning mb-2 small">
+                            <strong>@(r.Regulation ?? "Περιορισμός")</strong>
+                            @if (r.MaxPercentage.HasValue) { <span class="erp-badge erp-badge-danger ms-2">Max @r.MaxPercentage%</span> }
+                            @if (r.IsRinseOffOnly) { <span class="erp-badge erp-badge-info ms-1">Rinse-off only</span> }
+                            @if (!string.IsNullOrEmpty(r.Description)) { <div class="mt-1 text-muted">@r.Description</div> }
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="erp-card">
+                <div class="erp-card-body text-center py-4 text-muted small">
+                    <i class="fas fa-circle-check fs-3 text-success d-block mb-2"></i>
+                    Δεν υπάρχουν δηλωμένοι περιορισμοί
+                </div>
+            </div>
+        }
+    </div>
+</div>

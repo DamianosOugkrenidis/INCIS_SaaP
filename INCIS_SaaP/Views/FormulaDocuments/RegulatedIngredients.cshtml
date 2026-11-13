@@ -1,0 +1,659 @@
+@model INCIS_SaaP.Dtos.RegulatedIngredientsDocumentViewModel
+@{
+    ViewData["Title"] = "FORM4 - Regulated Ingredients";
+    Layout = "~/Views/Shared/_ERPLayout.cshtml";
+}
+
+<style>
+    /* ===== FORM4 - Regulated Ingredients Document Styles ===== */
+    .doc-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .doc-header-band {
+        background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: #fff;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(26, 35, 126, 0.25);
+    }
+
+    .doc-header-band::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band .doc-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 0.25rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-header-band .doc-subtitle {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        font-weight: 400;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-form-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(10px);
+        padding: 0.35rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-item {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(8px);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .doc-meta-item .meta-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        opacity: 0.7;
+        margin-bottom: 0.2rem;
+    }
+
+    .doc-meta-item .meta-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    /* Table Card */
+    .doc-table-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 1px solid #e8eaf6;
+    }
+
+    .doc-table-card-header {
+        background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 2px solid #e8eaf6;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .doc-table-card-header h5 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #1a237e;
+        margin: 0;
+    }
+
+    .doc-table-responsive {
+        overflow-x: auto;
+    }
+
+    .doc-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.85rem;
+    }
+
+    .doc-table thead th {
+        background: linear-gradient(180deg, #e8eaf6 0%, #dde0f3 100%);
+        color: #1a237e;
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 0.85rem 0.75rem;
+        border-bottom: 2px solid #c5cae9;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .doc-table tbody td {
+        padding: 0.7rem 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+        color: #37474f;
+    }
+
+    .doc-table tbody tr:hover {
+        background: rgba(232, 234, 246, 0.3);
+    }
+
+    /* Compliance Row Colors */
+    .row-compliant {
+        background: linear-gradient(90deg, rgba(76, 175, 80, 0.06) 0%, rgba(76, 175, 80, 0.02) 100%);
+        border-left: 3px solid #4caf50;
+    }
+
+    .row-non-compliant {
+        background: linear-gradient(90deg, rgba(244, 67, 54, 0.08) 0%, rgba(244, 67, 54, 0.02) 100%);
+        border-left: 3px solid #f44336;
+    }
+
+    .row-allergen {
+        background: linear-gradient(90deg, rgba(255, 152, 0, 0.08) 0%, rgba(255, 152, 0, 0.02) 100%);
+        border-left: 3px solid #ff9800;
+    }
+
+    /* Badges */
+    .compliance-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: 50px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    .badge-compliant {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+    }
+
+    .badge-non-compliant {
+        background: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+    }
+
+    .badge-allergen {
+        background: #fff3e0;
+        color: #e65100;
+        border: 1px solid #ffe0b2;
+    }
+
+    .badge-yes {
+        background: #fff3e0;
+        color: #e65100;
+    }
+
+    .badge-no {
+        background: #f5f5f5;
+        color: #9e9e9e;
+    }
+
+    /* Summary Cards */
+    .doc-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .doc-summary-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        border: 1px solid #e8eaf6;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .doc-summary-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .doc-summary-icon.regulated {
+        background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+        color: #1a237e;
+    }
+
+    .doc-summary-icon.allergens {
+        background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+        color: #e65100;
+    }
+
+    .doc-summary-icon.compliant-icon {
+        background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+        color: #2e7d32;
+    }
+
+    .doc-summary-icon.noncompliant-icon {
+        background: linear-gradient(135deg, #ffebee, #ffcdd2);
+        color: #c62828;
+    }
+
+    .doc-summary-info .summary-label {
+        font-size: 0.75rem;
+        color: #78909c;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    .doc-summary-info .summary-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: #263238;
+        line-height: 1.2;
+    }
+
+    /* Footer */
+    .doc-footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: #90a4ae;
+        font-size: 0.78rem;
+        border-top: 1px solid #eceff1;
+        margin-top: 1rem;
+    }
+
+    .btn-print {
+        background: linear-gradient(135deg, #1a237e, #3949ab);
+        color: #fff;
+        border: none;
+        padding: 0.65rem 1.75rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(26, 35, 126, 0.25);
+    }
+
+    .btn-print:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(26, 35, 126, 0.35);
+        color: #fff;
+    }
+
+    .concentration-bar {
+        height: 6px;
+        border-radius: 3px;
+        background: #e0e0e0;
+        overflow: hidden;
+        min-width: 60px;
+    }
+
+    .concentration-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+
+    /* ===== Print Styles ===== */
+    @@media print {
+        body, html {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 15mm 12mm;
+        }
+
+        .no-print, .erp-page-header, nav, .sidebar, footer, .btn-print {
+            display: none !important;
+        }
+
+        .doc-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .doc-header-band {
+            background: #1a237e !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0 !important;
+            margin-bottom: 1rem !important;
+            padding: 1.5rem !important;
+            box-shadow: none !important;
+        }
+
+        .doc-meta-item {
+            background: rgba(255,255,255,0.15) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-table-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            border-radius: 0 !important;
+            page-break-inside: auto;
+        }
+
+        .doc-table thead th {
+            background: #e8eaf6 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-table tbody tr {
+            page-break-inside: avoid;
+        }
+
+        .row-compliant {
+            background: rgba(76, 175, 80, 0.08) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .row-non-compliant {
+            background: rgba(244, 67, 54, 0.1) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .row-allergen {
+            background: rgba(255, 152, 0, 0.1) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .compliance-badge, .badge-compliant, .badge-non-compliant, .badge-allergen {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-summary-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+        }
+
+        .doc-summary-icon {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+</style>
+
+<div class="doc-container erp-fade-in">
+    <!-- Action Bar (no-print) -->
+    <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+        <a asp-action="Index" asp-route-formulaId="@Model.FormulaId" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Documents
+        </a>
+        <button class="btn-print" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Document
+        </button>
+    </div>
+
+    <!-- Document Header -->
+    <div class="doc-header-band">
+        <div class="doc-form-badge">
+            <i class="fa-solid fa-shield-halved"></i> FORM 4
+        </div>
+        <div class="doc-title">Identification of Regulated Ingredients</div>
+        <div class="doc-subtitle">EU Cosmetics Regulation (EC) No 1223/2009 - Annex Compliance Review</div>
+
+        <div class="doc-meta-grid">
+            <div class="doc-meta-item">
+                <div class="meta-label">Formula Code</div>
+                <div class="meta-value">@Model.FormulaCode</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Product Name</div>
+                <div class="meta-value">@Model.ProductName</div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ProductType))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Product Type</div>
+                    <div class="meta-value">@Model.ProductType</div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ClientName))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Client</div>
+                    <div class="meta-value">@Model.ClientName</div>
+                </div>
+            }
+            <div class="doc-meta-item">
+                <div class="meta-label">Version</div>
+                <div class="meta-value">@(Model.Version ?? "1.0")</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Issue Date</div>
+                <div class="meta-value">@(Model.IssueDate?.ToString("dd MMM yyyy") ?? Model.GeneratedAt.ToString("dd MMM yyyy"))</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="doc-summary-grid">
+        <div class="doc-summary-card">
+            <div class="doc-summary-icon regulated">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+            <div class="doc-summary-info">
+                <div class="summary-label">Total Regulated</div>
+                <div class="summary-value">@Model.TotalRegulated</div>
+            </div>
+        </div>
+        <div class="doc-summary-card">
+            <div class="doc-summary-icon allergens">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="doc-summary-info">
+                <div class="summary-label">Total Allergens</div>
+                <div class="summary-value">@Model.TotalAllergens</div>
+            </div>
+        </div>
+        <div class="doc-summary-card">
+            <div class="doc-summary-icon compliant-icon">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="doc-summary-info">
+                <div class="summary-label">Compliant</div>
+                <div class="summary-value">@Model.Ingredients.Count(i => i.IsCompliant)</div>
+            </div>
+        </div>
+        <div class="doc-summary-card">
+            <div class="doc-summary-icon noncompliant-icon">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </div>
+            <div class="doc-summary-info">
+                <div class="summary-label">Non-Compliant</div>
+                <div class="summary-value">@Model.Ingredients.Count(i => !i.IsCompliant)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Regulated Ingredients Table -->
+    <div class="doc-table-card">
+        <div class="doc-table-card-header">
+            <h5><i class="fa-solid fa-list-check me-2"></i>Regulated Ingredients Detail</h5>
+            <span class="erp-badge" style="background:#e8eaf6;color:#1a237e;">@Model.Ingredients.Count items</span>
+        </div>
+        <div class="doc-table-responsive">
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">A/N</th>
+                        <th>INCI Name</th>
+                        <th>CAS</th>
+                        <th>EC</th>
+                        <th>Function</th>
+                        <th>Annex Ref.</th>
+                        <th style="text-align:right;">Max Conc. (%)</th>
+                        <th style="text-align:right;">Actual Conc. (%)</th>
+                        <th style="text-align:center;">Allergen</th>
+                        <th style="text-align:center;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Ingredients.Any())
+                    {
+                        @foreach (var item in Model.Ingredients)
+                        {
+                            var rowClass = !item.IsCompliant ? "row-non-compliant"
+                                : item.IsAllergen ? "row-allergen"
+                                : "row-compliant";
+                            <tr class="@rowClass">
+                                <td><strong>@item.Order</strong></td>
+                                <td><strong>@item.InciName</strong></td>
+                                <td class="text-muted">@(item.CASNumber ?? "—")</td>
+                                <td class="text-muted">@(item.ECNumber ?? "—")</td>
+                                <td>@(item.Function ?? "—")</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.AnnexReference))
+                                    {
+                                        <span class="compliance-badge" style="background:#e3f2fd;color:#1565c0;border:1px solid #bbdefb;">
+                                            @item.AnnexReference
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td style="text-align:right;">
+                                    @if (item.MaxConcentration.HasValue)
+                                    {
+                                        <span>@item.MaxConcentration.Value.ToString("F4")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td style="text-align:right;">
+                                    @if (item.ActualConcentration.HasValue)
+                                    {
+                                        <strong>@item.ActualConcentration.Value.ToString("F4")</strong>
+                                        @if (item.MaxConcentration.HasValue && item.MaxConcentration.Value > 0)
+                                        {
+                                            var pct = Math.Min((double)(item.ActualConcentration.Value / item.MaxConcentration.Value) * 100, 100);
+                                            var barColor = pct > 100 ? "#f44336" : pct > 75 ? "#ff9800" : "#4caf50";
+                                            <div class="concentration-bar mt-1">
+                                                <div class="concentration-bar-fill" style="width:@(pct)%;background:@barColor;"></div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td style="text-align:center;">
+                                    @if (item.IsAllergen)
+                                    {
+                                        <span class="compliance-badge badge-allergen">
+                                            <i class="fa-solid fa-exclamation-circle"></i> Yes
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="compliance-badge badge-no">No</span>
+                                    }
+                                </td>
+                                <td style="text-align:center;">
+                                    @if (item.IsCompliant)
+                                    {
+                                        <span class="compliance-badge badge-compliant">
+                                            <i class="fa-solid fa-check"></i> Compliant
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="compliance-badge badge-non-compliant">
+                                            <i class="fa-solid fa-xmark"></i> Fail
+                                        </span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="10" class="text-center text-muted py-4">
+                                <i class="fa-solid fa-inbox fa-2x mb-2 d-block"></i>
+                                No regulated ingredients found for this formula.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+        <strong>INCIS SaaP</strong> &mdash; Regulated Ingredients Report (FORM4) &mdash;
+        Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+        @(Model.PPIdCode ?? Model.FormulaCode)
+    </div>
+</div>

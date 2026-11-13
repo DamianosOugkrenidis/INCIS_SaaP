@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Πολιτική Απορρήτου";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Πολιτική Απορρήτου</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-user-shield"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Πολιτική Απορρήτου</h1>
+        <div class="erp-page-header-subtitle">Πώς διαχειριζόμαστε τα δεδομένα σας</div>
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-body">
+        <h4>1. Συλλογή Δεδομένων</h4>
+        <p class="text-muted">Συλλέγουμε μόνο τα δεδομένα που είναι απολύτως απαραίτητα για τη λειτουργία της πλατφόρμας: στοιχεία λογαριασμού (όνομα, email), επαγγελματικά στοιχεία (ΑΦΜ, τηλέφωνο εάν δοθεί), και τα δεδομένα φόρμουλων / πελατών / προμηθευτών που εσείς καταχωρείτε.</p>
+
+        <h4 class="mt-4">2. Ασφάλεια Δεδομένων</h4>
+        <ul class="text-muted">
+            <li>Όλοι οι κωδικοί κρυπτογραφούνται με <code>PBKDF2-SHA512</code>.</li>
+            <li>Τα ευαίσθητα προσωπικά δεδομένα (τηλέφωνο, ΑΦΜ) κρυπτογραφούνται με DPAPI.</li>
+            <li>Σύνδεση μέσω HTTPS / TLS 1.3.</li>
+            <li>Anti-CSRF protection σε όλα τα forms.</li>
+            <li>Rate limiting στις διαδικασίες σύνδεσης.</li>
+        </ul>
+
+        <h4 class="mt-4">3. Δικαιώματα Χρήστη (GDPR)</h4>
+        <p class="text-muted">Έχετε το δικαίωμα πρόσβασης, διόρθωσης και διαγραφής των προσωπικών σας δεδομένων ανά πάσα στιγμή. Επικοινωνήστε με τον διαχειριστή του συστήματος για σχετικά αιτήματα.</p>
+
+        <h4 class="mt-4">4. Cookies</h4>
+        <p class="text-muted">Χρησιμοποιούμε αποκλειστικά τεχνικά απαραίτητα cookies για τη συνεδρία (session) και την αυθεντικοποίηση. Δεν γίνεται tracking με τρίτα μέρη.</p>
+
+        <div class="alert alert-info mt-4 mb-0">
+            <i class="fas fa-circle-info me-2"></i>Τελευταία ενημέρωση: @DateTime.Now.Year
+        </div>
+    </div>
+</div>

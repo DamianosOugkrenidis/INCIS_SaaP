@@ -1,0 +1,41 @@
+@model INCIS_SaaP.Models.Allergen
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="AllergenName" class="form-label fw-semibold">Όνομα Αλλεργιογόνου <span class="text-danger">*</span></label>
+        <input asp-for="AllergenName" class="form-control cosing-autocomplete" autocomplete="off" required />
+        <span asp-validation-for="AllergenName" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="AllergenType" class="form-label fw-semibold">Τύπος</label>
+        <input asp-for="AllergenType" class="form-control" placeholder="π.χ. Fragrance allergen" />
+        <span asp-validation-for="AllergenType" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Concentration" class="form-label fw-semibold">Συγκέντρωση</label>
+        <input asp-for="Concentration" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Concentration" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Unit" class="form-label fw-semibold">Μονάδα</label>
+        <input asp-for="Unit" class="form-control" placeholder="π.χ. %, ppm" />
+        <span asp-validation-for="Unit" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check form-switch">
+            <input type="hidden" name="IsDeclared" value="false" />
+            <input class="form-check-input" type="checkbox" role="switch" id="IsDeclared" name="IsDeclared" value="true" checked="@(Model.IsDeclared == true)" />
+            <label asp-for="IsDeclared" class="form-check-label">Δηλωμένο στην ετικέτα</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Source" class="form-label fw-semibold">Πηγή</label>
+        <input asp-for="Source" class="form-control" placeholder="π.χ. α' ύλη προέλευσης" />
+        <span asp-validation-for="Source" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label fw-semibold">Σημειώσεις</label>
+        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+</div>

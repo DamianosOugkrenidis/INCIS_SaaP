@@ -1,0 +1,79 @@
+@model INCIS_SaaP.Models.INCI
+@{
+    ViewData["Title"] = "Νέο Συστατικό INCI";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Συστατικά INCI</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Νέο</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-atom"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Νέο συστατικό INCI</h1>
+        <div class="erp-page-header-subtitle">Καταχώρηση κατά το διεθνές INCI nomenclature</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Στοιχεία Συστατικού</h3></div>
+            <div class="erp-card-body">
+                <form asp-action="Create" novalidate>
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Name" class="form-label fw-semibold">Όνομα INCI <span class="text-danger">*</span></label>
+                            <input asp-for="Name" class="form-control" placeholder="π.χ. Aqua, Glycerin..." required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CASNumber" class="form-label fw-semibold">CAS Number</label>
+                            <input asp-for="CASNumber" class="form-control" placeholder="π.χ. 7732-18-5" />
+                            <span asp-validation-for="CASNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ECNumber" class="form-label fw-semibold">EC Number</label>
+                            <input asp-for="ECNumber" class="form-control" placeholder="π.χ. 231-791-2" />
+                            <span asp-validation-for="ECNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Function" class="form-label fw-semibold">Λειτουργία</label>
+                            <input asp-for="Function" class="form-control" placeholder="π.χ. Solvent, Humectant..." />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Synonyms" class="form-label fw-semibold">Συνώνυμα</label>
+                            <input asp-for="Synonyms" class="form-control" placeholder="Διαχωρισμένα με κόμμα" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold">Περιγραφή</label>
+                            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive" checked />
+                                <label class="form-check-label" for="IsActive">Ενεργό συστατικό</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Δημιουργία</button>
+                        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

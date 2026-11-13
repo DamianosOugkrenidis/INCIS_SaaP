@@ -1,0 +1,162 @@
+@{
+    ViewData["Title"] = "Αναφορές";
+    int clients = ViewBag.ClientsCount ?? 0;
+    int suppliers = ViewBag.SuppliersCount ?? 0;
+    int incis = ViewBag.INCIsCount ?? 0;
+    int raw = ViewBag.RawMaterialsCount ?? 0;
+    int formulas = ViewBag.FormulasCount ?? 0;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Αναφορές</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-chart-line"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Αναφορές &amp; Εξαγωγές</h1>
+        <div class="erp-page-header-subtitle">Άμεση εξαγωγή δεδομένων σε μορφή Microsoft Excel (.xlsx)</div>
+    </div>
+</div>
+
+<div class="row g-3 mb-4 erp-fade-in">
+    <div class="col-6 col-md-4 col-xl">
+        <div class="erp-stat --primary">
+            <div class="erp-stat-icon"><i class="fas fa-flask"></i></div>
+            <div class="erp-stat-value">@formulas</div>
+            <div class="erp-stat-label">Φόρμουλες</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="erp-stat --accent">
+            <div class="erp-stat-icon"><i class="fas fa-handshake"></i></div>
+            <div class="erp-stat-value">@clients</div>
+            <div class="erp-stat-label">Πελάτες</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="erp-stat --warning">
+            <div class="erp-stat-icon"><i class="fas fa-truck"></i></div>
+            <div class="erp-stat-value">@suppliers</div>
+            <div class="erp-stat-label">Προμηθευτές</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="erp-stat --info">
+            <div class="erp-stat-icon"><i class="fas fa-atom"></i></div>
+            <div class="erp-stat-value">@incis</div>
+            <div class="erp-stat-label">Ουσίες INCI</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-xl">
+        <div class="erp-stat --success">
+            <div class="erp-stat-icon"><i class="fas fa-cubes"></i></div>
+            <div class="erp-stat-value">@raw</div>
+            <div class="erp-stat-label">Α’ Ύλες</div>
+        </div>
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-header"><h3><i class="fas fa-file-excel text-erp-primary"></i> Διαθέσιμες Εξαγωγές</h3></div>
+    <div class="erp-card-body">
+        <div class="row g-3">
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportClients" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(155,89,182,.12); color: var(--erp-accent);"><i class="fas fa-handshake"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Πελάτες</div>
+                        <small class="text-muted d-block">Όλοι οι πελάτες με στοιχεία επικοινωνίας</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportSuppliers" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(245,158,11,.12); color: var(--erp-warning);"><i class="fas fa-truck"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Προμηθευτές</div>
+                        <small class="text-muted d-block">Λίστα προμηθευτών</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportINCIs" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(59,130,246,.12); color: var(--erp-info);"><i class="fas fa-atom"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Συστατικά INCI</div>
+                        <small class="text-muted d-block">CAS / EC / Function</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportRawMaterials" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(16,185,129,.12); color: var(--erp-success);"><i class="fas fa-cubes"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Πρώτες Ύλες</div>
+                        <small class="text-muted d-block">Με προμηθευτή, INCI, τιμή</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportUsedRawMaterials" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(16,185,129,.12); color: var(--erp-success);"><i class="fas fa-check-circle"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Χρησιμοποιούμενες Α' Ύλες</div>
+                        <small class="text-muted d-block">Α' ύλες που συμμετέχουν σε φόρμουλες</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportUnusedRawMaterials" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(245,158,11,.12); color: var(--erp-warning);"><i class="fas fa-exclamation-circle"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Μη Χρησιμοποιούμενες Α' Ύλες</div>
+                        <small class="text-muted d-block">Α' ύλες που δεν συμμετέχουν σε καμία φόρμουλα</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+            <div class="col-md-6 col-xl-4">
+                <a asp-action="ExportFormulas" class="erp-export-card">
+                    <div class="erp-stat-icon" style="background: rgba(99,102,241,.12); color: var(--erp-primary);"><i class="fas fa-flask"></i></div>
+                    <div class="flex-grow-1">
+                        <div class="fw-semibold text-body">Φόρμουλες</div>
+                        <small class="text-muted d-block">Όλες οι φόρμουλες με πελάτη, τύπο, κατάσταση</small>
+                    </div>
+                    <i class="fas fa-file-excel text-success fs-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .erp-export-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            background: var(--erp-surface);
+            border: 1px solid var(--erp-border);
+            border-radius: var(--erp-radius);
+            text-decoration: none;
+            color: inherit;
+            transition: all .2s ease;
+        }
+        .erp-export-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--erp-shadow);
+            border-color: rgba(113,75,103,.3);
+            color: inherit;
+        }
+        .erp-export-card .erp-stat-icon { margin-bottom: 0; flex-shrink: 0; }
+    </style>
+}

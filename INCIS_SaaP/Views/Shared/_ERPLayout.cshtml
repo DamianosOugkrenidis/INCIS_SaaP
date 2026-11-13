@@ -1,0 +1,290 @@
+@{
+    var currentPath = (Context?.Request?.Path.Value ?? "/").ToLowerInvariant();
+    bool IsActive(params string[] prefixes) => prefixes.Any(p => currentPath.StartsWith(p.ToLowerInvariant()));
+}
+<!DOCTYPE html>
+<html lang="el" data-bs-theme="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="theme-color" content="#714B67" />
+    <title>@(ViewData["Title"] ?? "Dashboard") · INCIS SaaP</title>
+
+    <link rel="manifest" href="~/manifest.json" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AA%3C/text%3E%3C/svg%3E" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap 5 (SRI) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1feTnIF6SQioHFjFpKBgc0H+4nK" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- DataTables (SRI) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" integrity="sha384-WOaGcIMyGSaWu6hunpVCTYFSoWPJvq1OULp2bwm+mExfcFRCiAahjT3V8CZfTiUR" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" integrity="sha384-0mMt9byMqGkBz8GOfhsVGF7r4ZC1xDvs1JC00sB46PTb8CBKzifOe2UV8vRL4Gvn" crossorigin="anonymous" />
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="~/css/odoo-erp.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body class="erp-body">
+    <!-- ============================================================ TOP BAR -->
+    <header class="erp-topbar shadow-sm">
+        <button class="erp-icon-btn d-lg-none me-2" type="button" id="mobileMenuToggle" aria-label="Μενού">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <a href="/" class="erp-brand">
+            <span class="erp-brand-logo"><i class="fas fa-flask"></i></span>
+            <span class="erp-brand-text d-none d-sm-inline">INCIS <strong>SaaP</strong></span>
+        </a>
+
+        <nav class="erp-topbar-nav d-none d-xl-flex" aria-label="Κύρια πλοήγηση">
+            <a asp-controller="Home" asp-action="Index" class="erp-topbar-link @(IsActive("/home", "/") && currentPath.TrimEnd('/').Length <= 5 ? "active" : "")">
+                <i class="fas fa-gauge-high"></i><span>Dashboard</span>
+            </a>
+            <a asp-controller="Formulas" asp-action="Index" class="erp-topbar-link @(IsActive("/formulas") ? "active" : "")">
+                <i class="fas fa-flask"></i><span>Φόρμουλες</span>
+            </a>
+            <a asp-controller="RawMaterials" asp-action="Index" class="erp-topbar-link @(IsActive("/rawmaterials") ? "active" : "")">
+                <i class="fas fa-cubes"></i><span>Πρώτες Ύλες</span>
+            </a>
+            <a asp-controller="INCIs" asp-action="Index" class="erp-topbar-link @(IsActive("/incis") ? "active" : "")">
+                <i class="fas fa-atom"></i><span>INCI</span>
+            </a>
+            <a asp-controller="Reports" asp-action="Index" class="erp-topbar-link @(IsActive("/reports") ? "active" : "")">
+                <i class="fas fa-chart-line"></i><span>Αναφορές</span>
+            </a>
+        </nav>
+
+        <div class="erp-topbar-end ms-auto">
+            <button type="button" class="erp-icon-btn" data-bs-toggle="modal" data-bs-target="#globalSearchModal" title="Αναζήτηση (Ctrl+K)" aria-label="Αναζήτηση">
+                <i class="fas fa-magnifying-glass"></i>
+            </button>
+            <button type="button" class="erp-icon-btn" id="themeToggleBtn" title="Εναλλαγή θέματος" aria-label="Theme">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <div class="dropdown">
+                    <button class="erp-icon-btn erp-icon-btn-bell position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Ειδοποιήσεις">
+                        <i class="fas fa-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none" id="notifBadge">0</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end erp-dropdown shadow-lg" id="notifList" style="min-width: 320px;">
+                        <li><h6 class="dropdown-header"><i class="fas fa-bell me-2"></i>Ειδοποιήσεις</h6></li>
+                        <li><div class="dropdown-item-empty text-center text-muted py-4"><i class="fas fa-check-circle fs-3 d-block mb-2 text-success"></i>Δεν υπάρχουν νέες ειδοποιήσεις</div></li>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
+                    <button class="erp-user-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="erp-user-avatar">@(User.Identity.Name?.Substring(0, 1).ToUpper() ?? "U")</span>
+                        <span class="d-none d-md-inline ms-2">
+                            <span class="erp-user-name">@(User.Identity.Name ?? "User")</span>
+                            <i class="fas fa-chevron-down ms-1 small"></i>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end erp-dropdown shadow-lg">
+                        <li class="px-3 py-2 small text-muted text-truncate" style="max-width:260px;">
+                            Συνδεδεμένος ως<br /><strong class="text-body">@User.Identity.Name</strong>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index"><i class="fas fa-circle-user fa-fw me-2"></i>Το Προφίλ μου</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword"><i class="fas fa-key fa-fw me-2"></i>Αλλαγή Κωδικού</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a class="dropdown-item" asp-controller="Tenants" asp-action="Index"><i class="fas fa-building-shield fa-fw me-2"></i>Διαχείριση Πελατών</a></li>
+                            <li><a class="dropdown-item" asp-controller="Tools" asp-action="Index"><i class="fas fa-toolbox fa-fw me-2"></i>Ρυθμίσεις Συστήματος</a></li>
+                        }
+                        <li><a class="dropdown-item" asp-controller="Help" asp-action="Index"><i class="fas fa-circle-question fa-fw me-2"></i>Βοήθεια</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="dropdown-item text-danger"><i class="fas fa-right-from-bracket fa-fw me-2"></i>Αποσύνδεση</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <a class="btn btn-light btn-sm fw-semibold ms-1" asp-controller="Account" asp-action="Login"><i class="fas fa-right-to-bracket me-1"></i>Σύνδεση</a>
+            }
+        </div>
+    </header>
+
+    <!-- ============================================================ SIDEBAR -->
+    <aside class="erp-sidebar" id="erpSidebar" aria-label="Πλευρική πλοήγηση">
+        <button class="erp-sidebar-toggle d-none d-lg-flex" id="sidebarCollapseBtn" type="button" aria-label="Σύμπτυξη μενού">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <nav class="erp-sidebar-nav">
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Επισκόπηση</div>
+                <a asp-controller="Home" asp-action="Index" class="erp-sidebar-link @(currentPath == "/" || IsActive("/home") ? "active" : "")" data-tip="Dashboard">
+                    <i class="fas fa-gauge-high"></i><span>Dashboard</span>
+                </a>
+            </div>
+
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Παραγωγή</div>
+                <a asp-controller="Formulas" asp-action="Index" class="erp-sidebar-link @(IsActive("/formulas") ? "active" : "")" data-tip="Φόρμουλες">
+                    <i class="fas fa-flask"></i><span>Φόρμουλες</span>
+                </a>
+                <a asp-controller="RawMaterials" asp-action="Index" class="erp-sidebar-link @(IsActive("/rawmaterials") ? "active" : "")" data-tip="Πρώτες Ύλες">
+                    <i class="fas fa-cubes"></i><span>Πρώτες Ύλες</span>
+                </a>
+                <a asp-controller="INCIs" asp-action="Index" class="erp-sidebar-link @(IsActive("/incis") ? "active" : "")" data-tip="Συστατικά INCI">
+                    <i class="fas fa-atom"></i><span>Συστατικά INCI</span>
+                </a>
+                <a asp-controller="Restrictions" asp-action="Index" class="erp-sidebar-link @(IsActive("/restrictions") ? "active" : "")" data-tip="Περιορισμοί">
+                    <i class="fas fa-triangle-exclamation"></i><span>Περιορισμοί</span>
+                </a>
+            </div>
+
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Διαχείριση Προϊόντος</div>
+                <a asp-controller="ProductManagement" asp-action="Index" class="erp-sidebar-link @(IsActive("/productmanagement") ? "active" : "")" data-tip="Διαχείριση Προϊόντος">
+                    <i class="fas fa-boxes-stacked"></i><span>Διαχείριση Προϊόντος</span>
+                </a>
+            </div>
+
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Επαφές</div>
+                <a asp-controller="Clients" asp-action="Index" class="erp-sidebar-link @(IsActive("/clients") ? "active" : "")" data-tip="Πελάτες">
+                    <i class="fas fa-handshake"></i><span>Πελάτες</span>
+                </a>
+                <a asp-controller="Suppliers" asp-action="Index" class="erp-sidebar-link @(IsActive("/suppliers") ? "active" : "")" data-tip="Προμηθευτές">
+                    <i class="fas fa-truck-fast"></i><span>Προμηθευτές</span>
+                </a>
+            </div>
+
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Ανάλυση</div>
+                <a asp-controller="Reports" asp-action="Index" class="erp-sidebar-link @(IsActive("/reports") ? "active" : "")" data-tip="Αναφορές">
+                    <i class="fas fa-chart-column"></i><span>Αναφορές</span>
+                </a>
+            </div>
+
+            <div class="erp-sidebar-section">
+                <div class="erp-sidebar-title">Εργαλεία</div>
+                <a asp-controller="Import" asp-action="Index" class="erp-sidebar-link @(IsActive("/import") ? "active" : "")" data-tip="Εισαγωγή">
+                    <i class="fas fa-file-import"></i><span>Εισαγωγή Δεδομένων</span>
+                </a>
+                @if (User?.IsInRole("Admin") == true || User?.IsInRole("TenantAdmin") == true)
+                {
+                    <a asp-controller="Users" asp-action="Index" class="erp-sidebar-link @(IsActive("/users") ? "active" : "")" data-tip="Διαχείριση Χρηστών">
+                        <i class="fas fa-users-gear"></i><span>Διαχείριση Χρηστών</span>
+                    </a>
+                }
+                @if (User?.IsInRole("Admin") == true)
+                {
+                    <a asp-controller="Tenants" asp-action="Index" class="erp-sidebar-link @(IsActive("/tenants") ? "active" : "")" data-tip="Διαχείριση Πελατών">
+                        <i class="fas fa-building-shield"></i><span>Πελάτες</span>
+                    </a>
+                    <a asp-controller="Tools" asp-action="Index" class="erp-sidebar-link @(IsActive("/tools") ? "active" : "")" data-tip="Ρυθμίσεις">
+                        <i class="fas fa-screwdriver-wrench"></i><span>Ρυθμίσεις</span>
+                    </a>
+                }
+                <a asp-controller="Help" asp-action="Index" class="erp-sidebar-link @(IsActive("/help") ? "active" : "")" data-tip="Βοήθεια">
+                    <i class="fas fa-circle-question"></i><span>Βοήθεια</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="erp-sidebar-footer">
+            <div class="small text-muted text-center">
+                <i class="fas fa-shield-halved text-success"></i>
+                <span class="d-inline d-block-collapsed">Secure · v1.0</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile overlay -->
+    <div class="erp-mobile-overlay" id="erpMobileOverlay"></div>
+
+    <!-- ============================================================ MAIN -->
+    <main class="erp-main" id="erpMain" role="main">
+        <div class="erp-main-inner">
+            @RenderBody()
+        </div>
+
+        <footer class="erp-footer text-center small text-muted py-3 mt-4">
+            <i class="fas fa-flask me-1"></i>
+            <span>INCIS SaaP &copy; @DateTime.Now.Year — Cosmetic Formula Management Platform</span>
+        </footer>
+    </main>
+
+    <!-- ============================================================ GLOBAL SEARCH -->
+    <div class="modal fade" id="globalSearchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content erp-search-modal">
+                <div class="modal-body p-0">
+                    <div class="input-group input-group-lg border-0">
+                        <span class="input-group-text bg-transparent border-0 px-3"><i class="fas fa-magnifying-glass text-muted"></i></span>
+                        <input type="search" class="form-control border-0 shadow-none py-3" id="globalSearchInput" placeholder="Αναζήτηση φόρμουλας, INCI, πελάτη, προμηθευτή..." autocomplete="off" />
+                        <button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal"><kbd>ESC</kbd></button>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="px-3 py-3">
+                        <div class="text-muted small mb-2 fw-semibold text-uppercase">Γρήγορη πρόσβαση</div>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a class="erp-quick-pill" asp-controller="Formulas" asp-action="Index"><i class="fas fa-flask me-1"></i>Φόρμουλες</a>
+                            <a class="erp-quick-pill" asp-controller="RawMaterials" asp-action="Index"><i class="fas fa-cubes me-1"></i>Πρώτες Ύλες</a>
+                            <a class="erp-quick-pill" asp-controller="INCIs" asp-action="Index"><i class="fas fa-atom me-1"></i>INCI</a>
+                            <a class="erp-quick-pill" asp-controller="Clients" asp-action="Index"><i class="fas fa-handshake me-1"></i>Πελάτες</a>
+                            <a class="erp-quick-pill" asp-controller="Suppliers" asp-action="Index"><i class="fas fa-truck me-1"></i>Προμηθευτές</a>
+                            <a class="erp-quick-pill" asp-controller="Reports" asp-action="Index"><i class="fas fa-chart-line me-1"></i>Αναφορές</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ TOAST CONTAINER -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="erpToastContainer" style="z-index: 1090;"></div>
+
+    <!-- TempData global toasts -->
+    @if (TempData["Success"] != null)
+    {
+        <script>window.__erpInitialToast = { type: 'success', message: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Success"]?.ToString())) };</script>
+    }
+    else if (TempData["Error"] != null)
+    {
+        <script>window.__erpInitialToast = { type: 'danger', message: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Error"]?.ToString())) };</script>
+    }
+    else if (TempData["Info"] != null)
+    {
+        <script>window.__erpInitialToast = { type: 'info', message: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Info"]?.ToString())) };</script>
+    }
+
+    <!-- Vendor scripts (SRI) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js" integrity="sha384-RI884ilXM+WxNI0mDmGp58PjcFhcalTPi2TiKXygGj0RJKHdHPn77r3O+kXFwnCH" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js" integrity="sha384-WNb6Y5MwGHvMYn5WNdkLJ5n9GmEV4iGx3VpXMVoaJGHd1AeGfBiHv0OH2uIWQz6" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js" integrity="sha384-R0mFDqZgiOopHTNz6Iy16VHNsDvHQxQQv2bP2hYBf+8WEMwhmpE6t6J+YBDiF6BG" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js" integrity="sha384-QBKLh1T51FS2/BWnF0vLb3jgOy0F/aGP2lXcBQDiD7NLkft7BqEMr2DKXJ4W0YxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" integrity="sha384-7U5fBOkBV+pVMO7K4Z9N3TbXKHMuVGYFHOkBVPhNFHAxKK+vgU3fKKJJe7Qvxyxm" crossorigin="anonymous"></script>
+
+    <!-- App scripts -->
+    <script src="~/js/erp-ui.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/cosing-autocomplete.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <partial name="_CookieConsent" />
+</body>
+</html>

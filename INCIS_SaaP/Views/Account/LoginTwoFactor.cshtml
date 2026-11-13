@@ -1,0 +1,38 @@
+@model INCIS_SaaP.Controllers.TwoFactorLoginViewModel
+@{
+    ViewData["Title"] = "Έλεγχος Δύο Παραγόντων";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-card">
+    <h2 class="auth-card-title">Επαλήθευση 2 Βημάτων</h2>
+    <p class="auth-card-subtitle">Εισάγετε τον 6-ψήφιο κωδικό από την εφαρμογή authenticator</p>
+
+    <form asp-action="LoginTwoFactor" method="post" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3 small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+        <div class="mb-3">
+            <label asp-for="Code" class="form-label fw-semibold">
+                <i class="fas fa-shield-halved me-2 text-erp-primary"></i>Κωδικός Επαλήθευσης
+            </label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                <input asp-for="Code" class="form-control form-control-lg text-center" inputmode="numeric"
+                       autocomplete="one-time-code" maxlength="8" placeholder="______" autofocus required />
+            </div>
+            <span asp-validation-for="Code" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="fas fa-right-to-bracket me-2"></i>Επαλήθευση & Είσοδος
+        </button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a asp-action="Login" class="text-decoration-none small"><i class="fas fa-arrow-left me-1"></i>Επιστροφή στην είσοδο</a>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

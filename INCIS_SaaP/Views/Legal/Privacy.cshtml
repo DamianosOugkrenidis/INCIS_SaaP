@@ -1,0 +1,45 @@
+@{
+    ViewData["Title"] = "Πολιτική Απορρήτου";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Πολιτική Απορρήτου</span>
+</nav>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-body">
+        <h1 class="h3 mb-1">Πολιτική Απορρήτου (GDPR)</h1>
+        <p class="text-muted small">Τελευταία ενημέρωση: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+        <hr />
+
+        <div class="alert alert-warning small"><i class="fas fa-triangle-exclamation me-2"></i>Πρότυπο κείμενο — απαιτείται νομικός έλεγχος & DPA πριν την εμπορική διάθεση σε πελάτες ΕΕ.</div>
+
+        <h2 class="h6 mt-3">1. Υπεύθυνος Επεξεργασίας</h2>
+        <p class="text-muted">INCIS SaaP. Στοιχεία επικοινωνίας DPO: privacy@incis.local</p>
+
+        <h2 class="h6 mt-3">2. Δεδομένα που Συλλέγουμε</h2>
+        <p class="text-muted">Στοιχεία λογαριασμού (όνομα, email, οργανισμός, ρόλος), προαιρετικά τηλέφωνο/ΑΦΜ (κρυπτογραφημένα), δεδομένα χρήσης και τα επιχειρησιακά δεδομένα που εισάγετε (συνθέσεις, α' ύλες κ.λπ.).</p>
+
+        <h2 class="h6 mt-3">3. Σκοπός & Νομική Βάση</h2>
+        <p class="text-muted">Επεξεργαζόμαστε δεδομένα για την παροχή της υπηρεσίας (εκτέλεση σύμβασης), ασφάλεια και έννομα συμφέροντα. Ευαίσθητα πεδία κρυπτογραφούνται.</p>
+
+        <h2 class="h6 mt-3">4. Διατήρηση</h2>
+        <p class="text-muted">Διατηρούμε δεδομένα όσο είναι ενεργός ο λογαριασμός και όπως απαιτεί ο νόμος. Μετά τη διαγραφή, τα δεδομένα αφαιρούνται/ανωνυμοποιούνται.</p>
+
+        <h2 class="h6 mt-3">5. Τα Δικαιώματά σας</h2>
+        <p class="text-muted">Πρόσβαση, διόρθωση, διαγραφή, φορητότητα, περιορισμός & εναντίωση. Μπορείτε να <strong>εξάγετε τα δεδομένα σας</strong> ή να <strong>ζητήσετε διαγραφή λογαριασμού</strong> από τη σελίδα «Το Προφίλ μου».</p>
+
+        <h2 class="h6 mt-3">6. Ασφάλεια</h2>
+        <p class="text-muted">HTTPS, κρυπτογράφηση ευαίσθητων δεδομένων, απομόνωση ανά tenant, καταγραφή ελέγχου (audit), προαιρετικό 2FA.</p>
+
+        <h2 class="h6 mt-3">7. Cookies</h2>
+        <p class="text-muted">Χρησιμοποιούμε απαραίτητα cookies (αυθεντικοποίηση/συνεδρία). Δείτε το banner συγκατάθεσης.</p>
+
+        @if (User?.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-primary mt-2"><i class="fas fa-user-shield me-2"></i>Διαχείριση δεδομένων μου</a>
+        }
+    </div>
+</div>

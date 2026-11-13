@@ -1,0 +1,40 @@
+@model INCIS_SaaP.Models.INCI
+@{
+    ViewData["Title"] = "Διαγραφή INCI";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Συστατικά INCI</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Διαγραφή</span>
+</nav>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-lg-7">
+        <div class="erp-card">
+            <div class="erp-card-header" style="background: var(--erp-danger-soft);">
+                <h3 style="color:#991b1b;"><i class="fas fa-triangle-exclamation"></i> Επιβεβαίωση Διαγραφής</h3>
+            </div>
+            <div class="erp-card-body">
+                <div class="alert alert-danger"><i class="fas fa-circle-exclamation me-2"></i><strong>Προσοχή!</strong> Η διαγραφή είναι μόνιμη.</div>
+
+                <div class="erp-info-grid mb-4">
+                    <div class="erp-info-item"><span class="erp-info-label">Όνομα</span><span class="erp-info-value">@Model.Name</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">CAS</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.CASNumber) ? "empty" : "")">@(Model.CASNumber ?? "—")</span></div>
+                    <div class="erp-info-item"><span class="erp-info-label">EC</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.ECNumber) ? "empty" : "")">@(Model.ECNumber ?? "—")</span></div>
+                </div>
+
+                <form asp-action="Delete" method="post" data-confirm="Επιβεβαιώνετε τη διαγραφή του συστατικού;">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-2"></i>Διαγραφή</button>
+                        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

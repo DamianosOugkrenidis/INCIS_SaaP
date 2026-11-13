@@ -1,0 +1,41 @@
+# Dockerignore στη ΡΙΖΑ του build context (INCIS_SaaP_v5).
+# Το docker-compose ορίζει context: .. οπότε ΑΥΤΟ το αρχείο είναι που ισχύει
+# (όχι το INCIS_SaaP/.dockerignore). Κρίσιμο: να ΜΗΝ αντιγραφούν τα Windows
+# bin/obj (περιέχουν *.nuget.g.props με Windows fallback paths που σπάνε το
+# Linux build με error MSB4018 / "C:\Program Files (x86)\...\NuGetPackages").
+
+# Build artifacts (όλα τα projects)
+**/bin/
+**/obj/
+
+# Το test project δεν χρειάζεται για το runtime image
+INCIS_SaaP.Tests/
+
+# IDE / VS files
+**/*.user
+**/*.vspscc
+**/*.vssscc
+**/*.csproj.user
+**/*.pidb
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+.vs/
+
+# Logs
+**/logs/
+**/*.log
+
+# Docker / VCS meta
+.git
+.gitignore
+.gitattributes
+**/Dockerfile
+**/docker-compose.yml
+**/.dockerignore
+**/.env
+**/.env.*
+
+# Μεγάλα/άσχετα assets που δεν χρειάζονται στο build
+FILES.zip
+Database/*.bak

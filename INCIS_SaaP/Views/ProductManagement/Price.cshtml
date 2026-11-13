@@ -1,0 +1,72 @@
+@model INCIS_SaaP.Models.PriceInfo
+@{
+    var formulaCode = ViewData["FormulaCode"] as string;
+    ViewData["Title"] = "Τιμολόγηση · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@Model.FormulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Τιμολόγηση</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-euro-sign"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Τιμολόγηση <span class="erp-badge erp-badge-success ms-2">FORM1</span></h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-body">
+                <form asp-action="PriceSave" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FormulaId" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="CostPerUnit" class="form-label fw-semibold">Κόστος / Μονάδα</label>
+                            <input asp-for="CostPerUnit" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="UnitPrice" class="form-label fw-semibold">Τιμή / Μονάδα</label>
+                            <input asp-for="UnitPrice" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ProfitMargin" class="form-label fw-semibold">Περιθώριο Κέρδους (%)</label>
+                            <input asp-for="ProfitMargin" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="RecommendedRetailPrice" class="form-label fw-semibold">Προτ. Λιανική (ΠΛΤ)</label>
+                            <input asp-for="RecommendedRetailPrice" type="number" step="any" class="form-control" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Currency" class="form-label fw-semibold">Νόμισμα</label>
+                            <input asp-for="Currency" class="form-control" placeholder="EUR" />
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="PriceCategory" class="form-label fw-semibold">Κατηγορία Τιμής</label>
+                            <input asp-for="PriceCategory" class="form-control" placeholder="π.χ. Premium, Mass market" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-action="Manage" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

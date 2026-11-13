@@ -1,0 +1,516 @@
+@*
+    FORM10 - Formula Claims Document
+    Author: Damianos Pythagoras Ougkrenidis
+*@
+@model INCIS_SaaP.Dtos.FormulaClaimsDocumentViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FORM10 - Formula Claims - @Model.FormulaCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --doc-primary: #1a237e;
+            --doc-primary-light: #3949ab;
+            --doc-accent: #00bfa5;
+            --doc-success: #2e7d32;
+            --doc-danger: #c62828;
+            --doc-bg: #f8f9fa;
+            --doc-card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        * {
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--doc-bg);
+            color: #212121;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .document-container {
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Header ── */
+        .doc-header {
+            background: linear-gradient(135deg, var(--doc-primary) 0%, var(--doc-primary-light) 50%, var(--doc-accent) 100%);
+            color: #fff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(26,35,126,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .doc-header .form-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .doc-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .doc-header .subtitle {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .header-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-meta-item {
+            font-size: 11px;
+        }
+
+        .header-meta-item .label {
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            font-size: 9px;
+        }
+
+        .header-meta-item .value {
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* ── Cards ── */
+        .doc-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--doc-card-shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .doc-card-header {
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #e8eaf6;
+            background: linear-gradient(135deg, #fafbff 0%, #f3f4f9 100%);
+        }
+
+        .doc-card-header i {
+            color: var(--doc-primary-light);
+            font-size: 16px;
+        }
+
+        .doc-card-body {
+            padding: 20px;
+        }
+
+        /* ── Claims Summary ── */
+        .claims-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .claim-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            transition: transform 0.15s;
+        }
+
+        .claim-badge.can-claim {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: var(--doc-success);
+            border: 1px solid #a5d6a7;
+        }
+
+        .claim-badge.cannot-claim {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: var(--doc-danger);
+            border: 1px solid #ef9a9a;
+        }
+
+        .claim-badge i {
+            font-size: 18px;
+        }
+
+        /* ── Table ── */
+        .doc-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 11.5px;
+        }
+
+        .doc-table thead th {
+            background: linear-gradient(180deg, #263238, #37474f);
+            color: #fff;
+            padding: 10px 8px;
+            font-weight: 600;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .doc-table thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .doc-table thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        .doc-table tbody td {
+            padding: 8px;
+            border-bottom: 1px solid #eceff1;
+            vertical-align: middle;
+        }
+
+        .doc-table tbody tr:hover {
+            background: #f5f7ff;
+        }
+
+        .doc-table tbody tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .doc-table tbody tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        .check-pass {
+            color: var(--doc-success);
+            font-size: 15px;
+        }
+
+        .check-fail {
+            color: var(--doc-danger);
+            font-size: 15px;
+        }
+
+        /* ── Claims Lists ── */
+        .verified-list, .failed-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .verified-list li, .failed-list li {
+            padding: 8px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-list li {
+            background: #e8f5e9;
+            color: var(--doc-success);
+        }
+
+        .failed-list li {
+            background: #ffebee;
+            color: var(--doc-danger);
+        }
+
+        /* ── Footer ── */
+        .doc-footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 10px;
+            color: #9e9e9e;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 24px;
+        }
+
+        /* ── Print Button ── */
+        .print-bar {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--doc-primary), var(--doc-primary-light));
+            color: #fff;
+            border: none;
+            padding: 10px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(26,35,126,0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(26,35,126,0.4);
+        }
+
+        /* ── Print Styles ── */
+        @@media print {
+            body { background: #fff; }
+            .print-bar { display: none !important; }
+            .document-container { max-width: 100%; padding: 0; margin: 0; }
+            .doc-header { box-shadow: none; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .doc-card { box-shadow: none; border: 1px solid #e0e0e0; break-inside: avoid; }
+            .doc-table thead th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .claim-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .check-pass, .check-fail { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .verified-list li, .failed-list li { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 15mm;
+        }
+    </style>
+</head>
+<body>
+    <div class="document-container">
+
+        <!-- Print Button -->
+        <div class="print-bar">
+            <button class="btn-print" onclick="window.print()">
+                <i class="fas fa-print me-2"></i>Print Document
+            </button>
+        </div>
+
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="form-badge">FORM10</div>
+            <h1><i class="fas fa-award me-2"></i>Formula Claims Analysis</h1>
+            <div class="subtitle">Comprehensive claim eligibility assessment for cosmetic product formulation</div>
+            <div class="header-meta">
+                <div class="header-meta-item">
+                    <div class="label">Formula Code</div>
+                    <div class="value">@Model.FormulaCode</div>
+                </div>
+                <div class="header-meta-item">
+                    <div class="label">Product Name</div>
+                    <div class="value">@Model.ProductName</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.ProductType))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Product Type</div>
+                        <div class="value">@Model.ProductType</div>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.ClientName))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Client</div>
+                        <div class="value">@Model.ClientName</div>
+                    </div>
+                }
+                <div class="header-meta-item">
+                    <div class="label">Generated</div>
+                    <div class="value">@Model.GeneratedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Version))
+                {
+                    <div class="header-meta-item">
+                        <div class="label">Version</div>
+                        <div class="value">@Model.Version</div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Claims Summary -->
+        <div class="doc-card">
+            <div class="doc-card-header">
+                <i class="fas fa-clipboard-check"></i>
+                Claims Summary
+            </div>
+            <div class="doc-card-body">
+                <div class="claims-grid">
+                    <div class="claim-badge @(Model.Summary.CanClaimVegan ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimVegan ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Vegan</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimGlutenFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimGlutenFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Gluten-Free</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimGMOFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimGMOFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>GMO-Free</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimMicroplasticFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimMicroplasticFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Microplastic-Free</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimPhthalateFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimPhthalateFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Phthalate-Free</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimPalmOilFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimPalmOilFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Palm Oil-Free</span>
+                    </div>
+                    <div class="claim-badge @(Model.Summary.CanClaimSiliconeFree ? "can-claim" : "cannot-claim")">
+                        <i class="fas @(Model.Summary.CanClaimSiliconeFree ? "fa-circle-check" : "fa-circle-xmark")"></i>
+                        <span>Silicone-Free</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredient Claims Table -->
+        <div class="doc-card">
+            <div class="doc-card-header">
+                <i class="fas fa-table"></i>
+                Ingredient Claims Breakdown
+            </div>
+            <div class="doc-card-body" style="padding: 0; overflow-x: auto;">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th style="width:40px">A/N</th>
+                            <th>ID</th>
+                            <th style="text-align:left">RM Name</th>
+                            <th style="text-align:left">INCI</th>
+                            <th>Vegan</th>
+                            <th>Gluten-Free</th>
+                            <th>GMO-Free</th>
+                            <th>MP-Free</th>
+                            <th>Phth-Free</th>
+                            <th>Palm-Free</th>
+                            <th>Sili-Free</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Ingredients)
+                        {
+                            <tr>
+                                <td style="text-align:center; font-weight:600; color:#78909c;">@item.Order</td>
+                                <td style="text-align:center; font-weight:500;">@item.RawMaterialCode</td>
+                                <td style="font-weight:500;">@item.RawMaterialName</td>
+                                <td style="font-style:italic; color:#546e7a; font-size:11px;">@item.InciName</td>
+                                <td style="text-align:center"><i class="fas @(item.IsVegan ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsGlutenFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsGMOFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsMicroplasticFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsPhthalateFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsPalmOilFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                                <td style="text-align:center"><i class="fas @(item.IsSiliconeFree ? "fa-check-circle check-pass" : "fa-times-circle check-fail")"></i></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Verified & Failed Claims -->
+        <div class="row g-3">
+            @if (Model.Summary.VerifiedClaims.Any())
+            {
+                <div class="col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-header" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9);">
+                            <i class="fas fa-shield-halved" style="color: var(--doc-success);"></i>
+                            <span style="color: var(--doc-success);">Verified Claims (@Model.Summary.VerifiedClaims.Count)</span>
+                        </div>
+                        <div class="doc-card-body">
+                            <ul class="verified-list">
+                                @foreach (var claim in Model.Summary.VerifiedClaims)
+                                {
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        @claim
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.Summary.FailedClaims.Any())
+            {
+                <div class="col-md-6">
+                    <div class="doc-card">
+                        <div class="doc-card-header" style="background: linear-gradient(135deg, #ffebee, #ffcdd2);">
+                            <i class="fas fa-triangle-exclamation" style="color: var(--doc-danger);"></i>
+                            <span style="color: var(--doc-danger);">Failed Claims (@Model.Summary.FailedClaims.Count)</span>
+                        </div>
+                        <div class="doc-card-body">
+                            <ul class="failed-list">
+                                @foreach (var claim in Model.Summary.FailedClaims)
+                                {
+                                    <li>
+                                        <i class="fas fa-times-circle"></i>
+                                        @claim
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="doc-footer">
+            <strong>INCIS SaaP</strong> &mdash; Formula Claims Document (FORM10) &mdash;
+            Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+            This document is auto-generated and intended for internal use.
+        </div>
+
+    </div>
+</body>
+</html>

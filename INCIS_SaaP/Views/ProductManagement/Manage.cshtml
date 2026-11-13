@@ -1,0 +1,92 @@
+@model INCIS_SaaP.Dtos.ProductManageViewModel
+@{
+    ViewData["Title"] = "Διαχείριση · " + Model.FormulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.FormulaCode</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-boxes-stacked"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@(Model.ProductName ?? Model.FormulaCode)</h1>
+        <div class="erp-page-header-subtitle">
+            <span class="me-3"><i class="fas fa-hashtag me-1"></i>@Model.FormulaCode</span>
+            @if (!string.IsNullOrEmpty(Model.ProductType)) { <span class="me-3"><i class="fas fa-tag me-1"></i>@Model.ProductType</span> }
+            @if (!string.IsNullOrEmpty(Model.ClientName)) { <span class="me-3"><i class="fas fa-handshake me-1"></i>@Model.ClientName</span> }
+            @if (!string.IsNullOrEmpty(Model.Version)) { <span><i class="fas fa-code-branch me-1"></i>@Model.Version</span> }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="CopyFrom" asp-route-formulaId="@Model.FormulaId" class="btn btn-erp-secondary">
+            <i class="fas fa-copy me-2"></i>Αντιγραφή από φόρμουλα
+        </a>
+        <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary">
+            <i class="fas fa-file-lines me-2"></i>Έγγραφα
+        </a>
+    </div>
+</div>
+
+@{
+    var completeness = Model.CompletenessPercent;
+    var compColor = completeness >= 80 ? "bg-success" : completeness >= 40 ? "bg-warning" : "bg-danger";
+}
+<div class="erp-card erp-fade-in mb-3">
+    <div class="erp-card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+            <h3 class="h6 mb-0"><i class="fas fa-clipboard-list me-2 text-erp-primary"></i>Πληρότητα Δεδομένων</h3>
+            <span class="fw-bold">@completeness%</span>
+        </div>
+        <div class="progress mb-2" style="height:10px;">
+            <div class="progress-bar @compColor" role="progressbar" style="width:@completeness%" aria-valuenow="@completeness" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        @if (Model.MissingCategories.Any())
+        {
+            <small class="text-muted">Λείπουν: @string.Join(", ", Model.MissingCategories)</small>
+        }
+        else
+        {
+            <small class="text-success"><i class="fas fa-check-circle me-1"></i>Όλες οι κατηγορίες έχουν δεδομένα</small>
+        }
+    </div>
+</div>
+
+<div class="row g-3 erp-fade-in">
+    @foreach (var cat in Model.Categories)
+    {
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="erp-card h-100">
+                <div class="erp-card-body d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="erp-badge erp-badge-@cat.BadgeColor"><i class="fas @cat.Icon"></i></span>
+                            <span class="text-muted small fw-semibold">@cat.FormNumber</span>
+                        </div>
+                        @if (cat.HasData)
+                        {
+                            <span class="erp-badge erp-badge-success">@cat.Count εγγραφές</span>
+                        }
+                        else
+                        {
+                            <span class="erp-badge erp-badge-secondary">Κενό</span>
+                        }
+                    </div>
+                    <h3 class="h5 mb-1">@cat.Title</h3>
+                    <p class="text-muted small flex-grow-1">@cat.Description</p>
+                    <a asp-action="@cat.ActionName" asp-route-formulaId="@Model.FormulaId" class="btn btn-primary btn-sm mt-2">
+                        <i class="fas fa-sliders me-1"></i>Διαχείριση
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="mt-4 erp-fade-in">
+    <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω στη λίστα</a>
+</div>

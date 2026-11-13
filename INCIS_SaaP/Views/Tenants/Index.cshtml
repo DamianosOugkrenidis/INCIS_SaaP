@@ -1,0 +1,246 @@
+@model List<INCIS_SaaP.Controllers.TenantsController.TenantListRow>
+@{
+    ViewData["Title"] = "Διαχείριση Πελατών (Tenants)";
+    var plans = ViewData["Plans"] as List<INCIS_SaaP.Models.SubscriptionPlan> ?? new();
+    var created = ViewData["CreatedCredentials"] as string;
+    var error = ViewData["Error"] as string;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Διαχείριση Πελατών</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-building-shield"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Διαχείριση Πελατών (Tenants)</h1>
+        <div class="erp-page-header-subtitle">Κεντρική διαχείριση οργανισμών, συνδρομών και ορίων — Provider Console</div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(created))
+{
+    <div class="alert alert-success">
+        <strong><i class="fas fa-key me-1"></i>Διαπιστευτήρια TenantAdmin (εμφανίζονται μία φορά):</strong>
+        <code>@created</code>
+        <div class="small">Ο χρήστης θα κληθεί να αλλάξει κωδικό στην πρώτη σύνδεση.</div>
+    </div>
+}
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+
+<div class="erp-card erp-fade-in mb-3">
+    <div class="erp-card-header"><h3><i class="fas fa-plus text-erp-primary"></i> Νέος Πελάτης</h3></div>
+    <div class="erp-card-body">
+        <form asp-action="Create" method="post" class="row g-3 align-items-end">
+            @Html.AntiForgeryToken()
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Επωνυμία πελάτη <span class="text-danger">*</span></label>
+                <input name="name" class="form-control" required maxlength="200" placeholder="π.χ. Cosmetics S.A." />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Email TenantAdmin</label>
+                <input name="email" type="email" class="form-control" placeholder="admin@customer.gr" />
+                <div class="form-text">Δημιουργείται λογαριασμός TenantAdmin με προσωρινό κωδικό.</div>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">Όριο χρηστών</label>
+                <input name="maxUsers" type="number" min="1" max="1000" value="5" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">Πακέτο</label>
+                <select name="planId" class="form-select">
+                    <option value="">—</option>
+                    @foreach (var p in plans)
+                    {
+                        <option value="@p.Id">@p.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label fw-semibold">Δοκιμή (ημέρες)</label>
+                <input name="trialDays" type="number" min="0" max="365" value="30" class="form-control" />
+            </div>
+            <div class="col-md-3 d-flex align-items-center">
+                <div class="form-check mt-4">
+                    <input class="form-check-input" type="checkbox" name="activate" value="true" id="activateNow" />
+                    <label class="form-check-label" for="activateNow">Άμεση ενεργοποίηση (Active)</label>
+                </div>
+            </div>
+            <div class="col-md-7 text-end">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-building-circle-check me-1"></i>Δημιουργία πελάτη</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in mb-3">
+    <div class="erp-card-header"><h3><i class="fas fa-layer-group text-erp-primary"></i> Πακέτα Συνδρομών (@plans.Count)</h3></div>
+    <div class="erp-card-body">
+        <form asp-action="CreatePlan" method="post" class="row g-3 align-items-end">
+            @Html.AntiForgeryToken()
+            <div class="col-md-3">
+                <label class="form-label">Όνομα</label>
+                <input name="name" class="form-control" required maxlength="50" placeholder="π.χ. Starter" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Max Users</label>
+                <input name="maxUsers" type="number" min="1" max="1000" value="5" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Μηνιαία €</label>
+                <input name="monthlyPrice" type="number" step="0.01" min="0" value="0" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Ετήσια €</label>
+                <input name="annualPrice" type="number" step="0.01" min="0" value="0" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label d-block">Δυνατότητες</label>
+                <div class="d-flex flex-wrap gap-3">
+                    <label class="form-check"><input class="form-check-input" type="checkbox" name="hasApiAccess" value="true" /> API</label>
+                    <label class="form-check"><input class="form-check-input" type="checkbox" name="hasWebhooks" value="true" /> Webhooks</label>
+                    <label class="form-check"><input class="form-check-input" type="checkbox" name="hasProduction" value="true" /> Production</label>
+                    <label class="form-check"><input class="form-check-input" type="checkbox" name="hasReports" value="true" /> Reports</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Περιγραφή</label>
+                <input name="description" class="form-control" maxlength="200" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Max Formulas</label>
+                <input name="maxFormulas" type="number" min="0" value="0" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Max Raw Materials</label>
+                <input name="maxRawMaterials" type="number" min="0" value="0" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Max Storage MB</label>
+                <input name="maxStorageMB" type="number" min="0" value="0" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-plus me-1"></i>Πακέτο</button>
+            </div>
+        </form>
+
+        @if (plans.Any())
+        {
+            <table class="table align-middle mt-3 mb-0">
+                <thead>
+                    <tr><th>Πακέτο</th><th>Max Users</th><th>Μηνιαία</th><th>Ετήσια</th><th>Κατάσταση</th><th class="text-end">Ενέργεια</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in plans)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@p.Name</td>
+                            <td>@p.MaxUsers</td>
+                            <td>@p.MonthlyPrice.ToString("0.00") €</td>
+                            <td>@p.AnnualPrice.ToString("0.00") €</td>
+                            <td>@(p.IsActive ? "Ενεργό" : "Ανενεργό")</td>
+                            <td class="text-end">
+                                <form asp-action="TogglePlan" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.Id" />
+                                    <button class="btn btn-outline-secondary btn-sm">@(p.IsActive ? "Απενεργοποίηση" : "Ενεργοποίηση")</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-header"><h3><i class="fas fa-list text-erp-primary"></i> Πελάτες (@Model.Count)</h3></div>
+    <div class="table-responsive">
+        @if (Model.Any())
+        {
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Επωνυμία</th>
+                        <th class="d-none d-lg-table-cell">Slug</th>
+                        <th>Κατάσταση</th>
+                        <th class="d-none d-md-table-cell">Χρήστες</th>
+                        <th class="d-none d-lg-table-cell">Λήξη</th>
+                        <th class="d-none d-lg-table-cell">Πακέτο</th>
+                        <th class="text-end">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var t in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@t.Name<div class="small text-muted">@t.Email</div></td>
+                            <td class="d-none d-lg-table-cell"><code>@t.Slug</code></td>
+                            <td>
+                                @if (!t.IsActive)
+                                {
+                                    <span class="erp-badge erp-badge-secondary">Ανενεργός</span>
+                                }
+                                else if (t.Status == "Active")
+                                {
+                                    <span class="erp-badge erp-badge-success">@t.Status</span>
+                                }
+                                else if (t.Status == "Trial")
+                                {
+                                    <span class="erp-badge erp-badge-warning">Trial</span>
+                                }
+                                else
+                                {
+                                    <span class="erp-badge erp-badge-secondary">@t.Status</span>
+                                }
+                            </td>
+                            <td class="d-none d-md-table-cell">@t.UserCount / @t.MaxUsers</td>
+                            <td class="d-none d-lg-table-cell">@(t.ExpiresAt?.ToString("dd/MM/yyyy") ?? "—")</td>
+                            <td class="d-none d-lg-table-cell">@(t.PlanName ?? "—")</td>
+                            <td class="text-end">
+                                <div class="erp-actions d-flex flex-wrap gap-1 justify-content-end">
+                                    <form asp-action="Renew" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.Id" />
+                                        <button name="months" value="1" class="btn btn-outline-success btn-sm">+1 μήνας</button>
+                                        <button name="months" value="12" class="btn btn-outline-success btn-sm">+12 μήνες</button>
+                                    </form>
+                                    <form asp-action="SetStatus" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.Id" />
+                                        <button name="status" value="Active" class="btn btn-success btn-sm">Ενεργοποίηση</button>
+                                        <button name="status" value="Suspended" class="btn btn-warning btn-sm">Αναστολή</button>
+                                        <button name="status" value="Cancelled" class="btn btn-outline-danger btn-sm">Ακύρωση</button>
+                                    </form>
+                                    <form asp-action="SetLimits" method="post" class="d-inline-flex gap-1">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@t.Id" />
+                                        <input name="maxUsers" type="number" min="1" max="1000" value="@t.MaxUsers" class="form-control form-control-sm" style="width:90px;" />
+                                        <button class="btn btn-erp-secondary btn-sm">Όριο</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="erp-empty p-4 text-center">
+                <div class="erp-empty-icon"><i class="fas fa-building"></i></div>
+                <h5 class="text-body">Δεν υπάρχουν πελάτες</h5>
+            </div>
+        }
+    </div>
+</div>

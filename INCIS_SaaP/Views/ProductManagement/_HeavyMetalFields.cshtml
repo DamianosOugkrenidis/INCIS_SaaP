@@ -1,0 +1,46 @@
+@model INCIS_SaaP.Models.HeavyMetal
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="MetalName" class="form-label fw-semibold">Όνομα Μετάλλου <span class="text-danger">*</span></label>
+        <input asp-for="MetalName" class="form-control" placeholder="π.χ. Lead (Pb)" required />
+        <span asp-validation-for="MetalName" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Unit" class="form-label fw-semibold">Μονάδα</label>
+        <input asp-for="Unit" class="form-control" placeholder="ppm" />
+        <span asp-validation-for="Unit" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="TestDate" class="form-label fw-semibold">Ημ/νία Ελέγχου</label>
+        <input asp-for="TestDate" type="date" class="form-control" />
+        <span asp-validation-for="TestDate" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="LimitValue" class="form-label fw-semibold">Όριο</label>
+        <input asp-for="LimitValue" type="number" step="any" class="form-control" />
+        <span asp-validation-for="LimitValue" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="DetectedValue" class="form-label fw-semibold">Ανιχνευθείσα Τιμή</label>
+        <input asp-for="DetectedValue" type="number" step="any" class="form-control" />
+        <span asp-validation-for="DetectedValue" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <div class="form-check form-switch">
+            <input type="hidden" name="IsCompliant" value="false" />
+            <input class="form-check-input" type="checkbox" role="switch" id="IsCompliant" name="IsCompliant" value="true" checked="@(Model.IsCompliant == true)" />
+            <label asp-for="IsCompliant" class="form-check-label">Συμμορφούμενο</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="TestMethod" class="form-label fw-semibold">Μέθοδος Ελέγχου</label>
+        <input asp-for="TestMethod" class="form-control" placeholder="π.χ. ICP-MS" />
+        <span asp-validation-for="TestMethod" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Notes" class="form-label fw-semibold">Σημειώσεις</label>
+        <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+</div>

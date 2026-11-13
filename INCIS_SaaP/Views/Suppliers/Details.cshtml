@@ -1,0 +1,73 @@
+@model INCIS_SaaP.Models.Supplier
+@{
+    ViewData["Title"] = "Λεπτομέρειες Προμηθευτή";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Προμηθευτές</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">@Model.Name</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-truck-fast"></i></div>
+    <div class="erp-page-header-text">
+        <h1>@Model.Name</h1>
+        <div class="erp-page-header-subtitle">
+            @if (Model.IsActive) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ενεργός</span> }
+            else { <span class="erp-badge erp-badge-secondary">Ανενεργός</span> }
+        </div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Επιστροφή</a>
+        @if (User?.IsInRole("Admin") == true || User?.IsInRole("SuperUser") == true)
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-pen me-2"></i>Επεξεργασία</a>
+        }
+    </div>
+</div>
+
+<div class="erp-card mb-3 erp-fade-in">
+    <div class="erp-card-header"><h3><i class="fas fa-id-card text-erp-primary"></i> Στοιχεία Επικοινωνίας</h3></div>
+    <div class="erp-card-body">
+        <div class="erp-info-grid">
+            <div class="erp-info-item"><span class="erp-info-label">Όνομα</span><span class="erp-info-value">@Model.Name</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Email</span><span class="erp-info-value">@if (!string.IsNullOrEmpty(Model.Email)) { <a href="mailto:@Model.Email">@Model.Email</a> } else { <span class="empty">—</span> }</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Τηλέφωνο</span><span class="erp-info-value">@if (!string.IsNullOrEmpty(Model.Phone)) { <a href="tel:@Model.Phone">@Model.Phone</a> } else { <span class="empty">—</span> }</span></div>
+            <div class="erp-info-item"><span class="erp-info-label">Δημιουργία</span><span class="erp-info-value">@Model.CreatedAt.ToString("dd/MM/yyyy")</span></div>
+            <div class="erp-info-item" style="grid-column: 1/-1;"><span class="erp-info-label">Διεύθυνση</span><span class="erp-info-value @(string.IsNullOrEmpty(Model.Address) ? "empty" : "")">@(Model.Address ?? "—")</span></div>
+        </div>
+    </div>
+</div>
+
+@if (Model.RawMaterials?.Any() == true)
+{
+    <div class="erp-card erp-fade-in">
+        <div class="erp-card-header">
+            <h3><i class="fas fa-cubes text-erp-primary"></i> Α’ Ύλες Προμηθευτή</h3>
+            <span class="erp-badge erp-badge-primary ms-2">@Model.RawMaterials.Count</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead><tr><th>Κωδικός</th><th>Όνομα</th><th class="d-none d-md-table-cell">Κατηγορία</th><th>Κατάσταση</th><th class="text-end">Ενέργειες</th></tr></thead>
+                <tbody>
+                    @foreach (var rm in Model.RawMaterials.OrderBy(x => x.ProductName))
+                    {
+                        <tr>
+                            <td><span class="erp-badge erp-badge-primary">@rm.Code</span></td>
+                            <td class="fw-semibold">@rm.ProductName</td>
+                            <td class="d-none d-md-table-cell">@(rm.Category ?? "—")</td>
+                            <td>
+                                @if (rm.IsActive) { <span class="erp-badge erp-badge-success"><i class="fas fa-check"></i>Ενεργή</span> }
+                                else { <span class="erp-badge erp-badge-secondary">Ανενεργή</span> }
+                            </td>
+                            <td class="text-end"><a asp-controller="RawMaterials" asp-action="Details" asp-route-id="@rm.Id" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

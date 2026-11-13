@@ -1,0 +1,94 @@
+@model List<INCIS_SaaP.Models.FormulaRawMaterial>
+@{
+    var formulaId = (int)ViewData["FormulaId"]!;
+    var formulaCode = ViewData["FormulaCode"] as string;
+    var total = (decimal)(ViewData["TotalPercentage"] ?? 0m);
+    ViewData["Title"] = "Σύνθεση Α' Υλών · " + formulaCode;
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Διαχείριση Προϊόντος</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Manage" asp-route-id="@formulaId">@formulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Σύνθεση Α' Υλών</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-cubes"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Σύνθεση Α' Υλών <span class="erp-badge erp-badge-primary ms-2">FORM12/14</span></h1>
+        <div class="erp-page-header-subtitle">Φόρμουλα @formulaCode · @Model.Count α' ύλες · Σύνολο: <strong>@total.ToString("0.####")%</strong></div>
+    </div>
+    <div class="erp-page-header-actions">
+        <a asp-action="ImportComposition" asp-route-formulaId="@formulaId" class="btn btn-erp-secondary"><i class="fas fa-file-excel me-2"></i>Εισαγωγή από Excel</a>
+        <a asp-action="CompositionAdd" asp-route-formulaId="@formulaId" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Προσθήκη Α' Ύλης</a>
+    </div>
+</div>
+
+@if (total > 100)
+{
+    <div class="alert alert-warning erp-fade-in"><i class="fas fa-triangle-exclamation me-2"></i>Το άθροισμα των ποσοστών (@total.ToString("0.####")%) υπερβαίνει το 100%.</div>
+}
+
+<div class="erp-card erp-fade-in">
+    <div class="table-responsive">
+        @if (Model.Any())
+        {
+            <table class="table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Φάση</th>
+                        <th>Κωδικός</th>
+                        <th>Α' Ύλη</th>
+                        <th class="d-none d-lg-table-cell">Προμηθευτής</th>
+                        <th>% w/w</th>
+                        <th class="text-end">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(string.IsNullOrEmpty(item.Phase) ? "—" : item.Phase)</td>
+                            <td class="fw-semibold">@(item.RawMaterial?.Code ?? "—")</td>
+                            <td>@(item.RawMaterial?.ProductName ?? "—")</td>
+                            <td class="d-none d-lg-table-cell"><small class="text-muted">@(item.RawMaterial?.Supplier?.Name ?? "—")</small></td>
+                            <td class="fw-semibold">@(item.Percentage?.ToString("0.####") ?? "—")</td>
+                            <td class="text-end">
+                                <div class="erp-actions">
+                                    <a asp-action="CompositionEdit" asp-route-id="@item.Id" class="btn btn-outline-secondary"><i class="fas fa-pen"></i></a>
+                                    <form asp-action="CompositionDelete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Αφαίρεση της α' ύλης από τη φόρμουλα;');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="fw-bold">
+                        <td colspan="4" class="text-end">Σύνολο</td>
+                        <td>@total.ToString("0.####")%</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <div class="erp-empty">
+                <div class="erp-empty-icon"><i class="fas fa-cubes"></i></div>
+                <h5 class="text-body">Δεν έχουν προστεθεί α' ύλες στη φόρμουλα</h5>
+                <a asp-action="CompositionAdd" asp-route-formulaId="@formulaId" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Προσθήκη Α' Ύλης</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-4 erp-fade-in">
+    <a asp-action="Manage" asp-route-id="@formulaId" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Πίσω στη διαχείριση</a>
+</div>

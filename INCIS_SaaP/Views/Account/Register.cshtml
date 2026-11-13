@@ -1,0 +1,116 @@
+@model INCIS_SaaP.Controllers.RegisterViewModel
+@{
+    ViewData["Title"] = "Εγγραφή";
+    Layout = "_AuthLayout";
+}
+
+<div class="auth-card" style="max-width: 560px;">
+    <h2 class="auth-card-title">Δημιουργία Λογαριασμού</h2>
+    <p class="auth-card-subtitle">Εγγραφείτε για να χρησιμοποιήσετε το INCIS SaaP</p>
+
+    <form asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3 small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label fw-semibold">
+                <i class="fas fa-user me-2 text-erp-primary"></i>Πλήρες Όνομα
+            </label>
+            <input asp-for="FullName" class="form-control" placeholder="π.χ. Δημήτρης Παπαδόπουλος" required />
+            <span asp-validation-for="FullName" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label fw-semibold">
+                <i class="fas fa-envelope me-2 text-erp-primary"></i>Email
+            </label>
+            <input asp-for="Email" type="email" class="form-control" placeholder="user@example.com" autocomplete="email" required />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="OrganizationName" class="form-label fw-semibold">
+                <i class="fas fa-building me-2 text-erp-primary"></i>Οργανισμός / Εταιρεία
+            </label>
+            <input asp-for="OrganizationName" class="form-control" placeholder="π.χ. Cosmetics S.A." required />
+            <span asp-validation-for="OrganizationName" class="text-danger small"></span>
+            <div class="form-text">Ο πρώτος χρήστης ενός νέου οργανισμού γίνεται διαχειριστής του· τα υπόλοιπα μέλη χρειάζονται έγκριση.</div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="Department" class="form-label fw-semibold">Τμήμα</label>
+                <input asp-for="Department" class="form-control" placeholder="π.χ. R&amp;D" />
+            </div>
+            <div class="col-md-6">
+                <label asp-for="JobTitle" class="form-label fw-semibold">Θέση Εργασίας</label>
+                <input asp-for="JobTitle" class="form-control" placeholder="π.χ. Χημικός" />
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="Phone" class="form-label fw-semibold">
+                    <i class="fas fa-phone me-2 text-erp-primary"></i>Τηλέφωνο
+                </label>
+                <input asp-for="Phone" class="form-control" placeholder="69XXXXXXXX" inputmode="tel" pattern="[0-9]{10}" />
+                <span asp-validation-for="Phone" class="text-danger small"></span>
+                <div class="form-text">10 ψηφία</div>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="AFM" class="form-label fw-semibold">
+                    <i class="fas fa-building me-2 text-erp-primary"></i>ΑΦΜ
+                </label>
+                <input asp-for="AFM" class="form-control" placeholder="123456789" inputmode="numeric" pattern="[0-9]{9}" />
+                <span asp-validation-for="AFM" class="text-danger small"></span>
+                <div class="form-text">9 ψηφία</div>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label asp-for="Password" class="form-label fw-semibold">
+                    <i class="fas fa-lock me-2 text-erp-primary"></i>Κωδικός
+                </label>
+                <div class="input-group">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" autocomplete="new-password" required />
+                    <button type="button" class="input-group-text toggle-password" tabindex="-1"><i class="fas fa-eye"></i></button>
+                </div>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="ConfirmPassword" class="form-label fw-semibold">
+                    <i class="fas fa-lock me-2 text-erp-primary"></i>Επιβεβαίωση
+                </label>
+                <div class="input-group">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="••••••••" autocomplete="new-password" required />
+                    <button type="button" class="input-group-text toggle-password" tabindex="-1"><i class="fas fa-eye"></i></button>
+                </div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+            <i class="fas fa-user-plus me-2"></i>Δημιουργία Λογαριασμού
+        </button>
+
+        <hr class="my-4" />
+
+        <div class="text-center small">
+            <span class="text-muted">Έχετε ήδη λογαριασμό;</span>
+            <a asp-action="Login" class="fw-semibold text-erp-primary text-decoration-none ms-1">Σύνδεση</a>
+        </div>
+
+        <div class="text-center mt-3">
+            <span class="security-badge">
+                <i class="fas fa-shield-halved"></i>
+                Ασφαλής αποθήκευση κωδικού · PBKDF2-SHA512
+            </span>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

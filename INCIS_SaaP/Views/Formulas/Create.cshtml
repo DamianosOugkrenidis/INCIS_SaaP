@@ -1,0 +1,101 @@
+@model INCIS_SaaP.Models.Formula
+@{
+    ViewData["Title"] = "Νέα Φόρμουλα";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Νέα φόρμουλα</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-flask-vial"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Δημιουργία νέας φόρμουλας</h1>
+        <div class="erp-page-header-subtitle">Συμπληρώστε τα βασικά στοιχεία της φόρμουλας</div>
+    </div>
+</div>
+
+<form asp-action="Create" class="erp-fade-in" novalidate>
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-12 col-xl-8">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Γενικές πληροφορίες</h3></div>
+                <div class="erp-card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FormulaCode" class="form-label fw-semibold">Κωδικός Φόρμουλας <span class="text-danger">*</span></label>
+                            <input asp-for="FormulaCode" class="form-control" placeholder="π.χ. CUST-0001-T01" required />
+                            <span asp-validation-for="FormulaCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="FormulaName" class="form-label fw-semibold">Όνομα Προϊόντος</label>
+                            <input asp-for="FormulaName" class="form-control" placeholder="π.χ. Hydrating Day Cream" />
+                            <span asp-validation-for="FormulaName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ProductType" class="form-label fw-semibold">Τύπος Προϊόντος</label>
+                            <select asp-for="ProductType" class="form-select">
+                                <option value="">— Επιλέξτε τύπο —</option>
+                                <option value="Leave-on">Leave-on</option>
+                                <option value="Rinse-off">Rinse-off</option>
+                                <option value="Spray">Spray</option>
+                                <option value="Stick">Stick</option>
+                                <option value="Powder">Powder</option>
+                                <option value="Other">Άλλο</option>
+                            </select>
+                            <span asp-validation-for="ProductType" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Version" class="form-label fw-semibold">Έκδοση</label>
+                            <input asp-for="Version" class="form-control" placeholder="π.χ. v1.0" />
+                            <span asp-validation-for="Version" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label fw-semibold">Περιγραφή</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Σύντομη περιγραφή χαρακτηριστικών..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-4">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-cogs text-erp-primary"></i> Επιλογές</h3></div>
+                <div class="erp-card-body">
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="IsWIP" class="form-check-input" type="checkbox" id="IsWIP" />
+                        <label class="form-check-label" for="IsWIP">Work In Progress (WIP)</label>
+                        <div class="form-text">Αν επιλεγεί, η φόρμουλα είναι σε εξέλιξη.</div>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input asp-for="IsExternalDevelopment" class="form-check-input" type="checkbox" id="IsExternalDevelopment" />
+                        <label class="form-check-label" for="IsExternalDevelopment">Εξωτερική Ανάπτυξη (T00)</label>
+                        <div class="form-text">Αν αναπτύσσεται εκτός Beauty Lab.</div>
+                    </div>
+                    <div class="alert alert-info small mb-0">
+                        <i class="fas fa-circle-info me-1"></i>
+                        Μετά τη δημιουργία θα μπορέσετε να προσθέσετε α’ ύλες, INCI &amp; ασφαλείας από τη σελίδα λεπτομερειών.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Δημιουργία</button>
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

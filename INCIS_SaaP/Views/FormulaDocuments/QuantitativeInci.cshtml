@@ -1,0 +1,573 @@
+@model INCIS_SaaP.Dtos.QuantitativeInciDocumentViewModel
+@{
+    ViewData["Title"] = "FORM5 - Quantitative INCI Composition";
+    Layout = "~/Views/Shared/_ERPLayout.cshtml";
+}
+
+<style>
+    /* ===== FORM5 - Quantitative INCI Composition Document Styles ===== */
+    .doc-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .doc-header-band {
+        background: linear-gradient(135deg, #004d40 0%, #00695c 50%, #00897b 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: #fff;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 77, 64, 0.25);
+    }
+
+    .doc-header-band::before {
+        content: '';
+        position: absolute;
+        top: -60%;
+        right: -15%;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band::after {
+        content: '';
+        position: absolute;
+        bottom: -40%;
+        left: -8%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .doc-header-band .doc-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        margin-bottom: 0.25rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-header-band .doc-subtitle {
+        font-size: 0.95rem;
+        opacity: 0.85;
+        font-weight: 400;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-form-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255,255,255,0.18);
+        backdrop-filter: blur(10px);
+        padding: 0.35rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .doc-meta-item {
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(8px);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .doc-meta-item .meta-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        opacity: 0.7;
+        margin-bottom: 0.2rem;
+    }
+
+    .doc-meta-item .meta-value {
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    /* Total Percentage Indicator */
+    .total-indicator {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+        border: 2px solid #80cbc4;
+        border-radius: 14px;
+        padding: 1.25rem 1.75rem;
+        margin-bottom: 2rem;
+    }
+
+    .total-indicator .total-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #00695c, #00897b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.3rem;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 105, 92, 0.3);
+    }
+
+    .total-indicator .total-text .total-label {
+        font-size: 0.75rem;
+        color: #004d40;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .total-indicator .total-text .total-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #004d40;
+        line-height: 1.1;
+    }
+
+    .total-indicator .total-text .total-value span {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #00695c;
+    }
+
+    /* Table Card */
+    .doc-table-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+        overflow: hidden;
+        margin-bottom: 2rem;
+        border: 1px solid #e0f2f1;
+    }
+
+    .doc-table-card-header {
+        background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 2px solid #e0f2f1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .doc-table-card-header h5 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #004d40;
+        margin: 0;
+    }
+
+    .doc-table-responsive {
+        overflow-x: auto;
+    }
+
+    .doc-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.85rem;
+    }
+
+    .doc-table thead th {
+        background: linear-gradient(180deg, #e0f2f1 0%, #d4edda 100%);
+        color: #004d40;
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 0.85rem 0.75rem;
+        border-bottom: 2px solid #b2dfdb;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+
+    .doc-table tbody td {
+        padding: 0.7rem 0.75rem;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+        color: #37474f;
+    }
+
+    .doc-table tbody tr:hover {
+        background: rgba(224, 242, 241, 0.4);
+    }
+
+    .doc-table tbody tr:nth-child(even) {
+        background: rgba(224, 242, 241, 0.12);
+    }
+
+    /* Percentage bar */
+    .pct-bar-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .pct-bar {
+        flex: 1;
+        height: 8px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 50px;
+    }
+
+    .pct-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(90deg, #00897b, #4db6ac);
+        transition: width 0.4s ease;
+    }
+
+    .pct-value {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: #004d40;
+        min-width: 55px;
+        text-align: right;
+    }
+
+    /* Total Row */
+    .row-total td {
+        background: linear-gradient(90deg, #e0f2f1, #b2dfdb) !important;
+        font-weight: 700;
+        color: #004d40;
+        border-top: 2px solid #80cbc4;
+        font-size: 0.9rem;
+    }
+
+    /* Origin Badge */
+    .origin-badge {
+        display: inline-block;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: #f5f5f5;
+        color: #616161;
+        border: 1px solid #e0e0e0;
+    }
+
+    .origin-natural {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-color: #c8e6c9;
+    }
+
+    .origin-synthetic {
+        background: #e3f2fd;
+        color: #1565c0;
+        border-color: #bbdefb;
+    }
+
+    /* Footer */
+    .doc-footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: #90a4ae;
+        font-size: 0.78rem;
+        border-top: 1px solid #eceff1;
+        margin-top: 1rem;
+    }
+
+    .btn-print {
+        background: linear-gradient(135deg, #004d40, #00897b);
+        color: #fff;
+        border: none;
+        padding: 0.65rem 1.75rem;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 77, 64, 0.25);
+    }
+
+    .btn-print:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0, 77, 64, 0.35);
+        color: #fff;
+    }
+
+    /* ===== Print Styles ===== */
+    @@media print {
+        body, html {
+            background: #fff !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @@page {
+            size: A4 portrait;
+            margin: 15mm 12mm;
+        }
+
+        .no-print, .erp-page-header, nav, .sidebar, footer, .btn-print {
+            display: none !important;
+        }
+
+        .doc-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .doc-header-band {
+            background: #004d40 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0 !important;
+            margin-bottom: 1rem !important;
+            padding: 1.5rem !important;
+            box-shadow: none !important;
+        }
+
+        .doc-meta-item {
+            background: rgba(255,255,255,0.15) !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .total-indicator {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0 !important;
+        }
+
+        .doc-table-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            border-radius: 0 !important;
+            page-break-inside: auto;
+        }
+
+        .doc-table thead th {
+            background: #e0f2f1 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-table tbody tr {
+            page-break-inside: avoid;
+        }
+
+        .pct-bar, .pct-bar-fill {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .row-total td {
+            background: #e0f2f1 !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .doc-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+</style>
+
+<div class="doc-container erp-fade-in">
+    <!-- Action Bar (no-print) -->
+    <div class="d-flex justify-content-between align-items-center mb-3 no-print">
+        <a asp-action="Index" asp-route-formulaId="@Model.FormulaId" class="btn btn-outline-secondary btn-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Documents
+        </a>
+        <button class="btn-print" onclick="window.print()">
+            <i class="fa-solid fa-print"></i> Print Document
+        </button>
+    </div>
+
+    <!-- Document Header -->
+    <div class="doc-header-band">
+        <div class="doc-form-badge">
+            <i class="fa-solid fa-vial"></i> FORM 5
+        </div>
+        <div class="doc-title">Quantitative INCI Composition</div>
+        <div class="doc-subtitle">Full ingredient breakdown by INCI nomenclature with concentrations</div>
+
+        <div class="doc-meta-grid">
+            <div class="doc-meta-item">
+                <div class="meta-label">Formula Code</div>
+                <div class="meta-value">@Model.FormulaCode</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Product Name</div>
+                <div class="meta-value">@Model.ProductName</div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ProductType))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Product Type</div>
+                    <div class="meta-value">@Model.ProductType</div>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ClientName))
+            {
+                <div class="doc-meta-item">
+                    <div class="meta-label">Client</div>
+                    <div class="meta-value">@Model.ClientName</div>
+                </div>
+            }
+            <div class="doc-meta-item">
+                <div class="meta-label">Version</div>
+                <div class="meta-value">@(Model.Version ?? "1.0")</div>
+            </div>
+            <div class="doc-meta-item">
+                <div class="meta-label">Issue Date</div>
+                <div class="meta-value">@(Model.IssueDate?.ToString("dd MMM yyyy") ?? Model.GeneratedAt.ToString("dd MMM yyyy"))</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Percentage Indicator -->
+    <div class="total-indicator">
+        <div class="total-icon">
+            <i class="fa-solid fa-percent"></i>
+        </div>
+        <div class="total-text">
+            <div class="total-label">Total Composition</div>
+            <div class="total-value">@Model.TotalPercentage.ToString("F2") <span>% w/w</span></div>
+        </div>
+    </div>
+
+    <!-- Quantitative INCI Table -->
+    <div class="doc-table-card">
+        <div class="doc-table-card-header">
+            <h5><i class="fa-solid fa-flask me-2"></i>INCI Composition Detail</h5>
+            <span class="erp-badge" style="background:#e0f2f1;color:#004d40;">@Model.Ingredients.Count ingredients</span>
+        </div>
+        <div class="doc-table-responsive">
+            <table class="doc-table">
+                <thead>
+                    <tr>
+                        <th style="width:40px;">A/N</th>
+                        <th>INCI Name</th>
+                        <th>CAS Number</th>
+                        <th>EC Number</th>
+                        <th>Function</th>
+                        <th style="min-width:160px;">% w/w</th>
+                        <th>Restrictions</th>
+                        <th>Origin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Ingredients.Any())
+                    {
+                        @foreach (var item in Model.Ingredients)
+                        {
+                            var maxPct = Model.Ingredients.Max(i => i.Percentage ?? 0);
+                            var barWidth = maxPct > 0 ? (double)((item.Percentage ?? 0) / maxPct) * 100 : 0;
+                            <tr>
+                                <td><strong>@item.Order</strong></td>
+                                <td><strong>@item.InciName</strong></td>
+                                <td class="text-muted">@(item.CASNumber ?? "—")</td>
+                                <td class="text-muted">@(item.ECNumber ?? "—")</td>
+                                <td>@(item.Function ?? "—")</td>
+                                <td>
+                                    <div class="pct-bar-wrapper">
+                                        <div class="pct-bar">
+                                            <div class="pct-bar-fill" style="width:@(barWidth.ToString("F1"))%"></div>
+                                        </div>
+                                        <span class="pct-value">@(item.Percentage?.ToString("F4") ?? "—")</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Restrictions))
+                                    {
+                                        <span style="color:#c62828;font-size:0.8rem;">
+                                            <i class="fa-solid fa-ban me-1"></i>@item.Restrictions
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Origin))
+                                    {
+                                        var originClass = item.Origin.Contains("Natural", StringComparison.OrdinalIgnoreCase) ? "origin-natural"
+                                            : item.Origin.Contains("Synthetic", StringComparison.OrdinalIgnoreCase) ? "origin-synthetic"
+                                            : "";
+                                        <span class="origin-badge @originClass">@item.Origin</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                        <!-- Total Row -->
+                        <tr class="row-total">
+                            <td></td>
+                            <td colspan="4" style="text-align:right;">
+                                <i class="fa-solid fa-sigma me-1"></i> TOTAL
+                            </td>
+                            <td>
+                                <div class="pct-bar-wrapper">
+                                    <div class="pct-bar" style="visibility:hidden;"></div>
+                                    <span class="pct-value" style="font-size:1rem;">@Model.TotalPercentage.ToString("F4")</span>
+                                </div>
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                <i class="fa-solid fa-inbox fa-2x mb-2 d-block"></i>
+                                No INCI composition data available for this formula.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+        <strong>INCIS SaaP</strong> &mdash; Quantitative INCI Composition (FORM5) &mdash;
+        Generated on @Model.GeneratedAt.ToString("dd MMMM yyyy, HH:mm") &mdash;
+        @(Model.PPIdCode ?? Model.FormulaCode)
+    </div>
+</div>

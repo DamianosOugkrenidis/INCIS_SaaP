@@ -1,0 +1,6 @@
+﻿profile=Domain enabled=True log=%systemroot%\system32\LogFiles\Firewall\pfirewall.log allowedlog=False blockedlog=False
+  log_exists=False
+profile=Private enabled=True log=%systemroot%\system32\LogFiles\Firewall\pfirewall.log allowedlog=False blockedlog=False
+  log_exists=False
+profile=Public enabled=True log=%systemroot%\system32\LogFiles\Firewall\pfirewall.log allowedlog=False blockedlog=False
+  log_exists=False

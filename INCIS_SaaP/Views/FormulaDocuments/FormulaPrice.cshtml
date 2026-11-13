@@ -1,0 +1,349 @@
+@model INCIS_SaaP.Dtos.FormulaPriceDocumentViewModel
+@{
+    ViewData["Title"] = "FORM1 — Formula Price · " + Model.FormulaCode;
+}
+
+<style>
+    /* ── FORM1 Document Styles ── */
+    .doc-container { max-width: 1400px; margin: 0 auto; }
+
+    .doc-header-banner {
+        background: linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #533483 100%);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+    .doc-header-banner::before {
+        content: '';
+        position: absolute;
+        top: -60%;
+        right: -15%;
+        width: 450px;
+        height: 450px;
+        background: radial-gradient(circle, rgba(255,193,7,.12) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+    .doc-header-banner .banner-content { position: relative; z-index: 1; }
+    .doc-header-banner h1 { font-weight: 800; font-size: 1.5rem; letter-spacing: -.3px; margin-bottom: 0; }
+    .doc-header-banner .doc-form-tag {
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.2);
+        padding: .25rem .65rem;
+        border-radius: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .product-info-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    .product-info-table td {
+        padding: .55rem .85rem;
+        font-size: .85rem;
+        border-bottom: 1px solid rgba(0,0,0,.05);
+    }
+    .product-info-table td:first-child {
+        font-weight: 600;
+        color: var(--bs-secondary-color, #6c757d);
+        width: 160px;
+        white-space: nowrap;
+    }
+    .product-info-table td:nth-child(2) { font-weight: 500; }
+
+    .section-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 1.75rem 0 1rem;
+        padding-bottom: .65rem;
+        border-bottom: 3px solid;
+        border-image: linear-gradient(90deg, #714B67, transparent) 1;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        color: var(--bs-body-color);
+    }
+    .section-title i { color: #714B67; }
+
+    .data-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: .82rem;
+    }
+    .data-table thead th {
+        background: linear-gradient(180deg, #f8f9fa 0%, #f1f3f5 100%);
+        font-weight: 700;
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .8px;
+        color: #495057;
+        padding: .7rem .65rem;
+        border-bottom: 2px solid #dee2e6;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    [data-bs-theme="dark"] .data-table thead th {
+        background: linear-gradient(180deg, #2b2b3d 0%, #23233a 100%);
+        color: #adb5bd;
+        border-bottom-color: #495057;
+    }
+    .data-table tbody td {
+        padding: .55rem .65rem;
+        border-bottom: 1px solid rgba(0,0,0,.04);
+        vertical-align: middle;
+    }
+    .data-table tbody tr:hover { background: rgba(113,75,103,.04); }
+    .data-table .total-row {
+        background: linear-gradient(90deg, rgba(113,75,103,.08), rgba(113,75,103,.03));
+        font-weight: 700;
+    }
+    .data-table .total-row td { border-top: 2px solid #714B67; border-bottom: none; padding: .7rem .65rem; }
+    .data-table .mono { font-family: 'JetBrains Mono', monospace; font-size: .78rem; }
+
+    .allergen-card {
+        border: 1px solid rgba(255,152,0,.2);
+        border-radius: 10px;
+        padding: 1rem;
+        background: linear-gradient(135deg, rgba(255,152,0,.04), rgba(255,87,34,.02));
+        transition: transform .2s;
+    }
+    .allergen-card:hover { transform: translateY(-2px); }
+    .allergen-card .allergen-name { font-weight: 700; font-size: .88rem; color: #e65100; margin-bottom: .4rem; }
+    .allergen-card .allergen-detail { font-size: .78rem; color: var(--bs-secondary-color, #6c757d); }
+    .allergen-card .allergen-detail code { font-size: .72rem; background: rgba(0,0,0,.05); padding: .1rem .35rem; border-radius: 4px; }
+
+    .cost-analysis-box {
+        background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+        border: 1px solid rgba(16,185,129,.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+    [data-bs-theme="dark"] .cost-analysis-box {
+        background: linear-gradient(135deg, rgba(16,185,129,.08), rgba(16,185,129,.04));
+    }
+    .cost-big { font-size: 2rem; font-weight: 800; color: #059669; font-family: 'JetBrains Mono', monospace; }
+
+    .print-fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, #714B67, #533483);
+        color: #fff;
+        font-size: 1.2rem;
+        box-shadow: 0 8px 24px rgba(113,75,103,.35);
+        cursor: pointer;
+        transition: all .2s;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .print-fab:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(113,75,103,.45); }
+
+    /* ── Print Styles ── */
+    @@media print {
+        @@page {
+            size: A4 landscape;
+            margin: 12mm;
+        }
+        body, .erp-body { background: #fff !important; }
+        .erp-topbar, .erp-sidebar, .erp-mobile-overlay, .erp-footer,
+        .erp-breadcrumb, .print-fab, .btn-erp-secondary, .no-print { display: none !important; }
+        .erp-main { margin: 0 !important; padding: 0 !important; }
+        .erp-main-inner { max-width: 100% !important; padding: 0 !important; }
+        .doc-container { max-width: 100%; }
+        .doc-header-banner {
+            background: #1a1a2e !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            border-radius: 0;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .erp-card { box-shadow: none !important; border: 1px solid #dee2e6 !important; break-inside: avoid; }
+        .data-table thead th { background: #f1f3f5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .data-table { font-size: .7rem; }
+        .data-table .total-row { background: #f8f0f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        .section-title { font-size: .95rem; margin: 1rem 0 .5rem; }
+        .allergen-card { break-inside: avoid; }
+        .cost-analysis-box { break-inside: avoid; background: #f0fdf4 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+</style>
+
+<nav class="erp-breadcrumb erp-fade-in no-print" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Home</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="Formulas" asp-action="Details" asp-route-id="@Model.FormulaId">@Model.FormulaCode</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId">Documents</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">FORM1 — Formula Price</span>
+</nav>
+
+<div class="doc-container">
+    <!-- Document Banner -->
+    <div class="doc-header-banner erp-fade-in">
+        <div class="banner-content d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="doc-form-tag">FORM 1</span>
+                    <span class="doc-form-tag"><i class="fas fa-calendar me-1"></i>@Model.GeneratedAt.ToString("dd/MM/yyyy")</span>
+                </div>
+                <h1><i class="fas fa-coins me-2"></i>Formula Price Document</h1>
+                <div class="mt-1 opacity-75">Ingredient cost analysis and pricing breakdown</div>
+            </div>
+            <div class="text-end">
+                <div style="font-size:.72rem;opacity:.6;text-transform:uppercase;letter-spacing:1px;">Formula</div>
+                <div style="font-size:1.3rem;font-weight:800;font-family:'JetBrains Mono',monospace;">@Model.FormulaCode</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Info Card -->
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Product Information</h3></div>
+        <div class="erp-card-body p-0">
+            <table class="product-info-table">
+                <tr><td><i class="fas fa-flask me-2 text-muted"></i>Product Name</td><td>@(Model.ProductName ?? "—")</td><td><i class="fas fa-handshake me-2 text-muted"></i>Client</td><td>@(Model.ClientName ?? "—")</td></tr>
+                <tr><td><i class="fas fa-tag me-2 text-muted"></i>Product Type</td><td>@(Model.ProductType ?? "—")</td><td><i class="fas fa-barcode me-2 text-muted"></i>ID Code</td><td><code>@(Model.PPIdCode ?? "—")</code></td></tr>
+                <tr><td><i class="fas fa-code-branch me-2 text-muted"></i>Version</td><td>@(Model.Version ?? "v1.0")</td><td><i class="fas fa-calendar-day me-2 text-muted"></i>Issue Date</td><td>@(Model.IssueDate?.ToString("dd/MM/yyyy") ?? "—")</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Ingredient Composition -->
+    <div class="section-title erp-fade-in"><i class="fas fa-list-ol"></i> Ingredient Composition</div>
+    <div class="erp-card erp-fade-in mb-3">
+        <div class="erp-card-body p-0">
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width:50px">A/N</th>
+                            <th>ID</th>
+                            <th>Ingredients</th>
+                            <th>INCI Name</th>
+                            <th>Supplier</th>
+                            <th class="text-end">% w/w</th>
+                            <th class="text-end">RM Price (&euro;/kg)</th>
+                            <th class="text-end">Contribution (&euro;/kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Ingredients.Any())
+                        {
+                            @foreach (var ing in Model.Ingredients.OrderBy(i => i.Order))
+                            {
+                                <tr>
+                                    <td class="mono text-center">@ing.Order</td>
+                                    <td class="mono">@ing.RawMaterialCode</td>
+                                    <td class="fw-semibold">@ing.RawMaterialName</td>
+                                    <td style="max-width:200px;">@(ing.InciName ?? "—")</td>
+                                    <td>@(ing.SupplierName ?? "—")</td>
+                                    <td class="text-end mono">@ing.Percentage.ToString("F3")</td>
+                                    <td class="text-end mono">@ing.RMPrice.ToString("F2")</td>
+                                    <td class="text-end mono">@ing.ContributionPrice.ToString("F4")</td>
+                                </tr>
+                            }
+                            <tr class="total-row">
+                                <td colspan="5" class="text-end">TOTAL</td>
+                                <td class="text-end mono">@Model.Ingredients.Sum(i => i.Percentage).ToString("F3")</td>
+                                <td class="text-end">—</td>
+                                <td class="text-end mono" style="color:#714B67;font-size:.9rem;">@Model.TotalPrice.ToString("F4")</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr><td colspan="8" class="text-center py-4 text-muted"><i class="fas fa-inbox me-2"></i>No ingredient data available.</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cost Analysis -->
+    <div class="row g-3 mb-3 erp-fade-in">
+        <div class="col-12 col-lg-5">
+            <div class="cost-analysis-box h-100">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="fas fa-calculator fa-lg" style="color:#059669;"></i>
+                    <span class="fw-bold" style="font-size:.95rem;">Cost Analysis</span>
+                </div>
+                <div class="cost-big mb-1">&euro; @Model.TotalPrice.ToString("F4")</div>
+                <div class="text-muted small">Total formula cost per kilogram</div>
+                <hr />
+                <div class="d-flex justify-content-between small">
+                    <span class="text-muted">Total Raw Materials</span>
+                    <strong>@Model.Ingredients.Count</strong>
+                </div>
+                <div class="d-flex justify-content-between small mt-1">
+                    <span class="text-muted">Total Weight</span>
+                    <strong>@Model.Ingredients.Sum(i => i.Percentage).ToString("F2")%</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Allergens -->
+        <div class="col-12 col-lg-7">
+            <div class="section-title mt-0"><i class="fas fa-triangle-exclamation"></i> Allergens</div>
+            @if (Model.Allergens.Any())
+            {
+                <div class="row g-2">
+                    @foreach (var allergen in Model.Allergens)
+                    {
+                        <div class="col-12 col-md-6">
+                            <div class="allergen-card">
+                                <div class="allergen-name"><i class="fas fa-exclamation-triangle me-1"></i> @allergen.InciName</div>
+                                <div class="allergen-detail">
+                                    @if (!string.IsNullOrEmpty(allergen.CASNumber))
+                                    {
+                                        <span>CAS: <code>@allergen.CASNumber</code></span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(allergen.ECNumber))
+                                    {
+                                        <span class="ms-2">EC: <code>@allergen.ECNumber</code></span>
+                                    }
+                                </div>
+                                @if (!string.IsNullOrEmpty(allergen.Restriction))
+                                {
+                                    <div class="allergen-detail mt-1"><i class="fas fa-ban me-1 text-danger"></i> @allergen.Restriction</div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-3 text-muted small"><i class="fas fa-check-circle text-success me-1"></i> No allergens detected in this formula.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Back -->
+    <div class="mt-4 erp-fade-in no-print">
+        <a asp-controller="FormulaDocuments" asp-action="Index" asp-route-id="@Model.FormulaId" class="btn btn-erp-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Document Hub
+        </a>
+    </div>
+</div>
+
+<!-- Print FAB -->
+<button class="print-fab no-print" onclick="window.print()" title="Print Document">
+    <i class="fas fa-print"></i>
+</button>

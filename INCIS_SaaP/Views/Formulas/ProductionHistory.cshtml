@@ -1,0 +1,118 @@
+@model INCIS_SaaP.Models.PaginatedList<INCIS_SaaP.Models.ProductionBatch>
+@{
+    ViewData["Title"] = "Ιστορικό Παραγωγής";
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Φόρμουλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Ιστορικό Παραγωγής</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-industry"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Ιστορικό Παραγωγής</h1>
+        <div class="erp-page-header-subtitle">Όλες οι παρτίδες παραγωγής</div>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="erp-card mb-3 erp-fade-in">
+    <div class="erp-card-body">
+        <form asp-action="ProductionHistory" method="get" class="d-flex gap-2">
+            <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Αναζήτηση με κωδικό παρτίδας, φόρμουλα, LOT..." />
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search me-1"></i>Αναζήτηση</button>
+            @if (!string.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()))
+            {
+                <a asp-action="ProductionHistory" class="btn btn-erp-secondary"><i class="fas fa-xmark me-1"></i>Καθαρισμός</a>
+            }
+        </form>
+    </div>
+</div>
+
+<!-- Results -->
+<div class="erp-card erp-fade-in">
+    <div class="erp-card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Κωδικός Παρτίδας</th>
+                        <th>Φόρμουλα</th>
+                        <th>Μέγεθος</th>
+                        <th>LOT</th>
+                        <th>Ημ/νία</th>
+                        <th>Κατάσταση</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var batch in Model)
+                        {
+                            <tr>
+                                <td><code>@batch.BatchCode</code></td>
+                                <td>
+                                    @if (batch.Formula != null)
+                                    {
+                                        <a asp-action="Details" asp-route-id="@batch.FormulaId">@batch.Formula.FormulaCode</a>
+                                    }
+                                </td>
+                                <td>@batch.BatchSize @batch.Unit</td>
+                                <td>@(batch.LotNumber ?? "—")</td>
+                                <td>@batch.ProductionDate.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @switch (batch.Status)
+                                    {
+                                        case "Completed":
+                                            <span class="erp-badge erp-badge-success">Ολοκληρώθηκε</span>
+                                            break;
+                                        case "InProgress":
+                                            <span class="erp-badge erp-badge-warning">Σε εξέλιξη</span>
+                                            break;
+                                        case "Cancelled":
+                                            <span class="erp-badge erp-badge-danger">Ακυρώθηκε</span>
+                                            break;
+                                        default:
+                                            <span class="erp-badge erp-badge-secondary">Προγραμ/μένη</span>
+                                            break;
+                                    }
+                                </td>
+                                <td><a asp-action="ProduceDetails" asp-route-id="@batch.Id" class="btn btn-sm btn-erp-secondary"><i class="fas fa-eye"></i></a></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="7" class="text-center text-muted py-4"><i class="fas fa-inbox fs-3 d-block mb-2"></i>Δεν βρέθηκαν παρτίδες παραγωγής</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <nav class="mt-3 erp-fade-in">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link" asp-action="ProductionHistory" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-searchString="@ViewData["CurrentFilter"]"><i class="fas fa-chevron-left"></i></a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" asp-action="ProductionHistory" asp-route-pageNumber="@i" asp-route-searchString="@ViewData["CurrentFilter"]">@i</a>
+                </li>
+            }
+            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                <a class="page-link" asp-action="ProductionHistory" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-searchString="@ViewData["CurrentFilter"]"><i class="fas fa-chevron-right"></i></a>
+            </li>
+        </ul>
+    </nav>
+}

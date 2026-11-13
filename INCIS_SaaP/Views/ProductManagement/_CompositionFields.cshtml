@@ -1,0 +1,31 @@
+@model INCIS_SaaP.Models.FormulaRawMaterial
+@{
+    var rawMaterials = ViewBag.RawMaterialList as IEnumerable<dynamic>;
+}
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <label asp-for="RawMaterialId" class="form-label fw-semibold">Α' Ύλη <span class="text-danger">*</span></label>
+        <select asp-for="RawMaterialId" class="form-select" required>
+            <option value="">— Επιλέξτε α' ύλη —</option>
+            @if (rawMaterials != null)
+            {
+                foreach (var rm in rawMaterials)
+                {
+                    <option value="@rm.Id" selected="@(rm.Id == Model.RawMaterialId)">@rm.Label</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="RawMaterialId" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Percentage" class="form-label fw-semibold">Ποσοστό (% w/w) <span class="text-danger">*</span></label>
+        <input asp-for="Percentage" type="number" step="any" class="form-control" required />
+        <span asp-validation-for="Percentage" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Phase" class="form-label fw-semibold">Φάση Παραγωγής</label>
+        <input asp-for="Phase" class="form-control" placeholder="π.χ. A, B, C" />
+        <span asp-validation-for="Phase" class="text-danger"></span>
+    </div>
+</div>

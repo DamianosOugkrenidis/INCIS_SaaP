@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <!-- Εξαίρεση auto-generated / non-testable κώδικα ώστε το ποσοστό να αντικατοπτρίζει
+               πραγματικό business code (όχι EF migrations, SignalR hubs κ.λπ.) -->
+          <Exclude>[INCIS_SaaP]INCIS_SaaP.Migrations.*</Exclude>
+          <ExcludeByFile>**/Migrations/*.cs,**/obj/**,**/bin/**</ExcludeByFile>
+          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,DebuggerNonUserCodeAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <SkipAutoProps>true</SkipAutoProps>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

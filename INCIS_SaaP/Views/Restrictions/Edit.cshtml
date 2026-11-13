@@ -1,0 +1,60 @@
+@model INCIS_SaaP.Models.Restriction
+@{
+    ViewData["Title"] = "Επεξεργασία Περιορισμού";
+    var incis = ViewBag.INCIList as IEnumerable<INCIS_SaaP.Models.INCI> ?? Enumerable.Empty<INCIS_SaaP.Models.INCI>();
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Περιορισμοί</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Επεξεργασία</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-pen-to-square"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Επεξεργασία Περιορισμού</h1>
+        <div class="erp-page-header-subtitle">@(Model.INCI?.Name ?? "—")</div>
+    </div>
+</div>
+
+<div class="row justify-content-center erp-fade-in">
+    <div class="col-12 col-xl-8">
+        <div class="erp-card">
+            <div class="erp-card-header"><h3><i class="fas fa-gavel text-erp-primary"></i> Στοιχεία</h3></div>
+            <div class="erp-card-body">
+                <form asp-action="Edit" novalidate>
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CreatedAt" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="INCIId" class="form-label fw-semibold">Συστατικό INCI <span class="text-danger">*</span></label>
+                            <select asp-for="INCIId" class="form-select" required>
+                                @foreach (var i in incis) { <option value="@i.Id">@i.Name</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-6"><label asp-for="Regulation" class="form-label fw-semibold">Κανονισμός</label><input asp-for="Regulation" class="form-control" /></div>
+                        <div class="col-md-6"><label asp-for="MaxPercentage" class="form-label fw-semibold">Max %</label><input asp-for="MaxPercentage" type="number" step="0.01" min="0" max="100" class="form-control" /></div>
+                        <div class="col-md-6 d-flex align-items-end gap-3">
+                            <div class="form-check form-switch"><input asp-for="IsRinseOffOnly" class="form-check-input" type="checkbox" id="IsRinseOffOnly" /><label class="form-check-label" for="IsRinseOffOnly">Μόνο Rinse-off</label></div>
+                            <div class="form-check form-switch"><input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive" /><label class="form-check-label" for="IsActive">Ενεργός</label></div>
+                        </div>
+                        <div class="col-12"><label asp-for="Description" class="form-label fw-semibold">Περιγραφή</label><textarea asp-for="Description" class="form-control" rows="3"></textarea></div>
+                    </div>
+
+                    <div class="d-flex gap-2 flex-wrap mt-3">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Αποθήκευση</button>
+                        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

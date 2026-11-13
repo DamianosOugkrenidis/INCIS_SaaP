@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qualitative & Quantitative Composition - MIST SKIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #000;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .document-container {
+            max-width: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 15mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 14pt;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 15px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        .info-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .info-table .label {
+            font-weight: bold;
+            width: 25%;
+            background: #f9f9f9;
+        }
+
+        .info-table .value {
+            width: 75%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 11pt;
+            margin: 10px 0;
+            padding: 4px;
+            border: 1px solid #000;
+            background: #f0f0f0;
+        }
+
+        .composition-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 8.5pt;
+        }
+
+        .composition-table th,
+        .composition-table td {
+            border: 1px solid #000;
+            padding: 4px 6px;
+            vertical-align: top;
+        }
+
+        .composition-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .col-an { width: 4%; text-align: center; }
+        .col-id { width: 8%; }
+        .col-prisma { width: 10%; }
+        .col-manufacturer { width: 25%; }
+        .col-commercial { width: 15%; }
+        .col-components { width: 28%; }
+        .col-percent { width: 10%; text-align: right; }
+
+        .component-block {
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #ccc;
+        }
+
+        .component-block:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .component-line {
+            margin: 2px 0;
+        }
+
+        .component-label {
+            font-weight: bold;
+            display: inline;
+        }
+
+        .restriction {
+            color: #c00;
+            font-weight: bold;
+        }
+
+        .commercial-name {
+            color: #c00;
+            font-weight: bold;
+        }
+
+        .sub-ingredient {
+            margin-left: 10px;
+            padding-left: 10px;
+            border-left: 2px solid #ddd;
+            margin-top: 4px;
+        }
+
+        .allergens-section {
+            margin-top: 15px;
+            border: 1px solid #000;
+            padding: 8px;
+        }
+
+        .allergens-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 10pt;
+        }
+
+        .allergen-item {
+            margin-bottom: 8px;
+            padding: 6px;
+            background: #fff9f9;
+            border-left: 3px solid #c00;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80pt;
+            color: rgba(200, 200, 200, 0.2);
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .print-btn:hover {
+            background: #1565c0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                font-size: 9pt;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 10mm;
+                width: 100%;
+                max-width: none;
+            }
+            .print-btn, .watermark {
+                display: none;
+            }
+            .composition-table {
+                font-size: 8pt;
+            }
+        }
+
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+
+        tr:nth-child(even) {
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn" onclick="window.print()">📄 Print Document</button>
+    <div class="watermark">CONFIDENTIAL</div>
+
+    <div class="document-container">
+        <div class="main-title">Qualitative & Quantitative Composition</div>
+
+        <!-- Product Information -->
+        <table class="info-table">
+            <tr>
+                <td class="label">PRODUCT NAME</td>
+                <td class="value">MIST SKIN</td>
+            </tr>
+            <tr>
+                <td class="label">BRAND NAME</td>
+                <td class="value">10AM APOTHEKE HYDRATING FACE MIST</td>
+            </tr>
+            <tr>
+                <td class="label">RESPONSIBLE PERSON</td>
+                <td class="value">10AMapotheke - ΠΑΠΑΔΑΚΗ ΕΥΑ</td>
+            </tr>
+            <tr>
+                <td class="label">MANUFACTURING SITE</td>
+                <td class="value">
+                    ELISAVET DARAVELI SA - BEAUTYLAB<br>
+                    SYNTAGMATARHOU DAVAKI 22, 15121 PEFKI<br>
+                    TEL.: +302102513930 / ΦΑΞ: +302102513250<br>
+                    email: info@beautylab.gr
+                </td>
+            </tr>
+            <tr>
+                <td class="label">TYPE</td>
+                <td class="value">Leave on</td>
+            </tr>
+            <tr>
+                <td class="label">ID CODE</td>
+                <td class="value">4136</td>
+            </tr>
+            <tr>
+                <td class="label">BULK CODE</td>
+                <td class="value">373-6404-T18</td>
+            </tr>
+            <tr>
+                <td class="label">ISSUE DATE</td>
+                <td class="value">05-08-2025</td>
+            </tr>
+        </table>
+
+        <div class="section-title">Ingredient Composition</div>
+
+        <!-- Composition Table -->
+        <table class="composition-table">
+            <thead>
+                <tr>
+                    <th class="col-an">a/n</th>
+                    <th class="col-id">ID</th>
+                    <th class="col-prisma">Prisma</th>
+                    <th class="col-manufacturer">Manufacturer</th>
+                    <th class="col-commercial">Commercial Name</th>
+                    <th class="col-components">Components</th>
+                    <th class="col-percent">% w/w</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Row 1 -->
+                <tr>
+                    <td class="col-an">1</td>
+                    <td>L37</td>
+                    <td>031900001</td>
+                    <td>PRODUCER</td>
+                    <td class="commercial-name">DEIONISED WATER</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">87,5</td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr>
+                    <td class="col-an">2</td>
+                    <td>L11556</td>
+                    <td>030400017</td>
+                    <td>
+                        ALCODIS S.A<br>
+                        BOULEVARD DU SOUVERAIN 100<br>
+                        1170 BRUXELLES<br>
+                        TEL. +3226633840<br>
+                        FRANCE
+                    </td>
+                    <td class="commercial-name">ALCOHOL DENAT.<br>Denaturated with BITREX % W/W</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> ALCOHOL DENAT</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 64-17-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 200-578-6</div>
+                            <div class="component-line"><span class="component-label">Function:</span> ANTIFOAMING, ANTIMICROBIAL, ASTRINGENT, MASKING, SOLVENT, VISCOSITY CONTROLLING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">5</td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr>
+                    <td class="col-an">3</td>
+                    <td>L9923</td>
+                    <td></td>
+                    <td></td>
+                    <td class="commercial-name">DEIONIZED WATER</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">3</td>
+                </tr>
+
+                <!-- Row 4 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="3">4</td>
+                    <td rowspan="3">L11404</td>
+                    <td rowspan="3">030100079</td>
+                    <td rowspan="3">
+                        Clariant Produkte (Deutschland) GmbH,<br>
+                        65926 Frankfurt BU Care Chemicals<br>
+                        Application Development Personal Care<br>
+                        Global Product Stewardship<br>
+                        PS-CustomerSupport-ICS@clariant.com
+                    </td>
+                    <td rowspan="3" class="commercial-name">NIPAGUARD SCE</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SORBITAN CAPRYLATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 60177-36-8</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 262-098-3</div>
+                            <div class="component-line"><span class="component-label">Function:</span> EMULSIFYING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,816</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> PROPANEDIOL</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 504-63-2 / 26264-14-2</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 207-997-3</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT, VISCOSITY CONTROLLING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,264</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> BENZOIC ACID</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 65-85-0</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 200-618-2</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/1</div>
+                            <div class="component-line"><span class="component-label">Function:</span> BULKING, MASKING, PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,192</td>
+                </tr>
+
+                <!-- Row 5 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="2">5</td>
+                    <td rowspan="2">L16557</td>
+                    <td rowspan="2">030200296</td>
+                    <td rowspan="2">
+                        Active Concepts Srl<br>
+                        Via Petrolo Litta, 9<br>
+                        20010 Bareggio Milano ITALY<br>
+                        Tel +39 02 90360719<br>
+                        Fax +39 02 90360984<br>
+                        www.activeconcepts.it<br>
+                        Email: info@activeconcepts.it
+                    </td>
+                    <td rowspan="2" class="commercial-name">ACB YERBA SANTA<br>GLYCOPROTEIN PF</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> LACTOBACILLUS/ERIODICTYON CALIFORNICUM FERMENT EXTRACT</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> -</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> -</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SKIN CONDITIONING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,98</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> LEUCONOSTOC/RADISH ROOT FERMENT FILTRATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> -</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> -</div>
+                            <div class="component-line"><span class="component-label">Function:</span> ANTIMICROBIAL, ANTISEBORRHOEIC</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,02</td>
+                </tr>
+
+                <!-- Row 6 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="6">6</td>
+                    <td rowspan="6">L13783</td>
+                    <td rowspan="6">031400003</td>
+                    <td rowspan="6">
+                        ACCESS NATURALS<br>
+                        Petra Yialou, 190 04 SPATA, ATHENS, GREECE<br>
+                        Tel.: (+30) 210.8104206<br>
+                        Web: www.access-naturals.gr<br>
+                        e-mail: info@access-naturals.gr
+                    </td>
+                    <td rowspan="6" class="commercial-name">CHAMOMILE EXTRACT</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> GLYCERIN</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 56-81-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 200-289-5</div>
+                            <div class="component-line"><span class="component-label">Function:</span> DENATURANT, HUMECTANT, SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> CHAMOMILLA RECUTITA FLOWER EXTRACT</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 84082-60-0</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 282-006-5</div>
+                            <div class="component-line"><span class="component-label">Function:</span> MASKING, SKIN CONDITIONING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,11</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> CITRIC ACID</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 77-92-9 / 5949-29-1</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 201-069-1</div>
+                            <div class="component-line"><span class="component-label">Function:</span> BUFFERING, CHELATING, MASKING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,0021</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> POTASSIUM SORBATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 24634-61-5 / 590-00-1</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 246-376-1 / -</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/4</div>
+                            <div class="component-line"><span class="component-label">Function:</span> PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,0011</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SODIUM BENZOATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 532-32-1</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 208-534-8</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> V/1</div>
+                            <div class="component-line"><span class="component-label">Function:</span> PRESERVATIVE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,0011</td>
+                </tr>
+
+                <!-- Row 7 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="2">7</td>
+                    <td rowspan="2">L9536</td>
+                    <td rowspan="2">030200091</td>
+                    <td rowspan="2">
+                        SABO Spa<br>
+                        Via Caravaggi<br>
+                        24040 Levate BG<br>
+                        ITALY<br>
+                        phone +39 035 596000
+                    </td>
+                    <td rowspan="2" class="commercial-name">SABOWAX ELH 40</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> PEG-40 HYDROGENATED CASTOR OIL</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 61788-85-0</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> -</div>
+                            <div class="component-line"><span class="component-label">Function:</span> EMULSIFYING, SURFACTANT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,588</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,012</td>
+                </tr>
+
+                <!-- Row 8 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="3">8</td>
+                    <td rowspan="3">L8464</td>
+                    <td rowspan="3">030200217</td>
+                    <td rowspan="3">
+                        Evonik Nutrition & Care GmbH<br>
+                        Personal Care Business Line<br>
+                        Goldschmidtstrasse 100<br>
+                        D-45127 Essen / Germany<br>
+                        Phone: +49 (201) 173-2524<br>
+                        Fax: +49 (201) 173-1828<br>
+                        personal-care@evonik.com<br>
+                        http://www.evonik.com/personal-care
+                    </td>
+                    <td rowspan="3" class="commercial-name">DERMOFEEL PA-3</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,147</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SODIUM PHYTATE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 14306-25-3 / 34367-89-0</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 238-242-6</div>
+                            <div class="component-line"><span class="component-label">Function:</span> CHELATING, ORAL CARE</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,159</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> ALCOHOL</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 64-17-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 200-578-6</div>
+                            <div class="component-line"><span class="component-label">Function:</span> ANTIFOAMING, ANTIMICROBIAL, ASTRINGENT, MASKING, SOLVENT, VISCOSITY CONTROLLING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,003</td>
+                </tr>
+
+                <!-- Row 9 -->
+                <tr>
+                    <td class="col-an">9</td>
+                    <td>L16568</td>
+                    <td></td>
+                    <td>PRODUCER</td>
+                    <td class="commercial-name">DEIONIZED WATER</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> AQUA</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 7732-18-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 231-791-2</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SOLVENT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,22</td>
+                </tr>
+
+                <!-- Row 10 - Multi-component -->
+                <tr>
+                    <td class="col-an" rowspan="2">10</td>
+                    <td rowspan="2">L10234</td>
+                    <td rowspan="2">030700046</td>
+                    <td rowspan="2">
+                        GOBIOTICS BV<br>
+                        Jac Jansenweg 7<br>
+                        4631 SL Hoogerheide<br>
+                        The Netherlands<br>
+                        Tel: +31/(0)164 72 80 01
+                    </td>
+                    <td rowspan="2" class="commercial-name">BIOLIN/P</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> INULIN</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 9005-80-5</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 232-684-3</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SKIN CONDITIONING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,1</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> ALPHA-GLUCAN OLIGOSACCHARIDE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> -</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> -</div>
+                            <div class="component-line"><span class="component-label">Function:</span> SKIN CONDITIONING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,02</td>
+                </tr>
+
+                <!-- Row 11 -->
+                <tr>
+                    <td class="col-an">11</td>
+                    <td>L9965</td>
+                    <td>030300051</td>
+                    <td>
+                        MERK KGaA<br>
+                        64271 DARMSTADT, GERMANY<br>
+                        T: +49615172-0
+                    </td>
+                    <td class="commercial-name">SODIUM HYDROXIDE PELLETS<br>EXTRA PURE - NaOH</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> SODIUM HYDROXIDE</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> 1310-73-2</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> 215-185-5</div>
+                            <div class="component-line"><span class="component-label restriction">Restriction:</span> III/15a</div>
+                            <div class="component-line"><span class="component-label">Function:</span> BUFFERING, DENATURANT</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,06</td>
+                </tr>
+
+                <!-- Row 12 -->
+                <tr>
+                    <td class="col-an">12</td>
+                    <td>L15634</td>
+                    <td>020400045</td>
+                    <td>
+                        VIORYL<br>
+                        CHEMICAL & AGRICULTURAL INDUSTRY,<br>
+                        RESEARCH S.A.<br>
+                        28th km ATHENS-LAMIA NATIONAL RD.,<br>
+                        190 14 AFIDNES GREECE<br>
+                        TEL.: +30 2295 045100<br>
+                        FAX: +30 2295 045250<br>
+                        e-mail: vioryl@vioryl.gr<br>
+                        www.vioryl.gr
+                    </td>
+                    <td class="commercial-name">PERFUME CHAMOMILLE AF MF<br>26209/08</td>
+                    <td>
+                        <div class="component-block">
+                            <div class="component-line"><span class="component-label">Inci name:</span> PARFUM</div>
+                            <div class="component-line"><span class="component-label">Cas:</span> -</div>
+                            <div class="component-line"><span class="component-label">Einecs:</span> -</div>
+                            <div class="component-line"><span class="component-label">Function:</span> DEODORANT, MASKING, PERFUMING</div>
+                        </div>
+                    </td>
+                    <td class="col-percent">0,02</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Allergens Section -->
+        <div class="allergens-section">
+            <div class="allergens-title">Allergens:</div>
+            
+            <div class="allergen-item">
+                <div class="component-line"><span class="component-label">Inci name:</span> Amyl Salicylate</div>
+                <div class="component-line"><span class="component-label">Cas:</span> 2050-08-0</div>
+                <div class="component-line"><span class="component-label">Einecs:</span> 218-080-2</div>
+                <div class="component-line"><span class="component-label restriction">Restriction:</span> III/328</div>
+                <div style="text-align: right; font-weight: bold; margin-top: 4px;">0,001 % w/w</div>
+            </div>
+
+            <div class="allergen-item">
+                <div class="component-line"><span class="component-label">Inci name:</span> Linalyl Acetate</div>
+                <div class="component-line"><span class="component-label">Cas:</span> 115-95-7</div>
+                <div class="component-line"><span class="component-label">Einecs:</span> 204-116-4</div>
+                <div class="component-line"><span class="component-label restriction">Restriction:</span> III/337</div>
+                <div style="text-align: right; font-weight: bold; margin-top: 4px;">0,0019926 % w/w</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Qualitative & Quantitative Composition Document Loaded');
+            console.log('Product: MIST SKIN - 10AM APOTHEKE HYDRATING FACE MIST');
+            console.log('EU Cosmetic Regulation (EC) No 1223/2009 Compliant');
+        });
+    </script>
+</body>
+</html>

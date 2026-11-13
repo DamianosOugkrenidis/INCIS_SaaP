@@ -1,0 +1,36 @@
+@model INCIS_SaaP.Models.INCIIngredient
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <label asp-for="INCIName" class="form-label fw-semibold">INCI Name <span class="text-danger">*</span></label>
+        <input asp-for="INCIName" class="form-control cosing-autocomplete" autocomplete="off"
+               data-cas-target="#CASNumber" data-ec-target="#ECNumber" data-function-target="#Function" required />
+        <small class="text-muted">Πληκτρολογήστε για αναζήτηση & αυτόματη συμπλήρωση από CosIng (EU 1223/2009).</small>
+        <span asp-validation-for="INCIName" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Percentage" class="form-label fw-semibold">Ποσοστό (% w/w)</label>
+        <input asp-for="Percentage" type="number" step="any" class="form-control" />
+        <span asp-validation-for="Percentage" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Function" class="form-label fw-semibold">Λειτουργία</label>
+        <input asp-for="Function" class="form-control" placeholder="π.χ. Emollient, Preservative" />
+        <span asp-validation-for="Function" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="CASNumber" class="form-label fw-semibold">CAS Number</label>
+        <input asp-for="CASNumber" class="form-control" />
+        <span asp-validation-for="CASNumber" class="text-danger"></span>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="ECNumber" class="form-label fw-semibold">EC Number</label>
+        <input asp-for="ECNumber" class="form-control" />
+        <span asp-validation-for="ECNumber" class="text-danger"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Origin" class="form-label fw-semibold">Προέλευση</label>
+        <input asp-for="Origin" class="form-control" placeholder="π.χ. Plant-derived, Synthetic" />
+        <span asp-validation-for="Origin" class="text-danger"></span>
+    </div>
+</div>

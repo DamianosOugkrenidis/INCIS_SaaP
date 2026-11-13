@@ -1,0 +1,4 @@
+﻿hostname=LAPTOP-2K6OPG6H
+user=daoug
+os=Microsoft Windows NT 10.0.26300.0
+note=LOCAL machine, not the production host; absence of evidence here does NOT prove absence of production consumers.

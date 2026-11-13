@@ -1,0 +1,163 @@
+@model INCIS_SaaP.Models.RawMaterial
+@{
+    ViewData["Title"] = "Νέα Α’ Ύλη";
+    var suppliers = ViewBag.SupplierList as IEnumerable<INCIS_SaaP.Models.Supplier> ?? Enumerable.Empty<INCIS_SaaP.Models.Supplier>();
+    var incis = ViewBag.INCIList as IEnumerable<INCIS_SaaP.Models.INCI> ?? Enumerable.Empty<INCIS_SaaP.Models.INCI>();
+}
+
+<nav class="erp-breadcrumb erp-fade-in" aria-label="breadcrumb">
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Αρχική</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <a asp-action="Index">Πρώτες Ύλες</a>
+    <i class="fas fa-chevron-right divider"></i>
+    <span class="current">Νέα α’ ύλη</span>
+</nav>
+
+<div class="erp-page-header erp-fade-in">
+    <div class="erp-page-header-icon"><i class="fas fa-cubes"></i></div>
+    <div class="erp-page-header-text">
+        <h1>Δημιουργία νέας α’ ύλης</h1>
+        <div class="erp-page-header-subtitle">Καταχωρήστε όλες τις βασικές πληροφορίες α’ ύλης για χρήση σε φόρμουλες</div>
+    </div>
+</div>
+
+<form asp-action="Create" class="erp-fade-in" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div class="row g-3">
+        <!-- Βασικές -->
+        <div class="col-12 col-xl-8">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-circle-info text-erp-primary"></i> Βασικά Στοιχεία</h3></div>
+                <div class="erp-card-body">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small @(ViewData.ModelState.IsValid ? "d-none" : "")"></div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label asp-for="Code" class="form-label fw-semibold">Κωδικός <span class="text-danger">*</span></label>
+                            <input asp-for="Code" class="form-control" required />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="PrismaCode" class="form-label fw-semibold">Κωδικός Prisma</label>
+                            <input asp-for="PrismaCode" class="form-control" placeholder="π.χ. 031900001" />
+                            <span asp-validation-for="PrismaCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-5">
+                            <label asp-for="ProductName" class="form-label fw-semibold">Όνομα Προϊόντος <span class="text-danger">*</span></label>
+                            <input asp-for="ProductName" class="form-control" required />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="SupplierId" class="form-label fw-semibold">Προμηθευτής</label>
+                            <select asp-for="SupplierId" class="form-select">
+                                <option value="">— Επιλέξτε —</option>
+                                @foreach (var s in suppliers) { <option value="@s.Id">@s.Name</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="INCIId" class="form-label fw-semibold">Κύρια Ουσία INCI</label>
+                            <select asp-for="INCIId" class="form-select">
+                                <option value="">— Επιλέξτε —</option>
+                                @foreach (var i in incis) { <option value="@i.Id">@i.Name</option> }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Category" class="form-label fw-semibold">Κατηγορία</label>
+                            <input asp-for="Category" class="form-control" placeholder="π.χ. Preservatives, Emollients..." />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="Price" class="form-label fw-semibold">Τιμή (€)</label>
+                            <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+                        </div>
+                        <div class="col-md-3">
+                            <label asp-for="NaturalOriginPercentage" class="form-label fw-semibold">Φυσικό %</label>
+                            <input asp-for="NaturalOriginPercentage" class="form-control" type="number" step="0.01" min="0" max="100" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manufacturer -->
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-industry text-erp-primary"></i> Παραγωγός</h3></div>
+                <div class="erp-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="ManufacturerName" class="form-label fw-semibold">Επωνυμία</label>
+                            <input asp-for="ManufacturerName" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ManufacturerEmail" class="form-label fw-semibold">Email</label>
+                            <input asp-for="ManufacturerEmail" class="form-control" type="email" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ManufacturerPhone" class="form-label fw-semibold">Τηλέφωνο</label>
+                            <input asp-for="ManufacturerPhone" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ManufacturerAddress" class="form-label fw-semibold">Διεύθυνση</label>
+                            <input asp-for="ManufacturerAddress" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Φυσικοχημικά -->
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-vial text-erp-primary"></i> Φυσικοχημικά Χαρακτηριστικά</h3></div>
+                <div class="erp-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3"><label asp-for="Form" class="form-label fw-semibold">Μορφή</label><input asp-for="Form" class="form-control" /></div>
+                        <div class="col-md-3"><label asp-for="Color" class="form-label fw-semibold">Χρώμα</label><input asp-for="Color" class="form-control" /></div>
+                        <div class="col-md-3"><label asp-for="Odor" class="form-label fw-semibold">Οσμή</label><input asp-for="Odor" class="form-control" /></div>
+                        <div class="col-md-3"><label asp-for="Density" class="form-label fw-semibold">Πυκνότητα</label><input asp-for="Density" class="form-control" type="number" step="0.001" /></div>
+                        <div class="col-md-6"><label asp-for="Solubility" class="form-label fw-semibold">Διαλυτότητα</label><input asp-for="Solubility" class="form-control" /></div>
+                        <div class="col-md-6"><label asp-for="ShelfLife" class="form-label fw-semibold">Χρόνος Ζωής</label><input asp-for="ShelfLife" class="form-control" /></div>
+                        <div class="col-md-6"><label asp-for="StorageConditions" class="form-label fw-semibold">Συνθήκες Αποθήκευσης</label><input asp-for="StorageConditions" class="form-control" /></div>
+                        <div class="col-md-6"><label asp-for="Compatibilities" class="form-label fw-semibold">Συμβατότητες</label><input asp-for="Compatibilities" class="form-control" /></div>
+                        <div class="col-12"><label asp-for="Allergens" class="form-label fw-semibold">Αλλεργιογόνα</label><input asp-for="Allergens" class="form-control" /></div>
+                        <div class="col-12"><label asp-for="HealthAndSafety" class="form-label fw-semibold">Υγιεινή &amp; Ασφάλεια</label><textarea asp-for="HealthAndSafety" class="form-control" rows="2"></textarea></div>
+                        <div class="col-12"><label asp-for="Comments" class="form-label fw-semibold">Σχόλια</label><textarea asp-for="Comments" class="form-control" rows="2"></textarea></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Documents & flags -->
+        <div class="col-12 col-xl-4">
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-toggle-on text-erp-primary"></i> Κατάσταση</h3></div>
+                <div class="erp-card-body">
+                    <div class="form-check form-switch mb-2"><input asp-for="IsActive" class="form-check-input" type="checkbox" id="IsActive" checked /><label class="form-check-label" for="IsActive">Ενεργό</label></div>
+                    <div class="form-check form-switch mb-2"><input asp-for="IsFullyRegistered" class="form-check-input" type="checkbox" id="IsFullyRegistered" /><label class="form-check-label" for="IsFullyRegistered">Πλήρως Καταχωρημένο</label></div>
+                    <div class="form-check form-switch"><input asp-for="IsEvaluated" class="form-check-input" type="checkbox" id="IsEvaluated" /><label class="form-check-label" for="IsEvaluated">Αξιολογημένο</label></div>
+                </div>
+            </div>
+
+            <div class="erp-card mb-3">
+                <div class="erp-card-header"><h3><i class="fas fa-file-shield text-erp-primary"></i> Πιστοποιητικά</h3></div>
+                <div class="erp-card-body small">
+                    <div class="form-check"><input asp-for="HasTDS" class="form-check-input" type="checkbox" id="HasTDS" /><label class="form-check-label" for="HasTDS">TDS</label></div>
+                    <div class="form-check"><input asp-for="HasMSDS" class="form-check-input" type="checkbox" id="HasMSDS" /><label class="form-check-label" for="HasMSDS">MSDS</label></div>
+                    <div class="form-check"><input asp-for="HasISO16128" class="form-check-input" type="checkbox" id="HasISO16128" /><label class="form-check-label" for="HasISO16128">ISO 16128</label></div>
+                    <div class="form-check"><input asp-for="HasBSE_TSE" class="form-check-input" type="checkbox" id="HasBSE_TSE" /><label class="form-check-label" for="HasBSE_TSE">BSE/TSE</label></div>
+                    <div class="form-check"><input asp-for="HasVegan" class="form-check-input" type="checkbox" id="HasVegan" /><label class="form-check-label" for="HasVegan">Vegan</label></div>
+                    <div class="form-check"><input asp-for="HasRMI" class="form-check-input" type="checkbox" id="HasRMI" /><label class="form-check-label" for="HasRMI">RMI</label></div>
+                    <div class="form-check"><input asp-for="HasAllergenCertificate" class="form-check-input" type="checkbox" id="HasAllergenCertificate" /><label class="form-check-label" for="HasAllergenCertificate">Allergen Cert.</label></div>
+                    <div class="form-check"><input asp-for="HasPhthalates_BHT_Statement" class="form-check-input" type="checkbox" id="HasPhthalates_BHT_Statement" /><label class="form-check-label" for="HasPhthalates_BHT_Statement">Phthalates/BHT</label></div>
+                    <div class="form-check"><input asp-for="HasSolventVehicleStatement" class="form-check-input" type="checkbox" id="HasSolventVehicleStatement" /><label class="form-check-label" for="HasSolventVehicleStatement">Solvent Vehicle</label></div>
+                    <div class="form-check"><input asp-for="HasMarketingInfo" class="form-check-input" type="checkbox" id="HasMarketingInfo" /><label class="form-check-label" for="HasMarketingInfo">Marketing Info</label></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-floppy-disk me-2"></i>Δημιουργία</button>
+        <a asp-action="Index" class="btn btn-erp-secondary"><i class="fas fa-arrow-left me-2"></i>Ακύρωση</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
