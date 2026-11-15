@@ -1,0 +1,9 @@
+﻿=== CI LOCAL EMULATION (mirrors .github/workflows/ci.yml) ===
+NOTE: GitHub-hosted runner NOT available (Docker daemon down, no act). LOCAL emulation, NOT official CI.
+timestamp: 2026-10-23T01:35:19
+step1 restore OK; step2 build Release OK (0 errors)
+step3 Passed!  - Failed:     0, Passed:   673, Skipped:     0, Total:   673, Duration: 2 m 54 s - INCIS_SaaP.Tests.dll (net9.0)
+step4 coverage gate (>=70%): line=89,75% branch=35,92% -> PASS
+
+artifacts: ci-main.trx, ci-coverage.cobertura.xml
+PENDING: official GitHub Actions execution.

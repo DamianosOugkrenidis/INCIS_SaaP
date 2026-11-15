@@ -1,0 +1,33 @@
+2026-10-26 01:28:45.926 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 0 entities to in-memory store.
+2026-10-26 01:28:45.937 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-26 01:28:45.938 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-26 01:28:45.939 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-26 01:28:45.940 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-26 01:28:46.058 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-26 01:28:46.059 +02:00 [INF] () Admin user created: user@user.gr
+2026-10-26 01:28:46.060 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-10-26 01:28:46.060 +02:00 [INF] () INCIS SaaP application started successfully.
+2026-10-26 01:28:46.093 +02:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request starting HTTP/1.1 GET http://localhost/api/v1/Api/health - null null
+2026-10-26 01:28:46.119 +02:00 [INF] (Microsoft.AspNetCore.Routing.EndpointMiddleware) Executing endpoint 'INCIS_SaaP.Controllers.ApiController.Health (INCIS_SaaP)'
+2026-10-26 01:28:46.127 +02:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Route matched with {action = "Health", controller = "Api"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Health() on controller INCIS_SaaP.Controllers.ApiController (INCIS_SaaP).
+2026-10-26 01:28:46.128 +02:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Executing action method INCIS_SaaP.Controllers.ApiController.Health (INCIS_SaaP) - Validation state: "Valid"
+2026-10-26 01:28:46.128 +02:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Executed action method INCIS_SaaP.Controllers.ApiController.Health (INCIS_SaaP), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 0.0053ms.
+2026-10-26 01:28:46.128 +02:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor) Executing OkObjectResult, writing value of type '<>f__AnonymousType1`3[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.DateTime, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-10-26 01:28:46.130 +02:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Executed action INCIS_SaaP.Controllers.ApiController.Health (INCIS_SaaP) in 3.2914ms
+2026-10-26 01:28:46.130 +02:00 [INF] (Microsoft.AspNetCore.Routing.EndpointMiddleware) Executed endpoint 'INCIS_SaaP.Controllers.ApiController.Health (INCIS_SaaP)'
+2026-10-26 01:28:46.130 +02:00 [ERR] (Microsoft.AspNetCore.Session.SessionMiddleware) Error closing the session.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot open database "INCIS_SaaP_Test" requested by the login. The login failed.
+Login failed for user 'LAPTOP-2K6OPG6H\daoug'.
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.InternalOpenAsync(CancellationToken cancellationToken)
+--- End of stack trace from previous location ---
+   at Microsoft.Extensions.Caching.SqlServer.DatabaseOperations.GetCacheItemAsync(String key, Boolean includeValue, IBufferWriter`1 destination, CancellationToken token)
+   at Microsoft.Extensions.Caching.SqlServer.SqlServerCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+ClientConnectionId:3555b077-d2ac-4842-a0f7-9edd4226cf23
+Error Number:4060,State:1,Class:11
+2026-10-26 01:28:46.144 +02:00 [INF] (Serilog.AspNetCore.RequestLoggingMiddleware) HTTP GET /api/v1/Api/health responded 200 in 50.5875 ms
+2026-10-26 01:28:46.144 +02:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request finished HTTP/1.1 GET http://localhost/api/v1/Api/health - 200 null application/json; charset=utf-8 51.4384ms

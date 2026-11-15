@@ -1,0 +1,11 @@
+2026-11-11 15:25:35.778 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 0 entities to in-memory store.
+2026-11-11 15:25:35.789 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-11-11 15:25:35.789 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-11-11 15:25:35.790 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-11-11 15:25:35.790 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-11-11 15:25:35.866 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-11-11 15:25:35.867 +02:00 [INF] () Admin user created: user@user.gr
+2026-11-11 15:25:35.869 +02:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-11-11 15:25:35.869 +02:00 [INF] () INCIS SaaP application started successfully.
+2026-11-11 15:25:35.891 +02:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request starting HTTP/1.1 GET http://localhost/swagger/v1/swagger.json - null null
+2026-11-11 15:25:36.142 +02:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request finished HTTP/1.1 GET http://localhost/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 250.8515ms

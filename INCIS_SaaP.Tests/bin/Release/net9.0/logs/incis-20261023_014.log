@@ -1,0 +1,65 @@
+2026-10-23 01:57:15.984 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 0 entities to in-memory store.
+2026-10-23 01:57:16.001 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 01:57:16.001 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 01:57:16.001 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 01:57:16.001 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 01:57:16.069 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 01:57:16.070 +03:00 [INF] () Admin user created: user@user.gr
+2026-10-23 01:57:16.071 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-10-23 01:57:16.071 +03:00 [INF] () INCIS SaaP application started successfully.
+2026-10-23 01:57:16.089 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 10 entities to in-memory store.
+2026-10-23 01:57:16.090 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-10-23 01:57:16.090 +03:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request starting HTTP/1.1 POST http://localhost/INCIs/Create - application/x-www-form-urlencoded 23
+2026-10-23 01:57:16.096 +03:00 [DBG] (INCIS_SaaP.Tests.Helpers.RoleTestAuthHandler) AuthenticationScheme: RoleTestScheme was not authenticated.
+2026-10-23 01:57:16.097 +03:00 [INF] (Microsoft.AspNetCore.Authorization.DefaultAuthorizationService) Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Admin|SuperUser)
+2026-10-23 01:57:16.097 +03:00 [INF] (INCIS_SaaP.Tests.Helpers.RoleTestAuthHandler) AuthenticationScheme: RoleTestScheme was challenged.
+2026-10-23 01:57:16.097 +03:00 [INF] (Serilog.AspNetCore.RequestLoggingMiddleware) HTTP POST /INCIs/Create responded 401 in 6.3778 ms
+2026-10-23 01:57:16.097 +03:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request finished HTTP/1.1 POST http://localhost/INCIs/Create - 401 null null 7.2184ms
+2026-10-23 02:15:32.480 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 0 entities to in-memory store.
+2026-10-23 02:15:32.548 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 02:15:32.550 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 02:15:32.550 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 02:15:32.550 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 02:15:32.760 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 2 entities to in-memory store.
+2026-10-23 02:15:32.762 +03:00 [INF] () Admin user created: user@user.gr
+2026-10-23 02:15:32.793 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-10-23 02:15:32.794 +03:00 [INF] () INCIS SaaP application started successfully.
+2026-10-23 02:15:32.928 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 10 entities to in-memory store.
+2026-10-23 02:15:32.929 +03:00 [INF] (Microsoft.EntityFrameworkCore.Update) Saved 4 entities to in-memory store.
+2026-10-23 02:15:32.964 +03:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request starting HTTP/1.1 POST http://localhost/api/v1/incis - application/json; charset=utf-8 45
+2026-10-23 02:15:33.076 +03:00 [DBG] (INCIS_SaaP.Tests.Helpers.RoleTestAuthHandler) AuthenticationScheme: RoleTestScheme was successfully authenticated.
+2026-10-23 02:15:33.101 +03:00 [INF] (Microsoft.AspNetCore.Routing.EndpointMiddleware) Executing endpoint 'INCIS_SaaP.Controllers.ApiExtendedController.CreateINCI (INCIS_SaaP)'
+2026-10-23 02:15:33.123 +03:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Route matched with {action = "CreateINCI", controller = "ApiExtended"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateINCI(INCIS_SaaP.Dtos.CreateINCIDto) on controller INCIS_SaaP.Controllers.ApiExtendedController (INCIS_SaaP).
+2026-10-23 02:15:33.155 +03:00 [WRN] (INCIS_SaaP.Filters.ApiCsrfFilter) API-CSRF DENY (enforced) POST /api/v1/incis user=test@incis.local id=test-user-id header=X-CSRF-TOKEN
+2026-10-23 02:15:33.162 +03:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor) Executing ObjectResult, writing value of type '<>f__AnonymousType10`2[[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2026-10-23 02:15:33.172 +03:00 [INF] (Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker) Executed action INCIS_SaaP.Controllers.ApiExtendedController.CreateINCI (INCIS_SaaP) in 46.2206ms
+2026-10-23 02:15:33.172 +03:00 [INF] (Microsoft.AspNetCore.Routing.EndpointMiddleware) Executed endpoint 'INCIS_SaaP.Controllers.ApiExtendedController.CreateINCI (INCIS_SaaP)'
+2026-10-23 02:15:33.186 +03:00 [ERR] (Microsoft.AspNetCore.Session.SessionMiddleware) Error closing the session.
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot open database "INCIS_SaaP_Test" requested by the login. The login failed.
+Login failed for user 'LAPTOP-2K6OPG6H\daoug'.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.TdsParser.Run(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.CompleteLogin(Boolean enlistOK)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.WaitForPendingOpen()
+--- End of stack trace from previous location ---
+   at Microsoft.Extensions.Caching.SqlServer.DatabaseOperations.GetCacheItemAsync(String key, Boolean includeValue, IBufferWriter`1 destination, CancellationToken token)
+   at Microsoft.Extensions.Caching.SqlServer.SqlServerCache.RefreshAsync(String key, CancellationToken token)
+   at Microsoft.AspNetCore.Session.DistributedSession.CommitAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+ClientConnectionId:9be6d4c5-f121-4281-a1a2-2002ed8b52c2
+Error Number:4060,State:1,Class:11
+2026-10-23 02:15:33.198 +03:00 [INF] (Serilog.AspNetCore.RequestLoggingMiddleware) HTTP POST /api/v1/incis responded 400 in 213.6347 ms
+2026-10-23 02:15:33.203 +03:00 [INF] (Microsoft.AspNetCore.Hosting.Diagnostics) Request finished HTTP/1.1 POST http://localhost/api/v1/incis - 400 null application/json; charset=utf-8 255.5322ms

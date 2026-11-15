@@ -1,0 +1,480 @@
+is_global = true
+build_property.TargetFramework = net9.0
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
+build_property.EntryPointFilePath = 
+build_property.RootNamespace = INCIS_SaaP
+build_property.RootNamespace = INCIS_SaaP
+build_property.ProjectDir = C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/AccessDenied.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxDaGFuZ2VQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/ForgotPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxGb3Jnb3RQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/LoginTwoFactor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpblR3b0ZhY3Rvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Account/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Clients/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Clients/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Clients/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Clients/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Clients/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/Allergens.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xBbGxlcmdlbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/FormulaClaims.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xGb3JtdWxhQ2xhaW1zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/FormulaPrice.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xGb3JtdWxhUHJpY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/HeavyMetals.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xIZWF2eU1ldGFscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/InciList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xJbmNpTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/MarketingInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xNYXJrZXRpbmdJbmZvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/MasterFormula.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xNYXN0ZXJGb3JtdWxhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/NaturalFormula.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xOYXR1cmFsRm9ybXVsYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/QualitativeQuantitative.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xRdWFsaXRhdGl2ZVF1YW50aXRhdGl2ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/QuantitativeInci.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xRdWFudGl0YXRpdmVJbmNpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/RegulatedIngredients.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xSZWd1bGF0ZWRJbmdyZWRpZW50cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/FormulaDocuments/ToxicologicalProfile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYURvY3VtZW50c1xUb3hpY29sb2dpY2FsUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/Produce.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcUHJvZHVjZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/ProduceDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcUHJvZHVjZURldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Formulas/ProductionHistory.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9ybXVsYXNcUHJvZHVjdGlvbkhpc3RvcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Help/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGVscFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Home/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Import/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Import/Preview.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XFByZXZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Import/Result.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW1wb3J0XFJlc3VsdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/AdvanceSearch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcQWR2YW5jZVNlYXJjaC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/INCIs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSU5DSXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Legal/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVnYWxcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Legal/Terms.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVnYWxcVGVybXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/AllergenCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQWxsZXJnZW5DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/AllergenEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQWxsZXJnZW5FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Allergens.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQWxsZXJnZW5zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/ClaimCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ2xhaW1DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/ClaimEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ2xhaW1FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Claims.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ2xhaW1zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Composition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ29tcG9zaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/CompositionAdd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ29tcG9zaXRpb25BZGQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/CompositionEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ29tcG9zaXRpb25FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/CopyFrom.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcQ29weUZyb20uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/HeavyMetalCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSGVhdnlNZXRhbENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/HeavyMetalEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSGVhdnlNZXRhbEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/HeavyMetals.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSGVhdnlNZXRhbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/ImportComposition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSW1wb3J0Q29tcG9zaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Inci.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSW5jaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/InciCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSW5jaUNyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/InciEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSW5jaUVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Manage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcTWFuYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Marketing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcTWFya2V0aW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/MasterInfo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcTWFzdGVySW5mby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Natural.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcTmF0dXJhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Price.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcUHJpY2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Safety.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcU2FmZXR5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/ToxCreate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcVG94Q3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/ToxEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcVG94RWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/Toxicology.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcVG94aWNvbG9neS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_AllergenFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX0FsbGVyZ2VuRmllbGRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_ClaimFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX0NsYWltRmllbGRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_CompositionFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX0NvbXBvc2l0aW9uRmllbGRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_HeavyMetalFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX0hlYXZ5TWV0YWxGaWVsZHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_InciFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX0luY2lGaWVsZHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/ProductManagement/_ToxFields.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdE1hbmFnZW1lbnRcX1RveEZpZWxkcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/AddSample.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXEFkZFNhbXBsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/ExpiredSamples.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXEV4cGlyZWRTYW1wbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/RawMaterials/SearchFormulas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF3TWF0ZXJpYWxzXFNlYXJjaEZvcm11bGFzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Reports/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Restrictions/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdHJpY3Rpb25zXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Restrictions/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdHJpY3Rpb25zXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Restrictions/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdHJpY3Rpb25zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Restrictions/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdHJpY3Rpb25zXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Restrictions/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzdHJpY3Rpb25zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_AuthLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BdXRoTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_CookieConsent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db29raWVDb25zZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_CosIngSearch.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Db3NJbmdTZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_ERPLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FUlBMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Suppliers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGxpZXJzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Suppliers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGxpZXJzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Suppliers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGxpZXJzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Suppliers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGxpZXJzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Suppliers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3VwcGxpZXJzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Tenants/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVuYW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Tools/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9vbHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/daoug/Desktop/ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ/INCIS_FINAL/INCIS_SaaP_v5/INCIS_SaaP/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

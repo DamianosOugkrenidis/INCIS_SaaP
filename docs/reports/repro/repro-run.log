@@ -1,0 +1,16 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  INCIS_SaaP -> C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP\bin\Release\net9.0\INCIS_SaaP.dll
+  INCIS_SaaP.Tests -> C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP.Tests\bin\Release\net9.0\INCIS_SaaP.Tests.dll
+Test run for C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP.Tests\bin\Release\net9.0\INCIS_SaaP.Tests.dll (.NETCoreApp,Version=v9.0)
+A total of 1 test files matched the specified pattern.
+Results File: C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\docs\reports\repro\repro-main.trx
+
+Passed!  - Failed:     0, Passed:   693, Skipped:     0, Total:   693, Duration: 3 m 41 s - INCIS_SaaP.Tests.dll (net9.0)
+
+Test run for C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\INCIS_SaaP.PlaywrightTests\bin\Debug\net9.0\INCIS_SaaP.PlaywrightTests.dll (.NETCoreApp,Version=v9.0)
+A total of 1 test files matched the specified pattern.
+Results File: C:\Users\daoug\Desktop\ΠΡΟΣ_ΠΑΡΑΔΟΣΗ_ΙΩΑΝΝΟΥ\INCIS_FINAL\INCIS_SaaP_v5\docs\reports\repro\repro-playwright.trx
+
+Passed!  - Failed:     0, Passed:    32, Skipped:     0, Total:    32, Duration: 4 m 11 s - INCIS_SaaP.PlaywrightTests.dll (net9.0)
+
