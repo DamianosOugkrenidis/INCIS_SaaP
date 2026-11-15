@@ -22,11 +22,7 @@ jobs:
           SA_PASSWORD: ${{ secrets.CI_SQL_SA_PASSWORD }}
         ports:
           - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P \"$SA_PASSWORD\" -Q 'SELECT 1' -C"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        # SQL readiness handled by the 'Wait for SQL Server' step (avoids secrets/quoting in options)
 
     steps:
     - uses: actions/checkout@v4
@@ -35,6 +31,14 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Wait for SQL Server
+      run: |
+        for i in $(seq 1 30); do
+          if (echo > /dev/tcp/localhost/1433) 2>/dev/null; then echo "SQL ready"; exit 0; fi
+          echo "waiting for SQL... $i"; sleep 2
+        done
+        echo "SQL did not start"; exit 1
 
     - name: Restore dependencies
       run: dotnet restore INCIS_SaaP.Tests/INCIS_SaaP.Tests.csproj
@@ -134,11 +138,7 @@ jobs:
           SA_PASSWORD: ${{ secrets.CI_SQL_SA_PASSWORD }}
         ports:
           - 1433:1433
-        options: >-
-          --health-cmd "/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P \"$SA_PASSWORD\" -Q 'SELECT 1' -C"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        # SQL readiness handled by the 'Wait for SQL Server' step (avoids secrets/quoting in options)
 
     steps:
     - uses: actions/checkout@v4
@@ -147,6 +147,14 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Wait for SQL Server
+      run: |
+        for i in $(seq 1 30); do
+          if (echo > /dev/tcp/localhost/1433) 2>/dev/null; then echo "SQL ready"; exit 0; fi
+          echo "waiting for SQL... $i"; sleep 2
+        done
+        echo "SQL did not start"; exit 1
 
     - name: Build Playwright test project
       run: dotnet build INCIS_SaaP.PlaywrightTests/INCIS_SaaP.PlaywrightTests.csproj --configuration Debug
